@@ -253,7 +253,7 @@ class TransitModel(object):
 		self.twocircles = False
 
 		#checking if there has been a value of rp2 supplied
-		if self.rp2 = None: self.twocircles = False
+		if self.rp2 == None: self.twocircles = False
 		else:
 			self.twocircles = True
 			print("It worked!")
