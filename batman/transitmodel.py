@@ -94,6 +94,7 @@ class TransitModel(object):
 		self.t0 = params.t0
 		self.per = params.per
 		self.rp = params.rp
+		self.rp2 = params.rp2 #added this
 		self.a = params.a
 		self.inc = params.inc
 		self.ecc = params.ecc
@@ -106,6 +107,8 @@ class TransitModel(object):
 		self.supersample_factor = supersample_factor
 		self.exp_time = exp_time
 		self.inverse = False
+		self.twocircles = False        #added this
+
 
 		#handles the case of inverse transits (rp < 0)
 		if self.rp < 0.: 
@@ -237,6 +240,7 @@ class TransitModel(object):
 		self.t0 = params.t0
 		self.per = params.per
 		self.rp = params.rp
+		self.rp2 = params.rp2 #added this
 		self.a = params.a
 		self.inc = params.inc
 		self.ecc = params.ecc
@@ -246,6 +250,13 @@ class TransitModel(object):
 		self.fp = params.fp
 		self.t_secondary = params.t_secondary
 		self.inverse = False
+		self.twocircles = False
+
+		#checking if there has been a value of rp2 supplied
+		if self.rp2 = None: self.twocircles = False
+		else:
+			self.twocircles = True
+			print("It worked!")
 
 		#handles the case of inverse transits (rp < 0)
 		if self.rp < 0.: 
@@ -326,8 +337,11 @@ class TransitParams(object):
 	:param per: Orbital period.
 	:type per: float
 
-	:param rp: Planet radius [in stellar radii].
+	:param rp: Planet radius 1 [in stellar radii].
 	:type rp: float
+
+	:param rp2: Planet radius 2 [in stellar radii]     #added this
+	:type rp2: float                               
 
 	:param a: Semi-major axis [in stellar radii].
 	:type a: float
@@ -371,7 +385,8 @@ class TransitParams(object):
 	def __init__(self):
 		self.t0 = None
 		self.per = None
-		self.rp = None
+		self.rp = None  
+		self.rp2 = None  #added this
 		self.a = None
 		self.inc = None
 		self.ecc = None
