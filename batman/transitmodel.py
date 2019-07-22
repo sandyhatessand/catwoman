@@ -108,7 +108,7 @@ class TransitModel(object):
 		self.exp_time = exp_time
 		self.inverse = False
 		self.twocircles = False        #added this
-
+		self.phi = params.phi          #added this
 
 		#handles the case of inverse transits (rp < 0)
 		if self.rp < 0.: 
@@ -251,6 +251,7 @@ class TransitModel(object):
 		self.t_secondary = params.t_secondary
 		self.inverse = False
 		self.twocircles = False
+		self.phi = params.phi
 
 		#checking if there has been a value of rp2 supplied
 		if self.rp2 == None: self.twocircles = False
@@ -364,6 +365,9 @@ class TransitParams(object):
 	:param fp: Planet-to-star flux ratio (for secondary eclipse models).
 	:type fp: float, optional
 
+	:param phi: Angle between base of semi-circles and the line y=0 [in degrees]
+	:type phi: float
+
 	.. note::  
 		- Units for the orbital period and ephemeris can be anything as long as they are consistent (e.g. both in days). 
 		- The orbital path is calculated based on `t0` for primary transits and `t_secondary` for secondary eclipses.
@@ -395,4 +399,4 @@ class TransitParams(object):
 		self.limb_dark = None
 		self.fp = None
 		self.t_secondary = None
-
+		self.phi = None
