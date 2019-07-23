@@ -42,12 +42,7 @@ static PyObject *_exponential_ld(PyObject *self, PyObject *args)
 	double c1, c2;
 	
 	PyArrayObject *ds, *flux;
-  	if(!PyArg_ParseTuple(args,"Oddddi", &ds, &rprs, &c1, &c2, &fac, &nthreads)) return NULL;
-
-	FILE *fptr;
-	fptr = fopen("c_ouput","w");
-	fprintf(fptr,"%d",rprs);
-	fclose(fptr);	
+  	if(!PyArg_ParseTuple(args,"Oddddi", &ds, &rprs, &c1, &c2, &fac, &nthreads)) return NULL;	
 
 	dims[0] = PyArray_DIMS(ds)[0]; 
 	flux = (PyArrayObject *) PyArray_SimpleNew(1, dims, PyArray_TYPE(ds));	//creates numpy array to store return flux values
@@ -71,6 +66,12 @@ static PyObject *_exponential_ld(PyObject *self, PyObject *args)
 	double norm = 2.*M_PI*(0.5 - 0.1666666667*c1 + 0.77750463*c2); 	//normalization for intensity profile (faster to calculate it once, rather than every time intensity is called)		
 	double intensity_args[] = {c1, c2, norm};
 	#pragma acc data copyin(intensity_args)
+ 
+	FILE *fptr;
+        fptr = fopen("c_ouput","w");
+        fprintf(fptr,"rprs %d\n",rprs);
+        fclose(fptr);
+	
 	calc_limb_darkening(f_array, d_array, dims[0], rprs, fac, nthreads, intensity_args);
 	
 	return PyArray_Return((PyArrayObject *)flux);
