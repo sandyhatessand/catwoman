@@ -42,6 +42,7 @@ static PyObject *_exponential_ld(PyObject *self, PyObject *args)
 	
 	PyArrayObject *ds, *flux;
   	if(!PyArg_ParseTuple(args,"Oddddi", &ds, &rprs, &c1, &c2, &fac, &nthreads)) return NULL;
+	printf(rprs);	
 
 	dims[0] = PyArray_DIMS(ds)[0]; 
 	flux = (PyArrayObject *) PyArray_SimpleNew(1, dims, PyArray_TYPE(ds));	//creates numpy array to store return flux values
