@@ -36,7 +36,7 @@ inline double intensity(double x, double* args)
 
 static PyObject *_exponential_ld(PyObject *self, PyObject *args)
 {
-	FILE fptr;
+	FILE *fptr;
 	fptr = fopen("c_out","w");
 
 	double rprs, fac;
