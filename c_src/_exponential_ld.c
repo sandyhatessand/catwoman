@@ -19,8 +19,6 @@
 #include <Python.h>
 #include "numpy/arrayobject.h"
 #include "common.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 static PyObject *_exponential_ld(PyObject *self, PyObject *args);
 
