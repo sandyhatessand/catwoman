@@ -109,7 +109,7 @@ class TransitModel(object):
 		self.inverse = False
 		self.twocircles = False        #added this
 		self.phi = params.phi          #added this
-		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180))            	       #added this		
+		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180)))            	       #added this		
 
 		#handles the case of inverse transits (rp < 0)
 		if self.rp < 0 : 
