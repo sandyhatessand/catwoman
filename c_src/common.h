@@ -101,7 +101,7 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 			}
 			dx = x_out - x + dx;  					//calculating change in radius for last step  FIXME
 			x = x_out;						//final radius for integration
-			double A_f = area(d, x, rprs);					//area for last integration step
+			double A_f = area(d, x, rprs, theta);					//area for last integration step
 			double I = intensity(x - dx/2., intensity_args); 		//intensity at the midpoint
 			delta += (A_f - A_i)*I;					//increase in transit depth for this integration step
 
