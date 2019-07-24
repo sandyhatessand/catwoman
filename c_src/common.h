@@ -36,7 +36,7 @@
 /* Must be defined in the C file that includes this header. */
 inline double intensity(double x, double* args);
 
-inline double area(double d, double x, double R)
+inline double area(double d, double x, double R, double theta)
 {
 	/*
 	Returns area of overlapping circles with radii x and R; separated by a distance d
@@ -50,7 +50,7 @@ inline double area(double d, double x, double R)
 	else return x*x*acos(arg1) + R*R*acos(arg2) - 0.5*sqrt(arg3);			//partial overlap
 }
 
-void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args)
+void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args, double phi, double b)
 {
 	/*
 		This function takes an array of sky distances (d_array) of length N, computes stellar intensity by calling intensity with
@@ -88,9 +88,11 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 
 			double A_i = 0.;						//initial area
 
+			double theta = asin(b/d) + phi;                   //working out theta
+
 			while(x < x_out)
 			{
-				double A_f = area(d, x, rprs);				//calculates area of overlapping circles
+				double A_f = area(d, x, rprs, theta);				//calculates area of overlapping circles
 				double I = intensity(x - dx/2., intensity_args); 	//intensity at the midpoint
 				delta += (A_f - A_i)*I;				//increase in transit depth for this integration step
 				dx = fac*acos(x);  				//updating step size
