@@ -253,7 +253,7 @@ class TransitModel(object):
 		self.inverse = False
 		self.twocircles = False
 		self.phi = params.phi
-		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180))
+		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180)))
 
 		#checking if there has been a value of rp2 supplied
 		if self.rp2 == None: self.twocircles = False
