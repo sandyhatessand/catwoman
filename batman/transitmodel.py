@@ -112,7 +112,7 @@ class TransitModel(object):
 		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180))            	       #added this		
 
 		#handles the case of inverse transits (rp < 0)
-		if self.rp < 0.: 
+		if self.rp < 0 : 
 			self.rp = -1.*self.rp
 			params.rp = -1.*params.rp
 			self.inverse = True
