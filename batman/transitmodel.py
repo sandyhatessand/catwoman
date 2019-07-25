@@ -110,6 +110,22 @@ class TransitModel(object):
 		self.twocircles = False        #added this
 		self.phi = params.phi          #added this
 		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180)))            	       #added this		
+		
+
+		#Finding the index i at which the planet is at inferior conjuction
+		self.min_i = 0
+		stop = False
+		i = 0
+
+		while ((stop == False) * (i != len(t)+1)):
+			if self.t[i] == self.t0:
+				self.min_i = i
+				stop = True
+			elif self.t[i] > self.t0:
+				self.min_i = i - 0.5
+				stop = True
+			i = i + 1
+
 
 		#handles the case of inverse transits (rp < 0)
 		if self.rp < 0 : 
