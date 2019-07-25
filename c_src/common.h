@@ -41,7 +41,46 @@ inline double area(double d, double x, double R, double theta)
 	/*
 	Returns area of overlapping circles with radii x and R; separated by a distance d
 	*/
-	double arg1 = (d*d + x*x - R*R)/(2.*d*x);
+	
+	int sit = 0;
+	double A = (x*x-R*R-d*d)/(2*d);
+	double B = A*(2*cos(theta)*cos(theta) - 1) - 2*cos(theta)*sin(fabs(theta))*sqrt(R*R - A*A);	
+	double x_minpos = -d*cos(theta)+sqrt(x*x-d*d*sin(theta)*sin(theta));
+	double x_minneg = -d*cos(theta)-sqrt(x*x-d*d*sin(theta)*sin(theta));
+	double a1 = -d*cos(theta) + sqrt(x*x - d*d*sin(theta)*sin(theta));
+	double b1 = 0;
+	double a2 = A*cos(theta)+sin(fabs(theta))*sqrt(R*R - A*A);
+	double b2 = sqrt(R*R*cos(theta)*cos(theta) - A*B);
+	double a3 = -d*cos(theta) + x;
+	double b3 = d*sin(fabs(theta));
+
+	if (fabs(d * sin(theta)) < x) {
+		if (fabs(x_minpos)<=R && fabs(x_minneg)>R) {
+			if (b3>=b2){
+				sit = 1;
+			} else if ((b3<b2) && (b3>b1) && (a2>=a1)){
+				sit = 2;
+			} else if ((b3<b2) && (b3>b1) && (a2<a1)){
+				sit = 3;
+			} else if ((b3<=b1) && (a2<a1)){
+				sit = 4;
+			}
+		} else if (fabs(x_minpos)<=R && fabs(x_minneg)<=R){
+			if (A*A>R*R)||(((A*sin(fabs(theta))+cos(theta)*sqrt(R*R-A*A))<0) && ((A*sin(fabs(theta))-cos(theta)*sqrt(R*R-A*A))<0)) {
+				sit = 5;
+			} else if (((A*sin(fabs(theta))+cos(theta)*sqrt(R*R-A*A))>=0)&& ((A*sin(fabs(theta))-cos(theta)*sqrt(R*R-A*A))>=0)) {
+				sit = 7;
+			}
+		} else if (fabs(x_minpos)>R && fabs(x_minneg)>R){
+			if (((A*sin(fabs(theta))+cos(theta)*sqrt(R*R-A*A))>=0) && ((A*sin(fabs(theta))-cos(theta)*sqrt(R*R-A*A))>=0)) {
+				sit = 6;
+			}
+		}
+	} 
+			
+
+
+double arg1 = (d*d + x*x - R*R)/(2.*d*x);
 	double arg2 = (d*d + R*R - x*x)/(2.*d*R);
 	double arg3 = MAX((-d + x + R)*(d + x - R)*(d - x + R)*(d + x + R), 0.);
 
