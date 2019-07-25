@@ -87,8 +87,18 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 			x += dx;						//first step
 
 			double A_i = 0.;						//initial area
-
-			double theta = asin(b/d) + phi;                   //working out theta
+			
+			double theta;
+			
+			if (phi >= 0. && i < min_i){
+				theta = asin(b/d) + phi;
+			} else if (phi >= 0 && i >= min_i) {
+				theta = asin(b/d) - phi;
+	                } else if (phi <= 0 && i < min_i){
+				theta = asin(b/d) - phi; 
+			} else if (phi <= 0 && i >= min_i){
+				theta = asin(b/d) + phi;
+			}
 
 			while(x < x_out)
 			{

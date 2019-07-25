@@ -417,5 +417,3 @@ class TransitParams(object):
 		self.limb_dark = None
 		self.fp = None
 		self.t_secondary = None
-		self.phi = None           #not sure if these need to be here...
-		self.b = None
