@@ -83,6 +83,8 @@ inline double area(double d, double x, double R, double theta)
 	} else if ((d<x+R) && (d+x<R)) {
 		sit = 10;  //circle completely inside semi-circle
 	}
+
+
 			
 	switch(sit) {
 		case 1:{   //(a-1)
