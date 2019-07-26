@@ -57,37 +57,109 @@ inline double area(double d, double x, double R, double theta)
 	if (fabs(d * sin(theta)) < x) {
 		if (fabs(x_minpos)<=R && fabs(x_minneg)>R) {
 			if (b3>=b2){
-				sit = 1;
+				sit = 1;    //(a-1)
 			} else if ((b3<b2) && (b3>b1) && (a2>=a1)){
-				sit = 2;
+				sit = 2;   //(a-2)
 			} else if ((b3<b2) && (b3>b1) && (a2<a1)){
-				sit = 3;
+				sit = 3;    //(a-3)
 			} else if ((b3<=b1) && (a2<a1)){
-				sit = 4;
+				sit = 4;  //(b)
 			}
 		} else if (fabs(x_minpos)<=R && fabs(x_minneg)<=R){
 			if (A*A>R*R)||(((A*sin(fabs(theta))+cos(theta)*sqrt(R*R-A*A))<0) && ((A*sin(fabs(theta))-cos(theta)*sqrt(R*R-A*A))<0)) {
-				sit = 5;
+				sit = 5;  //(c-1)
 			} else if (((A*sin(fabs(theta))+cos(theta)*sqrt(R*R-A*A))>=0)&& ((A*sin(fabs(theta))-cos(theta)*sqrt(R*R-A*A))>=0)) {
-				sit = 7;
+				sit = 7;  //(c-3)
 			}
 		} else if (fabs(x_minpos)>R && fabs(x_minneg)>R){
 			if (((A*sin(fabs(theta))+cos(theta)*sqrt(R*R-A*A))>=0) && ((A*sin(fabs(theta))-cos(theta)*sqrt(R*R-A*A))>=0)) {
-				sit = 6;
+				sit = 6;   //(c-2)
 			}
 		}
-	} 
+	} else if (d>=x+R) {
+		sit = 8;  //no intersection
+	} else if ((d<x+R) && (d+x>=R)) {
+		sit = 9;  //intersection of two circles
+	} else if ((d<x+R) && (d+x<R)) {
+		sit = 10;  //circle completely inside semi-circle
+	}
 			
+	switch(sit) {
+		case 1 :   //(a-1)
+			double f_a1 = ((a1+d*cos(theta))/(x*x))*sqrt(x*x-(a1+d*cos(theta))*(a1+d*cos(theta)))+asin((a1+d*cos(theta))/x);
+			double f_a2 = ((a2+d*cos(theta))/(x*x))*sqrt(x*x-(a2+d*cos(theta))*(a2+d*cos(theta)))+asin((a2+d*cos(theta))/x);			
+			double delta_f = f_a1 - f_a2;
+			double g_a2 = acos(a2/R) - (a2/R)*sqrt(1-(a2/R)*(a2/R));
+			
+			return M_PI*R*R/2 - (x*x/2)*delta_f - d*sin(fabs(theta))*(a2-a1) - (R*R/2)*g_a2;
+			break;
+		case 2 :    //(a-2) 	
+			double h_a1 = acos(a1/R) + (a1/R)*sqrt(1-(a1/R)*(a1/R));
+			double p_a1 = asin(a1/R)+(a1/R)*sqrt(1-a1*a1/(R*R));
+			double p_a2 = asin(a2/R)+(a2/R)*sqrt(1-a2*a2/(R*R));
+			double delta_p = p_a2 - p_a1;
+			double alpha = acos(1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x));
+			
+			return (R*R/2)*(h_a1+delta_p)-(b2*(a2-a1))/2 + (x*x/2)*(alpha - sin(alpha));
+			break;
+		case 3 :   //(a-3)
+			double h_a2 = acos(a2/R) + (a2/R)*sqrt(1-(a2/R)*(a2/R));
+			double alpha = acos(1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x));
 
+			return (R*R/2)*h_a2-(b2*(a2-a1))/2 + (x*x/2)*(alpha - sin(alpha));
+			break;
+		case 4 :     //(b)
+			double f_a1 = ((a1+d*cos(theta))/(x*x))*sqrt(x*x-(a1+d*cos(theta))*(a1+d*cos(theta)))+asin((a1+d*cos(theta))/x);
+                        double f_a2 = ((a2+d*cos(theta))/(x*x))*sqrt(x*x-(a2+d*cos(theta))*(a2+d*cos(theta)))+asin((a2+d*cos(theta))/x);
+                        double delta_f = f_a1 - f_a2;
+			double h_a2 = acos(a2/R) + (a2/R)*sqrt(1-(a2/R)*(a2/R));
+			
+			return (R*R/2)*h_a2 + (x*x/2)*delta_f + d*sin(fabs(theta))*(a2-a1);
+			break
+		case 5 :    //(c-1)
+			double w = sqrt(x*x-d*d*sin(theta)*sin(theta));
+			double z = d*sin(fabs(theta));
 
-double arg1 = (d*d + x*x - R*R)/(2.*d*x);
-	double arg2 = (d*d + R*R - x*x)/(2.*d*R);
-	double arg3 = MAX((-d + x + R)*(d + x - R)*(d - x + R)*(d + x + R), 0.);
+			return x*x*acos(z/x) - w*z;
+			break;
+		case 6 :  //(c-2)
+			double u = (d*d+x*x-R*R)/(2*d*x);
+			double v = (d*d+R*R-x*x)/(2*d*R);
+			double w = (-d+x+R)*(d+x-R)*(d-x+R)*(d+x+R);
+			double A_int = x*x*acos(u)+R*R*acos(v)-0.5*sqrt(w);
 
-	if(x <= R - d) return M_PI*x*x;							//planet completely overlaps stellar circle
-	else if(x >= R + d) return M_PI*R*R;						//stellar circle completely overlaps planet
-	else return x*x*acos(arg1) + R*R*acos(arg2) - 0.5*sqrt(arg3);			//partial overlap
-}
+			return A_int - M_PI*R*R/2;
+			break;
+		case 7 : //(c-3)
+			double w = sqrt(x*x-d*d*sin(theta)*sin(theta));
+                        double z = d*sin(fabs(theta));
+			double u = (d*d+x*x-R*R)/(2*d*x);
+                        double v = (d*d+R*R-x*x)/(2*d*R);
+                        double w = (-d+x+R)*(d+x-R)*(d-x+R)*(d+x+R);
+                        double A_int = x*x*acos(u)+R*R*acos(v)-0.5*sqrt(w);
+			double A1 = x*x*acos(z/x) - w*z;
+
+			return A_int - A1;
+			break;
+		case 8 : //no intersection
+			return 0;
+			break;
+		case 9 : //intersection of two circles
+			double u = (d*d+x*x-R*R)/(2*d*x);
+                        double v = (d*d+R*R-x*x)/(2*d*R);
+                        double w = (-d+x+R)*(d+x-R)*(d-x+R)*(d+x+R);
+                        double A_int = x*x*acos(u)+R*R*acos(v)-0.5*sqrt(w);
+
+			return A_int;
+			break;
+		case 10 : //circle completely inside semi-circle
+			return M_PI*x*x;
+			break;
+
+		default : 
+		        break;
+	}
+
 
 void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args, double phi, double b, double min_i)
 {
