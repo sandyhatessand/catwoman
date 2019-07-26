@@ -66,7 +66,7 @@ inline double area(double d, double x, double R, double theta)
 				sit = 4;  //(b)
 			}
 		} else if (fabs(x_minpos)<=R && fabs(x_minneg)<=R){
-			if (A*A>R*R)||(((A*sin(fabs(theta))+cos(theta)*sqrt(R*R-A*A))<0) && ((A*sin(fabs(theta))-cos(theta)*sqrt(R*R-A*A))<0)) {
+			if ((A*A>R*R)||(((A*sin(fabs(theta))+cos(theta)*sqrt(R*R-A*A))<0) && ((A*sin(fabs(theta))-cos(theta)*sqrt(R*R-A*A))<0))) {
 				sit = 5;  //(c-1)
 			} else if (((A*sin(fabs(theta))+cos(theta)*sqrt(R*R-A*A))>=0)&& ((A*sin(fabs(theta))-cos(theta)*sqrt(R*R-A*A))>=0)) {
 				sit = 7;  //(c-3)
@@ -85,15 +85,15 @@ inline double area(double d, double x, double R, double theta)
 	}
 			
 	switch(sit) {
-		case 1 :   //(a-1)
+		case 1:{   //(a-1)
 			double f_a1 = ((a1+d*cos(theta))/(x*x))*sqrt(x*x-(a1+d*cos(theta))*(a1+d*cos(theta)))+asin((a1+d*cos(theta))/x);
 			double f_a2 = ((a2+d*cos(theta))/(x*x))*sqrt(x*x-(a2+d*cos(theta))*(a2+d*cos(theta)))+asin((a2+d*cos(theta))/x);			
 			double delta_f = f_a1 - f_a2;
 			double g_a2 = acos(a2/R) - (a2/R)*sqrt(1-(a2/R)*(a2/R));
 			
 			return M_PI*R*R/2 - (x*x/2)*delta_f - d*sin(fabs(theta))*(a2-a1) - (R*R/2)*g_a2;
-			break;
-		case 2 :    //(a-2) 	
+			}break;
+		case 2 :{    //(a-2) 	
 			double h_a1 = acos(a1/R) + (a1/R)*sqrt(1-(a1/R)*(a1/R));
 			double p_a1 = asin(a1/R)+(a1/R)*sqrt(1-a1*a1/(R*R));
 			double p_a2 = asin(a2/R)+(a2/R)*sqrt(1-a2*a2/(R*R));
@@ -101,65 +101,67 @@ inline double area(double d, double x, double R, double theta)
 			double alpha = acos(1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x));
 			
 			return (R*R/2)*(h_a1+delta_p)-(b2*(a2-a1))/2 + (x*x/2)*(alpha - sin(alpha));
-			break;
-		case 3 :   //(a-3)
+			}break;
+		case 3 :{   //(a-3)
 			double h_a2 = acos(a2/R) + (a2/R)*sqrt(1-(a2/R)*(a2/R));
 			double alpha = acos(1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x));
 
 			return (R*R/2)*h_a2-(b2*(a2-a1))/2 + (x*x/2)*(alpha - sin(alpha));
-			break;
-		case 4 :     //(b)
+			}break;
+		case 4 :{     //(b)
 			double f_a1 = ((a1+d*cos(theta))/(x*x))*sqrt(x*x-(a1+d*cos(theta))*(a1+d*cos(theta)))+asin((a1+d*cos(theta))/x);
                         double f_a2 = ((a2+d*cos(theta))/(x*x))*sqrt(x*x-(a2+d*cos(theta))*(a2+d*cos(theta)))+asin((a2+d*cos(theta))/x);
                         double delta_f = f_a1 - f_a2;
 			double h_a2 = acos(a2/R) + (a2/R)*sqrt(1-(a2/R)*(a2/R));
 			
 			return (R*R/2)*h_a2 + (x*x/2)*delta_f + d*sin(fabs(theta))*(a2-a1);
-			break
-		case 5 :    //(c-1)
-			double w = sqrt(x*x-d*d*sin(theta)*sin(theta));
+			}break;
+		case 5 :{    //(c-1)
+			double s = sqrt(x*x-d*d*sin(theta)*sin(theta));
 			double z = d*sin(fabs(theta));
 
-			return x*x*acos(z/x) - w*z;
-			break;
-		case 6 :  //(c-2)
+			return x*x*acos(z/x) - s*z;
+			}break;
+		case 6 :{  //(c-2)
 			double u = (d*d+x*x-R*R)/(2*d*x);
 			double v = (d*d+R*R-x*x)/(2*d*R);
 			double w = (-d+x+R)*(d+x-R)*(d-x+R)*(d+x+R);
 			double A_int = x*x*acos(u)+R*R*acos(v)-0.5*sqrt(w);
 
 			return A_int - M_PI*R*R/2;
-			break;
-		case 7 : //(c-3)
-			double w = sqrt(x*x-d*d*sin(theta)*sin(theta));
+			}break;
+		case 7 :{ //(c-3)
+			double s = sqrt(x*x-d*d*sin(theta)*sin(theta));
                         double z = d*sin(fabs(theta));
 			double u = (d*d+x*x-R*R)/(2*d*x);
                         double v = (d*d+R*R-x*x)/(2*d*R);
                         double w = (-d+x+R)*(d+x-R)*(d-x+R)*(d+x+R);
                         double A_int = x*x*acos(u)+R*R*acos(v)-0.5*sqrt(w);
-			double A1 = x*x*acos(z/x) - w*z;
+			double A1 = x*x*acos(z/x) - s*z;
 
 			return A_int - A1;
-			break;
-		case 8 : //no intersection
+			}break;
+		case 8 :{ //no intersection
 			return 0;
-			break;
-		case 9 : //intersection of two circles
+			}break;
+		case 9 :{ //intersection of two circles
 			double u = (d*d+x*x-R*R)/(2*d*x);
                         double v = (d*d+R*R-x*x)/(2*d*R);
                         double w = (-d+x+R)*(d+x-R)*(d-x+R)*(d+x+R);
                         double A_int = x*x*acos(u)+R*R*acos(v)-0.5*sqrt(w);
 
 			return A_int;
-			break;
-		case 10 : //circle completely inside semi-circle
+			}break;
+		case 10 :{ //circle completely inside semi-circle
 			return M_PI*x*x;
-			break;
+			}break;
 
 		default : 
-		        break;
+		        return 0;
+			break;
 	}
 
+}
 
 void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args, double phi, double b, double min_i)
 {
