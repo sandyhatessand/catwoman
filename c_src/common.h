@@ -42,7 +42,7 @@ inline double area(double d, double x, double R, double theta)
 	Returns area of overlapping circles with radii x and R; separated by a distance d
 	*/
 	
-	int sit = 0;
+   	int sit = 0;
 	double A = (x*x-R*R-d*d)/(2*d);
 	double B = A*(2*cos(theta)*cos(theta) - 1) - 2*cos(theta)*sin(fabs(theta))*sqrt(R*R - A*A);	
 	double x_minpos = -d*cos(theta)+sqrt(x*x-d*d*sin(theta)*sin(theta));
@@ -165,7 +165,7 @@ inline double area(double d, double x, double R, double theta)
 
 }
 
-void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args, double phi, double b, double min_i)
+void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args, double phi, double b, double mini)
 {
 	/*
 		This function takes an array of sky distances (d_array) of length N, computes stellar intensity by calling intensity with
@@ -202,16 +202,16 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 			x += dx;						//first step
 
 			double A_i = 0.;						//initial area
-			
+		
 			double theta;
 			
-			if (phi >= 0. && i < min_i){
+			if (phi >= 0. && i < mini){        //finding theta for specific values of d, b and phi.
 				theta = asin(b/d) + phi;
-			} else if (phi >= 0 && i >= min_i) {
+			} else if (phi >= 0 && i >= mini) {
 				theta = asin(b/d) - phi;
-	                } else if (phi <= 0 && i < min_i){
+	                } else if (phi <= 0 && i < mini){
 				theta = asin(b/d) - phi; 
-			} else if (phi <= 0 && i >= min_i){
+			} else if (phi <= 0 && i >= mini){
 				theta = asin(b/d) + phi;
 			}
 
