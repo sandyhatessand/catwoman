@@ -35,14 +35,12 @@ inline double intensity(double x, double* args)
 
 static PyObject *_nonlinear_ld(PyObject *self, PyObject *args)
 {
-        printf("pass 0");
 	double rprs, fac, phi, b, mini;
 	int nthreads;
 	npy_intp dims[1];
 	double c1, c2, c3, c4;	
 
 	PyArrayObject *ds, *flux;
-        printf("pass 1");
   	if(!PyArg_ParseTuple(args,"Oddddddiddd", &ds, &rprs, &c1, &c2, &c3, &c4, &fac, &nthreads, &phi, &b, &mini)) return NULL;
 
 	dims[0] = PyArray_DIMS(ds)[0]; 
@@ -51,7 +49,6 @@ static PyObject *_nonlinear_ld(PyObject *self, PyObject *args)
 	double *f_array = PyArray_DATA(flux);
 	double *d_array = PyArray_DATA(ds);
 	double norm = (-c1/10. - c2/6. - 3.*c3/14. - c4/4. + 0.5)*2.*M_PI;
-        printf("pass 2");
 	/*
 		NOTE:  the safest way to access numpy arrays is to use the PyArray_GETITEM and PyArray_SETITEM functions.
 		Here we use a trick for faster access and more convenient access, where we set a pointer to the 
@@ -66,7 +63,6 @@ static PyObject *_nonlinear_ld(PyObject *self, PyObject *args)
 	*/
 	double intensity_args[] = {c1, c2, c3, c4, norm};
  
-        printf("pass 3");
 	#pragma acc data copyin(intensity_args)
 	calc_limb_darkening(f_array, d_array, dims[0], rprs, fac, nthreads, intensity_args, phi, b, mini);
 	return PyArray_Return((PyArrayObject *)flux);
@@ -101,7 +97,6 @@ static PyMethodDef _nonlinear_ld_methods[] = {
 
 	void init_nonlinear_ld(void)
 	{
-                printf("pass init");
 	  	Py_InitModule("_nonlinear_ld", _nonlinear_ld_methods);
 		import_array(); 
 	}
