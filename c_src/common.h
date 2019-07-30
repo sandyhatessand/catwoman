@@ -220,15 +220,14 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 			} else {				
 				if ((phi >= -M_PI/2) && (phi < -acos(b/d))) {
                                         theta = M_PI+phi - asin(b/d);
-                                } else if ((phi<=M_PI/2) && (phi > asin(b/d)) {
+                                } else if ((phi<=M_PI/2) && (phi > asin(b/d))) {
                                         theta = - asin(b/d) + phi;
                                 } else if ((phi>0) && (phi<=asin(b/d))) {
                                         theta = asin(b/d) - phi;
-                                } else if ((phi<=0) && (phi>=-acos(b/d)) {
+                                } else if ((phi<=0) && (phi>=-acos(b/d))) {
                                         theta = -phi +asin(b/d);
 				}
 			}
-
 			
 			while(x < x_out)
 			{
