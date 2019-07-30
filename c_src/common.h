@@ -33,6 +33,8 @@
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 
+#include <stdio.h>
+
 /* Must be defined in the C file that includes this header. */
 inline double intensity(double x, double* args);
 
@@ -42,7 +44,7 @@ inline double area(double d, double x, double R, double theta)
 	Returns area of overlapping circles with radii x and R; separated by a distance d
 	*/
 	
-   	int sit = 0;
+   	int sit = 0;                                                                                  //define and initialise variables
 	double A = (x*x-R*R-d*d)/(2*d);
 	double B = A*(2*cos(theta)*cos(theta) - 1) - 2*cos(theta)*sin(fabs(theta))*sqrt(R*R - A*A);	
 	double x_minpos = -d*cos(theta)+sqrt(x*x-d*d*sin(theta)*sin(theta));
@@ -205,16 +207,29 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 		
 			double theta;
 			
-			if (phi >= 0. && i < mini){        //finding theta for specific values of d, b and phi.
-				theta = asin(b/d) + phi;
-			} else if (phi >= 0 && i >= mini) {
-				theta = asin(b/d) - phi;
-	                } else if (phi <= 0 && i < mini){
-				theta = asin(b/d) - phi; 
-			} else if (phi <= 0 && i >= mini){
-				theta = asin(b/d) + phi;
+			if (i <= mini){                                     //finding theta for specific values of d, b and phi.
+				if ((phi>=0) && (phi<=acos(b/d))) {
+					theta = phi + asin(b/d);
+				} else if ((phi>acos(b/d)) && (phi<= M_PI/2)) {
+					theta = M_PI - asin(b/d) - phi;
+				} else if ((phi<0) && (phi>=-asin(b/d))) {
+					theta = asin(b/d) + phi;
+				} else if ((phi<-asin(b/d)) && (phi>=-M_PI/2)) {
+					theta = -phi -asin(b/d);
+				}
+			} else {				
+				if ((phi>=0) && (phi<=acos(b/d))) {
+                                        theta = -phi + asin(b/d);
+                                } else if ((phi>acos(b/d)) && (phi<= M_PI/2)) {
+                                        theta = M_PI - asin(b/d) - phi;
+                                } else if ((phi<0) && (phi>=-asin(b/d))) {
+                                        theta = asin(b/d) + phi;
+                                } else if ((phi<-asin(b/d)) && (phi>=-M_PI/2)) {
+                                        theta = -phi -asin(b/d);
+				}
 			}
 
+			
 			while(x < x_out)
 			{
 				double A_f = area(d, x, rprs, theta);				//calculates area of overlapping circles
