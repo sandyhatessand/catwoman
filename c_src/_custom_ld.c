@@ -22,6 +22,7 @@
 
 static PyObject *_custom_ld(PyObject *self, PyObject *args);
 
+
 /*
 	- The intensity function returns the stellar intensity at a radius x; where 0 <= x <= 1
 	- The function arguments are the normalized radius (x), and limb darkening coefficients c1, ..., un

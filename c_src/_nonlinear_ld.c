@@ -23,6 +23,9 @@
 
 
 static PyObject *_nonlinear_ld(PyObject *self, PyObject *args);
+//double new_area(double d, double x, double R, double theta);
+
+
 
 inline double intensity(double x, double* args)
 {
@@ -35,14 +38,18 @@ inline double intensity(double x, double* args)
 
 static PyObject *_nonlinear_ld(PyObject *self, PyObject *args)
 {
-	double rprs, fac, phi, b, mini;
-	int nthreads;
+	double rprs = 0.1;
+	double fac = 0.0001;
+	double phi = 1;
+	double b = 0.1;
+	double mini = 1;
+	int nthreads = 1;
 	npy_intp dims[1];
-	double c1, c2, c3, c4;	
+	double c1=0.1, c2=0.1, c3=0.1, c4=0.1;	
 
 	PyArrayObject *ds, *flux;
   	if(!PyArg_ParseTuple(args,"Oddddddiddd", &ds, &rprs, &c1, &c2, &c3, &c4, &fac, &nthreads, &phi, &b, &mini)) return NULL;
-
+	
 	dims[0] = PyArray_DIMS(ds)[0]; 
 	flux = (PyArrayObject *) PyArray_SimpleNew(1, dims, PyArray_TYPE(ds));	//creates numpy array to store return flux values
 
@@ -67,6 +74,8 @@ static PyObject *_nonlinear_ld(PyObject *self, PyObject *args)
 	calc_limb_darkening(f_array, d_array, dims[0], rprs, fac, nthreads, intensity_args, phi, b, mini);
 	return PyArray_Return((PyArrayObject *)flux);
 } 
+
+
 
 static char _nonlinear_ld_doc[] = "This extension module returns a limb darkened light curve for a nonlinear stellar intensity profile.";
 
