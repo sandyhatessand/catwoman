@@ -35,110 +35,194 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /* Must be defined in the C file that includes this header. */
 inline double intensity(double x, double* args);
 
-double new_area(double d, double x, double R, double theta);
 double area(double d, double x, double R, double theta);
 
-//My new area code
 
 double area(double d, double x, double R, double theta)
 {
         /*
         Returns area of an overlapping semi-circle with radii R and circle x; separated by a distance d
-        */
-
+        */ 
+/*	double arg1 = (d*d + x*x - R*R)/(2.*d*x);
+	double arg2 = (d*d + R*R - x*x)/(2.*d*R);
+	double arg3 = MAX((-d + x + R)*(d + x - R)*(d - x + R)*(d + x + R), 0.);
+	if(x <= R - d){
+		return M_PI*x*x;							//planet completely overlaps stellar circle
+	} else if(x >= R + d){
+		return M_PI*R*R;						//stellar circle completely overlaps planet
+	} else {
+		return x*x*acos(arg1) + R*R*acos(arg2) - 0.5*sqrt(arg3);	
+	}
+*/	
 	//define and initialise variables
-        
+//  	printf("d = %.20f\n x = %.20f\n R = %.20f\n theta = %.20f\n", d,x,R,theta);     
 	int sit = 12;
-        double A = 1, B=1, x_minpos=1,x_minneg=1,a1=1,b1=1,a2=1,b2=1,a3=1,b3=1;
-        
+        double A = 1, x_minpos=1,x_minneg=1, a1=1,b1=1,a2=1,b2=1,a3=1,b3=1;
+
 	A = (x*x-R*R-d*d)/(2*d);
-        B = A*(2*cos(theta)*cos(theta) - 1) - 2*cos(theta)*sin(fabs(theta))*sqrt(fabs(R*R - A*A));
         x_minpos = (-1)*d*cos(theta)+sqrt(fabs(x*x-d*d*sin(theta)*sin(theta)));
-        x_minneg = (-1)*d*cos(theta)-sqrt(fabs(x*x-d*d*sin(theta)*sin(theta)));
-        a1 = (-1)*d*cos(theta) + sqrt(fabs(x*x - d*d*sin(theta)*sin(theta)));
+	x_minneg = (-1)*d*cos(theta)-sqrt(fabs(x*x-d*d*sin(theta)*sin(theta)));
+//	printf("x_minppos = %.20f\n x_minneg = %.20f\n", x_minpos, x_minneg);
+	a1 = (-1)*d*cos(theta) + sqrt(fabs(x*x - d*d*sin(theta)*sin(theta)));
         b1 = 0.0;
-        a2 = A*cos(theta)+sin(fabs(theta))*sqrt(fabs(R*R - A*A));
-        b2 = sqrt(fabs(R*R*cos(theta)*cos(theta) - A*B));
+        b2 = -A*sin(theta)+cos(theta)*sqrt(fabs(R*R-A*A));  //theta should be left raw here (no fabs)
+	a2 = b2*tan(theta)+A/cos(theta);      //theta should be left raw here (no fabs)
         a3 = (-1)*d*cos(theta) + x;
-        b3 = d*sin(fabs(theta));
+        b3 = d*sin(theta);   //theta should be left raw here (no fabs)
+	double lim = pow(10,-7);
+//	printf("lim = %.20f\n a1 = %.20f\n a2 = %.20f\n b1 = %.20f\n b2 = %.20f\n a3 = %.20f\n b3 = %.20f\n", lim,a1,a2,b1,b2,a3,b3);   
+       	
+	if ((fabs(d * sin(theta)) < x)&&(fabs(d*sin(theta)-x)>lim)) {       
+               	if ((fabs(x_minpos)<R||(fabs(x_minpos-R)<lim)) && fabs(x_minneg)>R && fabs(x_minneg-R)>=lim) {  //implies circle is to the left of semi-circle
+                        if (theta>0||(fabs(theta)<lim)){
+				if (b3>b2||(fabs(b3-b2)<lim)){
+                               		sit = 1;    //(a-1)
+                       		} else if ((b3<b2)&&(fabs(b3-b2)>=lim) && (b3>b1||(fabs(b3-b1)<lim)) && (a2>a1||(fabs(a1-a2)<lim))){
+                               		sit = 2;   //(a-2)
+                       		} else if ((b3<b2)&&(fabs(b3-b2)>=lim) && (b3>b1||(fabs(b3-b1)<lim)) && (a2<a1)&&(fabs(a1-a2)>=lim)){
+                               		sit = 3;    //(a-3)
+				}
+			} else if (theta<0||(fabs(theta)<lim)){ 
+                       		if ((b3<b1||(fabs(b3-b1)<lim)) && (a2<a1||(fabs(a1-a2)<lim))){
+                               		sit = 4;  //(b)
+                	       	} 
+			}
+               	}else if ((fabs(x_minpos)<R||(fabs(x_minpos-R)<lim)) && (fabs(x_minneg)<R||(fabs(x_minneg-R)<lim))){
 
+                       	if ((((-A*sin((theta))+cos(theta)*sqrt(fabs(R*R-A*A)))>0)||(fabs(-A*sin((theta))+cos(theta)*sqrt(fabs(R*R-A*A)))<lim)) && (((-A*sin((theta))-cos(theta)*sqrt(fabs(R*R-A*A)))>=0)||(fabs(-A*sin((theta))-cos(theta)*sqrt(fabs(R*R-A*A))))<lim)) {
 
-       if (fabs(d * sin(theta)) < x) {       
+                               	sit = 7;  //(c-3) not sure if there should be negative sign in front of A...
 
-                if (fabs(x_minpos)<=R && fabs(x_minneg)>R) {  //implies circle is to the left of semi-circle
+                       	} else if ((A*A>R*R)||(((A*sin((-theta))+cos(theta)*sqrt(fabs(R*R-A*A)))<0) && ((A*sin(((-theta)))-cos(theta)*sqrt(fabs(R*R-A*A)))<0))) {
+				sit = 5; //(c-1)
+			}
+               	}else if (fabs(x_minpos)>R && fabs(x_minneg)>R){
 
-                        if (b3>=b2){
-                                sit = 1;    //(a-1)
-                        } else if ((b3<b2) && (b3>b1) && (a2>=a1)){
-                                sit = 2;   //(a-2)
-                        } else if ((b3<b2) && (b3>b1) && (a2<a1)){
-                                sit = 3;    //(a-3)
-                        } else if ((b3<=b1) && (a2<a1)){
-                                sit = 4;  //(b)
-                        }
-                 } else if (fabs(x_minpos)<=R && fabs(x_minneg)<=R){
-                        if ((A*A>R*R)||(((A*sin(fabs(theta))+cos(theta)*sqrt(fabs(R*R-A*A)))<0) && ((A*sin((fabs(theta)))-cos(theta)*sqrt(fabs(R*R-A*A)))<0))) {
-                                sit = 5;  //(c-1)
-                        } else if (((-A*sin(fabs(theta))+cos(theta)*sqrt(fabs(R*R-A*A)))>=0)&& ((-A*sin(fabs(theta))-cos(theta)*sqrt(fabs(R*R-A*A)))>=0)) {
-                                sit = 7;  //(c-3)
-                        }
-                }  else if (fabs(x_minpos)>R && fabs(x_minneg)>R){
-                        if (((A*sin(fabs(theta))+cos(theta)*sqrt(fabs(R*R-A*A)))>=0) && ((A*sin(fabs(theta))-cos(theta)*sqrt(fabs(R*R-A*A)))>=0)) {
-                                sit = 6;   //(c-2)
-                         }
-                }
+			if ((((A*sin(-(theta))+cos(theta)*sqrt(R*R-A*A))>0)||(fabs(A*sin(-(theta))+cos(theta)*sqrt(R*R-A*A))<lim)) && (((A*sin(-(theta))-cos(theta)*sqrt(R*R-A*A))>=0)||(fabs(A*sin(-(theta))-cos(theta)*sqrt(R*R-A*A))<lim))) {
 
-        } else if (d>=x+R) {
-                sit = 8;  //no intersection
-        } else if ((d<x+R) && (d+x>=R)) {
-                sit = 9;  //intersection of two circles
-        } else if ((d<x+R) && (d+x<R)) {
+                               	sit = 6;   //(c-2)                
+
+			} else if ((A*A>R*R)||(((A*sin((-theta))+cos(theta)*sqrt(fabs(R*R-A*A)))<0) && ((A*sin(((-theta)))-cos(theta)*sqrt(fabs(R*R-A*A)))<0))) {                         
+				sit = 11; //semi-circle completely inside circle
+			} else if ((d>x+R)||(fabs(d-(x+R))<lim)) {
+				sit = 8;  //no intersection
+			}
+		}
+        } else if ((d>x+R)||(fabs(d-(x+R))<lim)) {    //this is wrong
+               	sit = 8;  //no intersection
+       	} else if ((d+x>R)||(fabs(d+x-R)<lim)) {
+       		sit = 9;  //intersection of two circles
+        } else if (d+x<R) {
                 sit = 10;  //circle completely inside semi-circle
-        }
+	}
+	
+//	printf("sit =  %d\n", sit);	
 
-
-        switch(sit) {
+	switch(sit) {
                 case 1:{   //(a-1)
-                        double f_a1 = ((a1+d*cos(theta))/(x*x))*sqrt(fabs(x*x-(a1+d*cos(theta)))*(a1+d*cos(theta)))+asin((a1+d*cos(theta))/x);
-                        double f_a2 = ((a2+d*cos(theta))/(x*x))*sqrt(fabs(x*x-(a2+d*cos(theta)))*(a2+d*cos(theta)))+asin((a2+d*cos(theta))/x);
+			double h_a2 = asin(a2/R) + (a2/R)*sqrt(1-(a2/R)*(a2/R));
+			double f_a1 = ((a1+d*cos(theta))/(x*x))*sqrt(fabs(x*x-(a1+d*cos(theta))*(a1+d*cos(theta))))+asin((a1+d*cos(theta))/x);
+                        double f_a2 = ((a2+d*cos(theta))/(x*x))*sqrt(fabs(x*x-(a2+d*cos(theta))*(a2+d*cos(theta))))+asin((a2+d*cos(theta))/x);
                         double delta_f = f_a1 - f_a2;
-                        double g_a2 = acos(a2/R) - (a2/R)*sqrt(1-(a2/R)*(a2/R));
+//                      printf("delta_f = %.20f\n  x*x-(a1+d*cos(theta))*(a1+d*cos(theta)) = %.20f\n x*x-(a2+d*cos(theta))*(a2+d*cos(theta)) = %.20f\n",delta_f,x*x-(a1+d*cos(theta))*(a1+d*cos(theta)),x*x-(a2+d*cos(theta))*(a2+d*cos(theta)));
+			double ret = (M_PI*R*R/2 - (x*x/2)*delta_f - d*sin(fabs(theta))*(a2-a1) - (R*R/2)*(M_PI/2-h_a2));
+			if (isnormal(ret)||ret == 0){
+				return ret;
+			} else{
+				double c1 = 1.0;
+	                     	double c2 = 0.0;
+                        	double c3 = 0.0;
+                        	double c4 = 1.0;
+                        	double c5 = 1.0;
+				double c6 = 1.0;
 
-                        return  (M_PI*R*R/2 - (x*x/2)*delta_f - d*sin(fabs(theta))*(a2-a1) - (R*R/2)*g_a2);
+				if (((a2/R)>0 && fabs((a2/R)-1)>=lim)||((a2/R)<0 && fabs((a2/R)+1)>=lim)){
+					c1 = asin(a2/R);
+				} else if ((a2/R)>0 && fabs((a2/R)-1)<lim){
+					c1 = M_PI/2;
+				} else if ((a2/R)<0 && fabs((a2/R)+1)<lim){
+					c1 = -M_PI/2;
+				}
+
+				if (fabs(1-(a2/R)*(a2/R))>=lim){
+					c2 = sqrt(1-(a2/R)*(a2/R));
+				} else {
+					c2 = 0.0;
+				}
+
+			/*	if ((x*x-(a1+d*cos(theta))*(a1+d*cos(theta)))>=0){
+					c3 = sqrt(x*x-(a1+d*cos(theta))*(a1+d*cos(theta)));
+				} else{
+					c3 = 0.0;
+				}
+                        */
+				if ((((a1+d*cos(theta))/x)>0 && fabs(((a1+d*cos(theta))/x)-1)>=lim)||(((a1+d*cos(theta))/x)<0 && fabs(((a1+d*cos(theta))/x)+1)>=lim)){
+                                        c4 = asin((a1+d*cos(theta))/x);
+                                } else if (((a1+d*cos(theta))/x)>0 && fabs(((a1+d*cos(theta))/x)-1)<lim){
+                                        c4 = M_PI/2;
+                                } else if (((a1+d*cos(theta))/x)<0 && fabs(((a1+d*cos(theta))/x)+1)<lim){
+                                        c4 = -M_PI/2;
+                                }
+
+	                /*	if ((x*x-(a2+d*cos(theta))*(a2+d*cos(theta)))>=0){
+                                        c5 = sqrt(x*x-(a2+d*cos(theta))*(a2+d*cos(theta)));
+                                } else{
+                                        c5 = 0.0;
+	                	}		
+			*/	 
+				if ((((a2+d*cos(theta))/x)>0 && fabs(((a2+d*cos(theta))/x)-1)>=lim)||(((a2+d*cos(theta))/x)<0 && fabs(((a2+d*cos(theta))/x)+1)>=lim)){
+                                        c6 = asin((a2+d*cos(theta))/x);
+                                } else if (((a2+d*cos(theta))/x)>0 && fabs(((a2+d*cos(theta))/x)-1)<lim){
+                                        c6 = M_PI/2;
+                                } else if (((a2+d*cos(theta))/x)<0 && fabs(((a2+d*cos(theta))/x)+1)<lim){
+                                        c6 = -M_PI/2;
+                                }
+
+				h_a2 = c1 + (a2/R)*c2;
+				f_a1 = ((a1+d*cos(theta))/(x*x))*sqrt(fabs(x*x-(a1+d*cos(theta))*(a1+d*cos(theta))))+c4;
+	                        f_a2 = ((a2+d*cos(theta))/(x*x))*sqrt(fabs(x*x-(a2+d*cos(theta))*(a2+d*cos(theta))))+c6; //asin((a2+d*cos(theta))/x);
+        	                delta_f = f_a1 - f_a2;
+				ret = (M_PI*R*R/2 - (x*x/2)*delta_f - d*sin(fabs(theta))*(a2-a1) - (R*R/2)*(M_PI/2-h_a2));
+				
+				return ret;
+			}
                         break; }
 
                 case 2 :{    //(a-2)
-                        double h_a1 = acos(a1/R) + (a1/R)*sqrt(1-(a1/R)*(a1/R));
-                        double p_a1 = asin(a1/R)+(a1/R)*sqrt(1-a1*a1/(R*R));
-                        double p_a2 = asin(a2/R)+(a2/R)*sqrt(1-a2*a2/(R*R));
-                        double delta_p = p_a2 - p_a1;
+                        double c;
+			if ((fabs(a2/R)-1)<lim){
+                                c = 1.0;
+                        } else {
+                                c = a2/R;
+                        }
+			double h_a2 = asin(c) + (c)*sqrt(1-(c)*(c));
                         double alpha = acos(1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x));
 
-                        return (R*R/2)*(h_a1+delta_p)-(b2*(a2-a1))/2 + (x*x/2)*(alpha - sin(alpha));
+                        return ((R*R/2)*(h_a2+M_PI/2)-(b2*(a2-a1))/2 + (x*x/2)*(alpha - sin(alpha)));
                         }break;
                 case 3 :{   //(a-3)
-                        double h_a2 = acos(a2/R) + (a2/R)*sqrt(1-(a2/R)*(a2/R));
+                        double h_a2 = asin(a2/R) + (a2/R)*sqrt(1-(a2/R)*(a2/R));
                         double alpha = acos(1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x));
 
-                        return (R*R/2)*h_a2-(b2*(a2-a1))/2 + (x*x/2)*(alpha - sin(alpha));
+                        return ((R*R/2)*(h_a2+M_PI/2)-(b2*(a2-a1))/2 + (x*x/2)*(alpha - sin(alpha)));
                         }break;
-                case 4 :{     //(b)
+                case 4 :{     //(b) need to swap sign of theta
                         double f_a1 = ((a1+d*cos(theta))/(x*x))*sqrt(x*x-(a1+d*cos(theta))*(a1+d*cos(theta)))+asin((a1+d*cos(theta))/x);
                         double f_a2 = ((a2+d*cos(theta))/(x*x))*sqrt(x*x-(a2+d*cos(theta))*(a2+d*cos(theta)))+asin((a2+d*cos(theta))/x);
                         double delta_f = f_a1 - f_a2;
-                        double h_a2 = acos(a2/R) + (a2/R)*sqrt(1-(a2/R)*(a2/R));
-
-                        return (R*R/2)*h_a2 + (x*x/2)*delta_f + d*sin(fabs(theta))*(a2-a1);
+                        double h_a2 = asin(a2/R) + (a2/R)*sqrt(1-(a2/R)*(a2/R));
+                        return ((R*R/2)*(h_a2+M_PI/2) + (x*x/2)*delta_f + d*sin(fabs(theta))*(a2-a1));
                         }break;
                 case 5 :{    //(c-1)
                         double s = sqrt(x*x-d*d*sin(theta)*sin(theta));
                         double z = d*sin(fabs(theta));
 
-                        return x*x*acos(z/x) - s*z;
+                        return (x*x*acos(z/x) - s*z);
                         }break;
                 case 6 :{  //(c-2)
                         double u = (d*d+x*x-R*R)/(2*d*x);
@@ -146,7 +230,7 @@ double area(double d, double x, double R, double theta)
                         double w = (-d+x+R)*(d+x-R)*(d-x+R)*(d+x+R);
                         double A_int = x*x*acos(u)+R*R*acos(v)-0.5*sqrt(w);
 
-                        return A_int - M_PI*R*R/2;
+                        return (A_int - M_PI*R*R/2);
                         }break;
                 case 7 :{ //(c-3)
                         double s = sqrt(x*x-d*d*sin(theta)*sin(theta));
@@ -157,7 +241,7 @@ double area(double d, double x, double R, double theta)
                         double A_int = x*x*acos(u)+R*R*acos(v)-0.5*sqrt(w);
                         double A1 = x*x*acos(z/x) - s*z;
 
-                        return A_int - A1;
+                        return (A_int - A1);
                         }break;
                 case 8 :{ //no intersection
                         return 0;
@@ -174,12 +258,16 @@ double area(double d, double x, double R, double theta)
                         return M_PI*x*x;
                         }break;
 
-                default :
+        	case 11: { //semi-circle completely inside circle
+			return M_PI*R*R/2;
+			}break;
+		
+	        default :
                         return 0;
                         break;
         }
 
-}
+} 
 
 
 void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args, double phi, double b, double mini)
@@ -203,6 +291,7 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 	#endif
 	for(int i = 0; i < N; i++)
 	{
+		printf("i = %d ******************** \n",i);
 		double d = d_array[i];
 		double x = 0.1;
 		double x_in = MAX(d - rprs, 0.);					//lower bound for integration
@@ -216,12 +305,11 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 			double dx = fac*acos(x); 					//initial step size
 
 			x += dx;						//first step
-
 			double A_i = 0.;						//initial area
 		
 			double theta = 0.;
 			
-			if (i <= mini){                                     //finding theta for specific values of d, b and phi.
+			/* if (i <= mini){                                     //finding theta for specific values of d, b and phi.
 				if ((phi>=0) && (phi<=acos(b/d))) {
 					theta = phi + asin(b/d);
 				} else if ((phi>acos(b/d)) && (phi<= M_PI/2)) {
@@ -241,11 +329,18 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
                                 } else if ((phi<=0) && (phi>=-acos(b/d))) {
                                         theta = -phi +asin(b/d);
 				}
+			} */
+		
+			if (i<=mini) {	//if planet to left of star
+				theta = -phi;
+			} else {       // if planet to right of star
+				theta = phi; 
 			}
 			
 			while(x < x_out)
 			{
-				double A_f = new_area(d, x, rprs, theta);				//calculates area of overlapping circles
+				double A_f = area(d, x, rprs, theta);				//calculates area of overlapping circles
+				printf("Area = %f\n\n", A_f);
 				double I = intensity(x - dx/2., intensity_args); 	//intensity at the midpoint
 				delta += (A_f - A_i)*I;				//increase in transit depth for this integration step
 				dx = fac*acos(x);  				//updating step size
@@ -254,10 +349,10 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 			}
 			dx = x_out - x + dx;  					//calculating change in radius for last step  FIXME
 			x = x_out;						//final radius for integration
-			double A_f = new_area(d, x, rprs, theta);					//area for last integration step
+			double A_f = area(d, x, rprs, theta);					//area for last integration step
+			printf("Area = %f\n\n", A_f);
 			double I = intensity(x - dx/2., intensity_args); 		//intensity at the midpoint
 			delta += (A_f - A_i)*I;					//increase in transit depth for this integration step
-
 			f_array[i] = 1.0 - delta;	//flux equals 1 - \int I dA
 		}
 	}
