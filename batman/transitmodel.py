@@ -270,14 +270,12 @@ class TransitModel(object):
 		self.twocircles = False
 		self.phi = params.phi
 		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180)))
-		
-		print ('%.20f'%self.rp)
 
+	
 		#checking if there has been a value of rp2 supplied
 		if self.rp2 == None: self.twocircles = False
 		else:
 			self.twocircles = True
-			print("It worked!")
 
 		#handles the case of inverse transits (rp < 0)
 		if self.rp < 0.: 
