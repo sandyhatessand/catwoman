@@ -42,6 +42,7 @@ inline double intensity(double x, double* args);
 
 double area(double d, double x, double R, double theta);
 
+double find_theta(double phi, double d, double b, double mini, int i);
 
 double area(double d, double x, double R, double theta)
 {
@@ -49,6 +50,7 @@ double area(double d, double x, double R, double theta)
         Returns area of an overlapping semi-circle with radii R and circle x; separated by a distance d
         */ 
 /*	double arg1 = (d*d + x*x - R*R)/(2.*d*x);
+
 	double arg2 = (d*d + R*R - x*x)/(2.*d*R);
 	double arg3 = MAX((-d + x + R)*(d + x - R)*(d - x + R)*(d + x + R), 0.);
 	if(x <= R - d){
@@ -136,10 +138,7 @@ double area(double d, double x, double R, double theta)
 				return ret;
 			} else{
 				double c1 = 1.0;
-	                     	double c2 = 0.0;
-                        	double c3 = 0.0;
                         	double c4 = 1.0;
-                        	double c5 = 1.0;
 				double c6 = 1.0;
 
 				if (((a2/R)>0 && fabs((a2/R)-1)>=lim)||((a2/R)<0 && fabs((a2/R)+1)>=lim)){
@@ -395,7 +394,6 @@ double area(double d, double x, double R, double theta)
                                         c3 = M_PI;
                                 }
 				
-				printf("c1 = %.20f\n c2 = %.20f\n c3 = %.20f\n",c1,c2,c3);	
 				A_int = x*x*c1+R*R*c2-0.5*sqrt(fabs(w));
 				A1 = x*x*c3 - s*z;
 				ret = (A_int - A1);
@@ -455,8 +453,70 @@ double area(double d, double x, double R, double theta)
 
 } 
 
+double find_theta(double phi, double d, double b, double mini, int i)
+{
+	/* This function finds theta for a given phi, d and b */
+	
+	double lim = pow(10,-7);
+	double theta = 0.0;
+/*	if ((isnormal(acos(b/d))||acos(b/d)==0) && (isnormal(asin(b/d))||asin(b/d)==0)){
+			theta =0;
+	} else{
+		printf("PROBLEM***********************************");
+		printf("i = %d\n acos = %.20f\n asin = %.20f\n b = %.20f\n d = %.20f\n",acos(b/d),asin(b/d),b,d,i);
+	}
+*/	
+	if ((b>=0)||(fabs(b)<lim)){	
+		if (i <= mini){             //finding theta for specific values of d, b and phi.
+        		if ((phi>=0||fabs(phi)<lim) && (phi<=acos(b/d)||fabs(phi-acos(b/d))<lim)) {
+                		theta = -(phi + asin(b/d));
+			} else if ((phi>acos(b/d)&&(fabs(phi-acos(b/d))>=lim)) && (phi<= M_PI/2||fabs(phi-M_PI/2)<lim)) {
+                        	theta = -(M_PI - asin(b/d) - phi);
+                	} else if ((phi<0 && phi<=-lim) && (phi>=-asin(b/d)||fabs(phi+asin(b/d))<lim)) {
+                        	theta = -(asin(b/d) + phi);
+                	} else if ((phi<-asin(b/d) && fabs(phi+asin(b/d))>=lim && (phi>=-M_PI/2||fabs(phi+M_PI/2)<lim))) {
+                        	theta = -phi -asin(b/d);
+                	}
+                
+		} else {
+			if ((phi >= -M_PI/2||fabs(phi+M_PI/2)<lim) && (phi <= -acos(b/d)||fabs(phi+acos(b/d))<lim)) {
+                		theta = -(M_PI+phi - asin(b/d));
+			} else if ((phi<=M_PI/2||fabs(phi-M_PI/2)<lim) && (phi > asin(b/d) && fabs(phi-asin(b/d))>=lim)) {
+                        	theta = - asin(b/d) + phi;
+                	} else if ((phi>0 && phi>=lim) && (phi<=asin(b/d)||fabs(phi-asin(b/d))<lim)) {
+                        	theta = -(asin(b/d) - phi);
+                	} else if ((phi<=0||fabs(phi)<lim) && (phi>=-acos(b/d)|| fabs(phi+acos(b/d))<lim)) {
+                        	theta = -(-phi +asin(b/d));
+                	}
+		}
+	} else {
+		if (i <= mini){ 
+			if ((phi>=0||fabs(phi)<lim) && (phi<=asin(fabs(b)/d)||fabs(phi-asin(fabs(b)/d))<lim)){  //(1)
+				theta = asin(fabs(b)/d)-phi;
+			} else if ((phi<=M_PI/2||fabs(phi-M_PI/2)<lim) && (phi>asin(fabs(b)/d)&&fabs(phi-asin(fabs(b)/d))>=lim)){ //(2)
+				theta = -(phi - asin(fabs(b)/d));
+			} else if ((phi<0&&fabs(phi)>=lim) && (phi>=-acos(fabs(b)/d)||fabs(phi+acos(fabs(b)/d))<lim)){  //(3)
+				theta = asin(fabs(b)/d) - phi;
+			} else if ((phi<-acos(fabs(b)/d)&&fabs(phi+acos(fabs(b)/d))>=lim) && (phi>=-M_PI/2||fabs(phi+M_PI/2)<lim)){ //(4)
+				theta = M_PI - asin(fabs(b)/d) + phi;
+			}
+		} else {
+			if ((phi<=0||fabs(phi)<lim) && (phi>=-asin(fabs(b)/d)||fabs(phi+asin(fabs(b)/d))<lim)){ //(1)
+				theta = asin(fabs(b)/d) + phi;
+			} else if ((phi>=-M_PI/2||fabs(phi+M_PI/2)<lim) && (phi<-asin(fabs(b)/d)&&fabs(phi+asin(fabs(b)/d))>=lim)){ //(2)
+				theta = -(-phi - asin(fabs(b)/d));
+			} else if ((phi>0&&fabs(phi)>=lim) && (phi<=acos(fabs(b)/d)||fabs(phi-acos(fabs(b)/d))<lim)){ // (3)
+				theta = asin(fabs(b)/d) +phi;
+			} else if ((phi>acos(fabs(b)/d)&&fabs(phi-acos(fabs(b)/d))>=lim) && (phi<=M_PI/2||fabs(phi-M_PI/2)<lim)){ //(4)
+				theta = M_PI - asin(fabs(b)/d) - phi;
+			}
+		}
+	}
+	//printf("i = %d\n theta = %.20f\n",i,theta);
+	return theta;
+}
 
-void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args, double phi, double b, double mini)
+void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args, double phi, double b, double mini, double rp2, bool twoc)
 {
 	/*
 		This function takes an array of sky distances (d_array) of length N, computes stellar intensity by calling intensity with
@@ -475,13 +535,14 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 	#elif defined (_OPENMP)
 	#pragma omp parallel for
 	#endif
+	printf("b = %.20f\n",b);
 	for(int i = 0; i < N; i++)
 	{
-		printf("i = %d b = %.20f******************** \n",i,b);
 		double d = d_array[i];
 		double x = 0.1;
-		double x_in = MAX(d - rprs, 0.);					//lower bound for integration
-		double x_out = MIN(d + rprs, 1.0);					//upper bound for integration
+		
+		double x_in = MAX(MIN(d - rp2, d - rprs), 0.);	//double check this works		//lower bound for integration
+		double x_out = MIN(MAX(d + rp2, d + rprs), 1.0);					//upper bound for integration
 		if(x_in >= 1.) f_array[i] = 1.0;					//flux = 1. if the planet is not transiting
 		else if(x_out - x_in < 1.e-7) f_array[i] = 1.0;				//pathological case	
 		else
@@ -489,50 +550,46 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 			double delta = 0.;						//variable to store the integrated intensity, \int I dA
 			x = x_in;						//starting radius for integration
 			double dx = fac*acos(x); 					//initial step size
-
 			x += dx;						//first step
 			double A_i = 0.;						//initial area
 		
-			double theta = 0.12345;
 			double lim = pow(10,-7);
-				
-			if (i <= mini){                                     //finding theta for specific values of d, b and phi.
-				if ((phi>=0||fabs(phi)<lim) && (phi<=acos(b/d)||fabs(phi-acos(b/d))<lim)) {
-					theta = -(phi + asin(b/d));
-				} else if ((phi>acos(b/d)&&(fabs(phi-acos(b/d))>=lim)) && (phi<= M_PI/2||fabs(phi-M_PI/2)<lim)) {
-					theta = -(M_PI - asin(b/d) - phi);
-				} else if ((phi<0 && phi<=-lim) && (phi>=-asin(b/d)||fabs(phi+asin(b/d))<lim)) {
-					theta = -(asin(b/d) + phi);
-				} else if ((phi<-asin(b/d) && fabs(phi+asin(b/d))>=lim && (phi>=-M_PI/2||fabs(phi+M_PI/2)<lim))) {
-					theta = -phi -asin(b/d);
-				}
-			} else {				
-				if ((phi >= -M_PI/2||fabs(phi+M_PI/2)<lim) && (phi <= -acos(b/d)||fabs(phi+acos(b/d))<lim)) {
-                                        theta = -(M_PI+phi - asin(b/d));
-                                } else if ((phi<=M_PI/2||fabs(phi-M_PI/2)<lim) && (phi > asin(b/d) && fabs(phi-asin(b/d))>=lim)) {
-                                        theta = - asin(b/d) + phi;
-                                } else if ((phi>0 && phi>=lim) && (phi<=asin(b/d)||fabs(phi-asin(b/d))<lim)) {
-                                        theta = -(asin(b/d) - phi);
-                                } else if ((phi<=0||fabs(phi)<lim) && (phi>=-acos(b/d)|| fabs(phi+acos(b/d))<lim)) {
-                                        theta = -(-phi +asin(b/d));
-				}
-			} 
+			double theta=0.0, theta2=0.0;	
+			
+			theta = find_theta(phi, d, b, mini, i);
+			if (twoc){
+				theta2 = find_theta((-phi), d, -b, mini, i);
+			}
 			
 			while(x < x_out)
 			{
 				double A_f = area(d, x, rprs, theta);				//calculates area of overlapping circles
+				if (twoc){
+					double A_f2 = area(d, x, rp2, theta2);
+				//	printf("A1 = %.20f\n A2 = %.20f\n\n",A_f,A_f2);
+					A_f = A_f + A_f2;
+				}
+				
 				double I = intensity(x - dx/2., intensity_args); 	//intensity at the midpoint
 				delta += (A_f - A_i)*I;				//increase in transit depth for this integration step
 				dx = fac*acos(x);  				//updating step size
 				x = x + dx;					//stepping to next element
 				A_i = A_f;					//storing area
 			}
+
 			dx = x_out - x + dx;  					//calculating change in radius for last step  FIXME
 			x = x_out;						//final radius for integration
 			double A_f = area(d, x, rprs, theta);					//area for last integration step
+			if (twoc){
+				double A_f2 = area(d, x, rp2, theta2);
+				A_f = A_f + A_f2;
+			}
+
 			double I = intensity(x - dx/2., intensity_args); 		//intensity at the midpoint
 			delta += (A_f - A_i)*I;					//increase in transit depth for this integration step
 			f_array[i] = 1.0 - delta;	//flux equals 1 - \int I dA
 		}
+		
+		
 	}
 }
