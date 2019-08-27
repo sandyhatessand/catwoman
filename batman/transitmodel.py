@@ -108,10 +108,18 @@ class TransitModel(object):
 		self.exp_time = exp_time
 		self.inverse = False
 		self.twocircles = False        #added this
-		self.phi = params.phi          #added this
+		self.phi = params.phi*pi/180          #convert phi from degrees to radians
 		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180)))            	       #added this		
-		
+		self.truth = True
 
+		#Checking if there are two semi-circles	
+		if self.rp2==None:
+			self.twocircles=False
+			self.rp2=0.0
+		else:
+			self.twocircles=True
+		
+	
 		#Finding the index i at which the planet is at inferior conjuction
 		self.mini = 0
 		stop = False
@@ -167,27 +175,31 @@ class TransitModel(object):
 		:rtype: float
 
 		"""
-		if self.limb_dark in ["logarithmic", "exponential", "nonlinear", "squareroot", "power2", "custom"]:
+		if (self.limb_dark in ["logarithmic", "exponential", "nonlinear", "squareroot", "power2", "custom"]) or (self.limb_dark in ["quadratic"] and self.twocircles==True):
+			
 			ds = np.linspace(0., 1.1, 500)
-			fac_lo = 5.0e-4
+			fac_lo = 5.0e-4 #changed from 4 to 5
 			if self.limb_dark == "nonlinear":
-				f0 = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], fac_lo, self.nthreads, self.phi, self.b, self.mini)
-				f = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], self.fac, self.nthreads, self.phi, self.b, self.mini)
+				f0 = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], fac_lo, self.nthreads, self.phi, self.b, self.mini, self.rp2, self.twocircles)
+				f = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], self.fac, self.nthreads, self.phi, self.b, self.mini, self.rp2, self.twocircles)
 			elif self.limb_dark == "squareroot":
-				f0 = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[1], self.u[0], 0., 0., fac_lo, self.nthreads, self.phi, self.b, self.mini)
-				f = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[1], self.u[0], 0., 0., self.fac, self.nthreads, self.phi, self.b, self.mini)
+				f0 = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[1], self.u[0], 0., 0., fac_lo, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+				f = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[1], self.u[0], 0., 0., self.fac, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
 			elif self.limb_dark == "exponential":
-				f0 = _exponential_ld._exponential_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, self.nthreads, self.phi, self.b, self.mini)
-				f = _exponential_ld._exponential_ld(ds, self.rp, self.u[0], self.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini)
+				f0 = _exponential_ld._exponential_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+				f = _exponential_ld._exponential_ld(ds, self.rp, self.u[0], self.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
 			elif self.limb_dark == "logarithmic":
-				f0 = _logarithmic_ld._logarithmic_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, self.nthreads, self.phi, self.b, self.mini)
-				f = _logarithmic_ld._logarithmic_ld(ds, self.rp, self.u[0], self.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini)
+				f0 = _logarithmic_ld._logarithmic_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+				f = _logarithmic_ld._logarithmic_ld(ds, self.rp, self.u[0], self.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
 			elif self.limb_dark == "power2":
-				f0 = _power2_ld._power2_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, self.nthreads, self.phi, self.b, self.mini)
-				f = _power2_ld._power2_ld(ds, self.rp, self.u[0], self.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini)
+				f0 = _power2_ld._power2_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+				f = _power2_ld._power2_ld(ds, self.rp, self.u[0], self.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+			elif self.limb_dark == "quadratic":
+                                f0 = _quadratic_ld._quadratic_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, self.nthreads, self.phi, self.b, self.mini, self.rp2, self.twocircles)
+                                f = _quadratic_ld._quadratic_ld(ds, self.rp, self.u[0], self.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini, self.rp2, self.twocircles)
 			else:
-				f0 = _custom_ld._custom_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], self.u[4], self.u[5], fac_lo, self.nthreads, self.phi, self.b, self.mini)
-				f =  _custom_ld._custom_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], self.u[4], self.u[5], self.fac, self.nthreads, self.phi, self.b, self.mini)
+				f0 = _custom_ld._custom_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], self.u[4], self.u[5], fac_lo, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+				f =  _custom_ld._custom_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], self.u[4], self.u[5], self.fac, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
 	
 			err = np.max(np.abs(f-f0))*1.0e6
 			if plot == True:
@@ -201,35 +213,40 @@ class TransitModel(object):
 		else: raise Exception("Function calc_err not valid for " + self.limb_dark + " limb darkening")
 
 	def _get_fac(self):
-		if self.limb_dark in ["logarithmic", "exponential", "squareroot", "nonlinear", "power2", "custom"]:
+		if (self.limb_dark in ["logarithmic", "exponential", "nonlinear", "squareroot", "power2", "custom"]) or (self.limb_dark in ["quadratic"] and self.twocircles==True):
 			nthreads = 1
-			fac_lo, fac_hi = 5.0e-4, 1.
-			ds = np.linspace(0., 1.+self.rp, 1000)
-			if self.limb_dark == "nonlinear": f0 = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], fac_lo, nthreads, self.phi, self.b, self.mini)
-			elif self.limb_dark == "squareroot": f0 = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[1], self.u[0], 0., 0., fac_lo, nthreads, self.phi, self.b, self.mini)
-			elif self.limb_dark == "exponential": f0 = _exponential_ld._exponential_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, nthreads, self.phi, self.b, self.mini)
-			elif self.limb_dark == "logarithmic": f0 = _logarithmic_ld._logarithmic_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, nthreads, self.phi, self.b, self.mini)
-			elif self.limb_dark == "power2": f0 = _power2_ld._power2_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, nthreads, self.phi, self.b, self.mini)
-			else: f0 = _custom_ld._custom_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], self.u[4], self.u[5], fac_lo, nthreads, self.phi, self.b, self.mini)
+			fac_lo, fac_hi = 5.0e-4, 1. #changed from -4 to -5
+			ds = np.linspace(0., np.maximum(1.+self.rp,1.+self.rp2), 1000)
+			if self.limb_dark == "nonlinear": f0 = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], fac_lo, nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+			elif self.limb_dark == "squareroot": f0 = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[1], self.u[0], 0., 0., fac_lo, nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+			elif self.limb_dark == "exponential": f0 = _exponential_ld._exponential_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+			elif self.limb_dark == "logarithmic": f0 = _logarithmic_ld._logarithmic_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+			elif self.limb_dark == "power2": f0 = _power2_ld._power2_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, nthreads, self.phi, self.b, self.mini, self.rp2, self.twocircles)
+			elif self.limb_dark == "quadratic": f0 = _quadratic_ld._quadratic_ld(ds, self.rp, self.u[0], self.u[1], fac_lo, nthreads, self.phi, self.b, self.mini, self.rp2, self.twocircles)
+			else: f0 = _custom_ld._custom_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], self.u[4], self.u[5], fac_lo, nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
 
 			n = 0
 			err = 0.
 			while(err > self.max_err or err < 0.99*self.max_err):
-				fac = (fac_lo + fac_hi)/2.
-				if self.limb_dark == "nonlinear": f = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], fac, nthreads, self.phi, self.b, self.mini)
-				elif self.limb_dark == "squareroot": f = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[1], self.u[0], 0., 0., fac, nthreads, self.phi, self.b, self.mini)
-				elif self.limb_dark == "exponential": f = _exponential_ld._exponential_ld(ds, self.rp, self.u[0], self.u[1], fac, nthreads, self.phi, self.b, self.mini)
-				elif self.limb_dark == "logarithmic": f = _logarithmic_ld._logarithmic_ld(ds, self.rp, self.u[0], self.u[1], fac, nthreads, self.phi, self.b, self.mini)
-				elif self.limb_dark == "power2": f = _power2_ld._power2_ld(ds, self.rp, self.u[0], self.u[1], fac, nthreads, self.phi, self.b, self.mini)
-				else: f = _custom_ld._custom_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], self.u[4], self.u[5], fac, nthreads, self.phi, self.b, self.mini)
+				#fac = (fac_lo + fac_hi)/2. #arithmetic mean
+				fac = np.sqrt(fac_lo*fac_hi) #geometric mean(arithmetic mean in log space)
+
+				if self.limb_dark == "nonlinear": f = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], fac, nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+				elif self.limb_dark == "squareroot": f = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[1], self.u[0], 0., 0., fac, nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+				elif self.limb_dark == "exponential": f = _exponential_ld._exponential_ld(ds, self.rp, self.u[0], self.u[1], fac, nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+				elif self.limb_dark == "logarithmic": f = _logarithmic_ld._logarithmic_ld(ds, self.rp, self.u[0], self.u[1], fac, nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+				elif self.limb_dark == "power2": f = _power2_ld._power2_ld(ds, self.rp, self.u[0], self.u[1], fac, nthreads, self.phi, self.b, self.mini, self.rp2, self.twocircles)
+				elif self.limb_dark == "quadratic": 
+					f = _quadratic_ld._quadratic_ld(ds, self.rp, self.u[0], self.u[1], fac, nthreads, self.phi, self.b, self.mini, self.rp2, self.twocircles)
+				else: f = _custom_ld._custom_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], self.u[4], self.u[5], fac, nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
 
 				err = np.max(np.abs(f-f0))*1.0e6
-
 				if err > self.max_err: fac_hi = fac	
 				else: fac_lo = fac
 				n += 1
 				if n > 1e3: raise Exception("Convergence failure in calculation of scale factor for integration step size")
 			return fac
+		elif (self.limb_dark in ["quadratic"]): return 0.5 
 		else: return None
 	
 	def light_curve(self, params):
@@ -268,14 +285,15 @@ class TransitModel(object):
 		self.t_secondary = params.t_secondary
 		self.inverse = False
 		self.twocircles = False
-		self.phi = params.phi
+		self.phi = params.phi*pi/180
 		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180)))
 
 	
-		#checking if there has been a value of rp2 supplied
-		if self.rp2 == None: self.twocircles = False
-		else:
-			self.twocircles = True
+		#checking again if there has been a value of rp2 supplied
+		if self.rp2 == None: 
+			self.twocircles = False
+			self.rp2=0.0
+		else: self.twocircles = True
 
 		#handles the case of inverse transits (rp < 0)
 		if self.rp < 0.: 
@@ -285,15 +303,15 @@ class TransitModel(object):
 		
 		if self.transittype == 1:
 			if params.limb_dark != self.limb_dark: raise Exception("Need to reinitialize model in order to change limb darkening option")
-			if self.limb_dark == "quadratic": lc = _quadratic_ld._quadratic_ld(self.ds, params.rp, params.u[0], params.u[1], self.nthreads)
+			if self.limb_dark == "quadratic": lc = _quadratic_ld._quadratic_ld(self.ds, params.rp, params.u[0], params.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini, self.rp2, self.twocircles)
 			elif self.limb_dark == "linear": lc = _quadratic_ld._quadratic_ld(self.ds, params.rp, params.u[0], 0., self.nthreads)
-			elif self.limb_dark == "nonlinear": lc = _nonlinear_ld._nonlinear_ld(self.ds, params.rp, params.u[0], params.u[1], params.u[2], params.u[3], self.fac, self.nthreads, self.phi, self.b, self.mini)
-			elif self.limb_dark == "squareroot": lc = _nonlinear_ld._nonlinear_ld(self.ds, params.rp, params.u[1], params.u[0], 0., 0., self.fac, self.nthreads, self.phi, self.b, self.mini)
+			elif self.limb_dark == "nonlinear": lc = _nonlinear_ld._nonlinear_ld(self.ds, params.rp, params.u[0], params.u[1], params.u[2], params.u[3], self.fac, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+			elif self.limb_dark == "squareroot": lc = _nonlinear_ld._nonlinear_ld(self.ds, params.rp, params.u[1], params.u[0], 0., 0., self.fac, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
 			elif self.limb_dark == "uniform": lc = _uniform_ld._uniform_ld(self.ds, params.rp, self.nthreads)
-			elif self.limb_dark == "logarithmic": lc = _logarithmic_ld._logarithmic_ld(self.ds, params.rp, params.u[0], params.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini)
-			elif self.limb_dark == "exponential": lc = _exponential_ld._exponential_ld(self.ds, params.rp, params.u[0], params.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini)
-			elif self.limb_dark == "power2": lc = _power2_ld._power2_ld(self.ds, params.rp, params.u[0], params.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini)
-			elif self.limb_dark == "custom": lc = _custom_ld._custom_ld(self.ds, params.rp, params.u[0], params.u[1], params.u[2], params.u[3], params.u[4], params.u[5], self.fac, self.nthreads, self.phi, self.b, self.mini)
+			elif self.limb_dark == "logarithmic": lc = _logarithmic_ld._logarithmic_ld(self.ds, params.rp, params.u[0], params.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+			elif self.limb_dark == "exponential": lc = _exponential_ld._exponential_ld(self.ds, params.rp, params.u[0], params.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+			elif self.limb_dark == "power2": lc = _power2_ld._power2_ld(self.ds, params.rp, params.u[0], params.u[1], self.fac, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
+			elif self.limb_dark == "custom": lc = _custom_ld._custom_ld(self.ds, params.rp, params.u[0], params.u[1], params.u[2], params.u[3], params.u[4], params.u[5], self.fac, self.nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
 			else: raise Exception("Invalid limb darkening option")
 
 			if self.inverse == True: lc = 2. - lc
