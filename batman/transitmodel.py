@@ -151,6 +151,7 @@ class TransitModel(object):
 			self.transittype = 2
 			params.t0 = self.get_t_conjunction(params)		
 		
+		#fac = 0.05;		
 		if fac != None: self.fac = fac
 		else: self.fac = self._get_fac()
 		
@@ -241,6 +242,11 @@ class TransitModel(object):
 				else: f = _custom_ld._custom_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], self.u[4], self.u[5], fac, nthreads, self.phi, self.b, self.mini,self.rp2,self.twocircles)
 
 				err = np.max(np.abs(f-f0))*1.0e6
+				#print('err= ',err,'{0:.25f}'.format(err))
+				#print('i = ',np.where(np.abs(f-f0)*1.0e6 == err))
+				#print('fac_hi = ',fac_hi,' fac_lo = ',fac_lo)
+				#print('fac = ',fac)
+				#print('')
 				if err > self.max_err: fac_hi = fac	
 				else: fac_lo = fac
 				n += 1
