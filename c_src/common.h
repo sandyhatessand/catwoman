@@ -606,7 +606,7 @@ double find_theta(double phi, double d, double b, double mini, int i)
 	return theta;
 }
 
-void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args, double phi, double b, double mini, double rp2, bool twoc)
+void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args, double* phi, double* b, double mini, double rp2, bool twoc)
 {
 	/*
 		This function takes an array of sky distances (d_array) of length N, computes stellar intensity by calling intensity with
@@ -627,6 +627,9 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 	#endif
 	for(int i = 0; i < N; i++)
 	{
+		double b = b_array[i];
+		double phi = phi_array[i];
+
 		double d = d_array[i];
 		double x = 0.1;
 		double x_in = MAX(MIN(d - rp2, d - rprs), 0.);	//double check this works		//lower bound for integration

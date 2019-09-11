@@ -40,6 +40,7 @@ static PyObject *_rsky(PyObject *self, PyObject *args);
 
 static PyObject *_getf(PyObject *self, PyObject *args);
 
+
 inline double getE(double M, double e)	//calculates the eccentric anomaly (see Seager Exoplanets book:  Murray & Correia eqn. 5 -- see section 3)
 {
 	double E = M, eps = 1.0e-7;
@@ -73,29 +74,33 @@ static PyObject *_rsky_or_f(PyObject *self, PyObject *args, int f_only)
 	PyArrayObject *ts, *ds;
 
   	if(!PyArg_ParseTuple(args,"Oddddddii", &ts, &tc, &per, &a, &inc, &ecc, &omega, &transittype, &nthreads)) return NULL;
-
-	dims[0] = PyArray_DIMS(ts)[0];
+	dims[0] = 4*(PyArray_DIMS(ts)[0]);
 	ds = (PyArrayObject *) PyArray_SimpleNew(1, dims, PyArray_TYPE(ts));
+	dims[0]=PyArray_DIMS(ts)[0];
 
 	double *t_array = PyArray_DATA(ts);
 	double *output_array = PyArray_DATA(ds);
-
 	const double n = 2.*M_PI/per;	// mean motion
   const double eps = 1.0e-7;
 
+	double r=0.;
+	double Y=0.;
+	double X=0.;
+	double psi=0.;
 
 	#if defined (_OPENMP) && !defined(_OPENACC)
 	omp_set_num_threads(nthreads);	//specifies number of threads (if OpenMP is supported)
 	#endif
 
 	#if defined (_OPENACC)
-	#pragma acc parallel loop copyin(t_array[:dims[0]]) copyout(output_array[:dims[0]])
+	#pragma acc parallel loop copyin(t_array[:dims[0]]) copyout(output_array[:(4*dims[0])])
 	#elif defined (_OPENMP)
 	#pragma omp parallel for
 	#endif
 	for(int i = 0; i < dims[0]; i++)
 	{
 		double t = t_array[i];
+		
 
 		//calculates time of periastron passage from time of inferior conjunction
 		double f = M_PI/2. - omega;								//true anomaly corresponding to time of primary transit center
@@ -113,19 +118,30 @@ static PyObject *_rsky_or_f(PyObject *self, PyObject *args, int f_only)
 			E = getE(M, ecc);
 			f = 2.*atan(sqrt((1.+ecc)/(1.-ecc))*tan(E/2.));
 		}
+
+		r = a* (1-ecc*cos(E));
+		psi = atan((-1/tan(omega+f))*cos(inc));
+		Y = -r*sin(omega+f)*cos(inc);
+		X = -r*cos(omega+f);		
+		output_array[i+dims[0]]=Y;
+                output_array[i+2*dims[0]]=psi;
+		output_array[i+3*dims[0]]=X;
+	
 		if (f_only) {
 			output_array[i] = f;
 		}
 		else {
+
 			double d;
 			if (transittype == 1 && sin(f + omega)*sin(inc) <= 0.) d = BIGD; //z < 0, so d is set to large value in order to not model primary transit during secondary eclipse
 			else if (transittype == 2 && sin(f + omega)*sin(inc) >= 0.) d = BIGD; //z > 0, so d is set to large value in order not to model secondary eclipse during primary transit
 			else d = a*(1.0 - ecc*ecc)/(1.0 + ecc*cos(f))*sqrt(1.0 - sin(omega + f)*sin(omega + f)*sin(inc)*sin(inc));	//calculates separation of centers
 			output_array[i] = d;
+			printf("d = %.20f , Y = %.20f , psi = %.20f \n",output_array[i],output_array[i+(dims[0]/3)],output_array[i+(2*dims[0]/3)]);
 		}
 
 	}
-	return PyArray_Return((PyArrayObject *)ds);
+	return (PyArray_Return((PyArrayObject *)ds));
 }
 
 static PyObject *_rsky(PyObject *self, PyObject *args)

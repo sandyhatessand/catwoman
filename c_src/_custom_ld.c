@@ -45,16 +45,21 @@ static PyObject *_custom_ld(PyObject *self, PyObject *args)
 	double rprs, fac, c1, c2, c3, c4, c5, c6;
 	int nthreads;
 	npy_intp dims[1];
-	PyArrayObject *ds, *flux;
-	double phi, b, mini;	
-
-  	if(!PyArg_ParseTuple(args,"Oddddddddiddd", &ds, &rprs, &c1, &c2, &c3, &c4, &c5, &c6, &fac, &nthreads, &phi, &b, &mini)) return NULL; //parses input arguments
+	PyArrayObject *ds, *flux,*phi,*b;
+	double mini,rp2;	
+	bool twoc;
+	
+  	if(!PyArg_ParseTuple(args,"Oddddddddiddddb", &ds, &rprs, &c1, &c2, &c3, &c4, &c5, &c6, &fac, &nthreads, &phi, &b, &mini, &rp2, &twoc)) return NULL; //parses input arguments
 	
 	dims[0] = PyArray_DIMS(ds)[0]; 
 	flux = (PyArrayObject *) PyArray_SimpleNew(1, dims, PyArray_TYPE(ds));	//creates numpy array to store return flux values
 
 	double *f_array = PyArray_DATA(flux);
 	double *d_array = PyArray_DATA(ds);
+	
+	double *b_array = PyArray_DATA(b);
+        double *phi_array = PyArray_DATA(phi);
+
 
 	/*
 		NOTE:  the safest way to access numpy arrays is to use the PyArray_GETITEM and PyArray_SETITEM functions.
@@ -71,7 +76,7 @@ static PyObject *_custom_ld(PyObject *self, PyObject *args)
 
 	double intensity_args[] = {c1, c2, c3, c4, c5, c6};
 	#pragma acc data copyin(intensity_args)
-	calc_limb_darkening(f_array, d_array, dims[0], rprs, fac, nthreads, intensity_args, phi, b, mini);
+	calc_limb_darkening(f_array, d_array, dims[0], rprs, fac, nthreads, intensity_args, phi_array, b_array, mini, rp2, twoc);
 	return PyArray_Return((PyArrayObject *)flux);
 } 
 

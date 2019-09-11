@@ -23,7 +23,6 @@
 
 
 static PyObject *_nonlinear_ld(PyObject *self, PyObject *args);
-//double new_area(double d, double x, double R, double theta);
 
 
 
@@ -40,21 +39,28 @@ static PyObject *_nonlinear_ld(PyObject *self, PyObject *args)
 {
 	double rprs = 0.1;
 	double fac = 0.0001;
-	double phi = 1;
-	double b = 0.1;
+	//double phi = 1;
+	//double b = 0.1;
 	double mini = 1;
 	int nthreads = 1;
 	npy_intp dims[1];
-	double c1=0.1, c2=0.1, c3=0.1, c4=0.1;	
+	double c1=0.1, c2=0.1, c3=0.1, c4=0.1;
+	double rp2;
+	bool twoc;	
 
-	PyArrayObject *ds, *flux;
-  	if(!PyArg_ParseTuple(args,"Oddddddiddd", &ds, &rprs, &c1, &c2, &c3, &c4, &fac, &nthreads, &phi, &b, &mini)) return NULL;
+	PyArrayObject *ds, *flux, *b, *phi;
+  	if(!PyArg_ParseTuple(args,"OddddddiOOddb", &ds, &rprs, &c1, &c2, &c3, &c4, &fac, &nthreads, &phi, &b, &mini, &rp2, &twoc)) return NULL;
 	
 	dims[0] = PyArray_DIMS(ds)[0]; 
 	flux = (PyArrayObject *) PyArray_SimpleNew(1, dims, PyArray_TYPE(ds));	//creates numpy array to store return flux values
 
 	double *f_array = PyArray_DATA(flux);
 	double *d_array = PyArray_DATA(ds);
+	
+	double *b_array = PyArray_DATA(b);
+	double *phi_array = PyArray_DATA(phi);
+
+
 	double norm = (-c1/10. - c2/6. - 3.*c3/14. - c4/4. + 0.5)*2.*M_PI;
 	/*
 		NOTE:  the safest way to access numpy arrays is to use the PyArray_GETITEM and PyArray_SETITEM functions.
@@ -69,9 +75,9 @@ static PyObject *_nonlinear_ld(PyObject *self, PyObject *args)
 		Laura Kreidberg 07/2015
 	*/
 	double intensity_args[] = {c1, c2, c3, c4, norm};
- 
+ 	printf("twoc = %d\n",twoc);
 	#pragma acc data copyin(intensity_args)
-	calc_limb_darkening(f_array, d_array, dims[0], rprs, fac, nthreads, intensity_args, phi, b, mini);
+	calc_limb_darkening(f_array, d_array, dims[0], rprs, fac, nthreads, intensity_args, phi_array, b_array, mini, rp2, twoc);
 	return PyArray_Return((PyArrayObject *)flux);
 } 
 

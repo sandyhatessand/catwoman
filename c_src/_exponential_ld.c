@@ -40,16 +40,21 @@ static PyObject *_exponential_ld(PyObject *self, PyObject *args)
 	int nthreads;
 	npy_intp dims[1];
 	double c1, c2;
-	double phi, b, mini;
+	double mini,rp2;
+	bool twoc;
 
-	PyArrayObject *ds, *flux;
-  	if(!PyArg_ParseTuple(args,"Oddddiddd", &ds, &rprs, &c1, &c2, &fac, &nthreads, &phi, &b, &mini)) return NULL;		
+	PyArrayObject *ds, *flux, *phi, *b;
+  	if(!PyArg_ParseTuple(args,"OddddiOOddb", &ds, &rprs, &c1, &c2, &fac, &nthreads, &phi, &b, &mini, &rp2, &twoc)) return NULL;		
 
 	dims[0] = PyArray_DIMS(ds)[0]; 
 	flux = (PyArrayObject *) PyArray_SimpleNew(1, dims, PyArray_TYPE(ds));	//creates numpy array to store return flux values
 
 	double *f_array = PyArray_DATA(flux);
 	double *d_array = PyArray_DATA(ds);
+	double *b_array = PyArray_DATA(b);
+    	double *phi_array = PyArray_DATA(phi);
+
+
 
 	/*
 		NOTE:  the safest way to access numpy arrays is to use the PyArray_GETITEM and PyArray_SETITEM functions.
@@ -67,7 +72,7 @@ static PyObject *_exponential_ld(PyObject *self, PyObject *args)
 	double norm = 2.*M_PI*(0.5 - 0.1666666667*c1 + 0.77750463*c2); 	//normalization for intensity profile (faster to calculate it once, rather than every time intensity is called)		
 	double intensity_args[] = {c1, c2, norm};
 	#pragma acc data copyin(intensity_args)
-	calc_limb_darkening(f_array, d_array, dims[0], rprs, fac, nthreads, intensity_args, phi, b, mini);
+	calc_limb_darkening(f_array, d_array, dims[0], rprs, fac, nthreads, intensity_args, phi_array, b_array, mini, rp2, twoc);
 	
 	return PyArray_Return((PyArrayObject *)flux);
 
