@@ -39,8 +39,6 @@ static PyObject *_nonlinear_ld(PyObject *self, PyObject *args)
 {
 	double rprs = 0.1;
 	double fac = 0.0001;
-	//double phi = 1;
-	//double b = 0.1;
 	double mini = 1;
 	int nthreads = 1;
 	npy_intp dims[1];
@@ -75,7 +73,6 @@ static PyObject *_nonlinear_ld(PyObject *self, PyObject *args)
 		Laura Kreidberg 07/2015
 	*/
 	double intensity_args[] = {c1, c2, c3, c4, norm};
- 	printf("twoc = %d\n",twoc);
 	#pragma acc data copyin(intensity_args)
 	calc_limb_darkening(f_array, d_array, dims[0], rprs, fac, nthreads, intensity_args, phi_array, b_array, mini, rp2, twoc);
 	return PyArray_Return((PyArrayObject *)flux);

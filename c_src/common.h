@@ -40,27 +40,25 @@
 /* Must be defined in the C file that includes this header. */
 inline double intensity(double x, double* args);
 
-double area(double d, double x, double R, double theta, int i);
+double* MakeVector(int nelements){
+double* Vector;
+int j;
+Vector = (double*) malloc(nelements*sizeof(double));
+for(j=0;j<nelements;j++){
+    Vector[j]=0.0;
+}
+return Vector;
+}
+
+double area(double d, double x, double R, double theta);
 
 double find_theta(double phi, double d, double b, double mini, int i);
 
-double area(double d, double x, double R, double theta,int i)
+double area(double d, double x, double R, double theta)
 {
         /*
         Returns area of an overlapping semi-circle with radii R and circle x; separated by a distance d
         */ 
-/*	double arg1 = (d*d + x*x - R*R)/(2.*d*x);
-
-	double arg2 = (d*d + R*R - x*x)/(2.*d*R);
-	double arg3 = MAX((-d + x + R)*(d + x - R)*(d - x + R)*(d + x + R), 0.);
-	if(x <= R - d){
-		return M_PI*x*x;							//planet completely overlaps stellar circle
-	} else if(x >= R + d){
-		return M_PI*R*R;						//stellar circle completely overlaps planet
-	} else {
-		return x*x*acos(arg1) + R*R*acos(arg2) - 0.5*sqrt(arg3);	
-	}
-*/	
 	//define and initialise variables
 	int sit = 12;
         double A = 1, x_minpos=1,x_minneg=1, a1=1,b1=1,a2=1,b2=1,a3=1,b3=1;
@@ -153,13 +151,6 @@ double area(double d, double x, double R, double theta,int i)
                                         c1 = -M_PI/2;
                                 }
 
-				//if (((a2/R)>0 && fabs((a2/R)-1)>=lim)||((a2/R)<0 && fabs((a2/R)+1)>=lim)){
-		//			c1 = asin(a2/R);
-		//		} else if ((a2/R)>0 && fabs((a2/R)-1)<lim){
-		//			c1 = M_PI/2;
-		//		} else if ((a2/R)<0 && fabs((a2/R)+1)<lim){
-		//			c1 = -M_PI/2;
-		//		}
 
 				if (((a1+d*cos(theta))/x)<=1&&((a1+d*cos(theta))/x)>=-1){
                                         c4 = asin((a1+d*cos(theta))/x);
@@ -169,13 +160,6 @@ double area(double d, double x, double R, double theta,int i)
                                         c4 = -M_PI/2;
                                 }
 
-		//		if ((((a1+d*cos(theta))/x)>0 && fabs(((a1+d*cos(theta))/x)-1)>=lim)||(((a1+d*cos(theta))/x)<0 && fabs(((a1+d*cos(theta))/x)+1)>=lim)){
-                  //                      c4 = asin((a1+d*cos(theta))/x);
-                    //            } else if (((a1+d*cos(theta))/x)>0 && fabs(((a1+d*cos(theta))/x)-1)<lim){
-                      //                  c4 = M_PI/2;
-                        //        } else if (((a1+d*cos(theta))/x)<0 && fabs(((a1+d*cos(theta))/x)+1)<lim){
-                          //              c4 = -M_PI/2;
-                            //    }
 				
 				if (((a2+d*cos(theta))/x)<=1&&((a2+d*cos(theta))/x)>=-1){
                                         c6 = asin((a2+d*cos(theta))/x);
@@ -185,13 +169,6 @@ double area(double d, double x, double R, double theta,int i)
                                         c6 = -M_PI/2;
                                 }
 
-		//		if ((((a2+d*cos(theta))/x)>0 && fabs(((a2+d*cos(theta))/x)-1)>=lim)||(((a2+d*cos(theta))/x)<0 && fabs(((a2+d*cos(theta))/x)+1)>=lim)){
-                  //                      c6 = asin((a2+d*cos(theta))/x);
-                    //            } else if (((a2+d*cos(theta))/x)>0 && fabs(((a2+d*cos(theta))/x)-1)<lim){
-                      //                  c6 = M_PI/2;
-                        //        } else if (((a2+d*cos(theta))/x)<0 && fabs(((a2+d*cos(theta))/x)+1)<lim){
-                          //              c6 = -M_PI/2;
-                            //    }
 
 				h_a2 = c1 + (a2/R)*sqrt(fabs(1-(a2/R)*(a2/R)));
 				f_a1 = ((a1+d*cos(theta))/(x*x))*sqrt(fabs(x*x-(a1+d*cos(theta))*(a1+d*cos(theta))))+c4;
@@ -223,13 +200,6 @@ double area(double d, double x, double R, double theta,int i)
                                         c1 = -M_PI/2;
                                 }
 
-		//		if (((a2/R)>0 && fabs((a2/R)-1)>=lim)||((a2/R)<0 && fabs((a2/R)+1)>=lim)){
-                  //                      c1 = asin(a2/R);
-                    //            } else if ((a2/R)>0 && fabs((a2/R)-1)<lim){
-                      //                  c1 = M_PI/2;
-                        //        } else if ((a2/R)<0 && fabs((a2/R)+1)<lim){
-                            //            c1 = -M_PI/2;
-                          //      }
                        	
 				if ((1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x))>=-1 && (1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x))<=1){
                                         c2 = acos(1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x));
@@ -239,13 +209,6 @@ double area(double d, double x, double R, double theta,int i)
                                         c2 = M_PI;
                                 }
 	
-			//	if (((1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x))>0 && fabs((1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x))-1)>=lim)||((1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x))<0 && fabs((1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x))+1)>=lim)){
-                          //              c2 = acos(1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x));
-                            //    } else if ((1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x))>0 && fabs((1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x))-1)<lim){
-                              //          c2 = 0.0;
-                             //   } else if ((1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x))<0 && fabs((1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x))+1)<lim){
-                               //         c2 = M_PI;
-                              //  }
 				
 				h_a2 = c1 + (a2/R)*sqrt(fabs(1-(a2/R)*(a2/R)));
                         	alpha = c2;
@@ -275,13 +238,6 @@ double area(double d, double x, double R, double theta,int i)
                                         c1 = -M_PI/2;
                                 }
 
-                           //     if (((a2/R)>0 && fabs((a2/R)-1)>=lim)||((a2/R)<0 && fabs((a2/R)+1)>=lim)){
-                             //           c1 = asin(a2/R);
-                             //   } else if ((a2/R)>0 && fabs((a2/R)-1)<lim){
-                               //         c1 = M_PI/2;
-                             //   } else if ((a2/R)<0 && fabs((a2/R)+1)<lim){
-                               //         c1 = -M_PI/2;
-                               // }
 
                                 if ((1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x))>=-1 && (1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x))<=1){
                                         c2 = acos(1-((a2-a1)*(a2-a1)+b2*b2)/(2*x*x));
@@ -337,29 +293,6 @@ double area(double d, double x, double R, double theta,int i)
                                         c3 = -M_PI/2;
                                 }
 
-			//	if ((((a1+d*cos(theta))/x)>0 && fabs(((a1+d*cos(theta))/x)-1)>=lim)||(((a1+d*cos(theta))/x)<0 && fabs(((a1+d*cos(theta))/x)+1)>=lim)){ 
-                          //              c1 = asin((a1+d*cos(theta))/x);
-                            //    } else if (((a1+d*cos(theta))/x)>0 && fabs(((a1+d*cos(theta))/x)-1)<lim){
-                              //          c1 = M_PI/2;
-                              //  } else if (((a1+d*cos(theta))/x)<0 && fabs(((a1+d*cos(theta))/x)+1)<lim){
-                               //         c1 = -M_PI/2;
-                              //  }
-
-			//	if ((((a2+d*cos(theta))/x)>0 && fabs(((a2+d*cos(theta))/x)-1)>=lim)||(((a2+d*cos(theta))/x)<0 && fabs(((a2+d*cos(theta))/x)+1)>=lim)){ 
-                          //              c2 = asin((a2+d*cos(theta))/x);
-                            //    } else if (((a2+d*cos(theta))/x)>0 && fabs(((a2+d*cos(theta))/x)-1)<lim){
-                              //          c2 = M_PI/2;
-                              //  } else if (((a2+d*cos(theta))/x)<0 && fabs(((a2+d*cos(theta))/x)+1)<lim){
-                               //         c2 = -M_PI/2;
-                              //  }
-                                
-			//	if (((a2/R)>0 && fabs((a2/R)-1)>=lim)||((a2/R)<0 && fabs((a2/R)+1)>=lim)){
-                          //              c3 = asin(a2/R);
-                            //    } else if ((a2/R)>0 && fabs((a2/R)-1)<lim){
-                             //           c3 = M_PI/2;
-                              //  } else if ((a2/R)<0 && fabs((a2/R)+1)<lim){
-                               //         c3 = -M_PI/2;
-                               // }
 				f_a1 = ((a1+d*cos(theta))/(x*x))*sqrt(fabs(x*x-(a1+d*cos(theta))*(a1+d*cos(theta))))+c1;
 				f_a2 = ((a2+d*cos(theta))/(x*x))*sqrt(fabs(x*x-(a2+d*cos(theta))*(a2+d*cos(theta))))+c2;
 				h_a2 = c3 + (a2/R)*sqrt(fabs(1-(a2/R)*(a2/R)));
@@ -387,13 +320,6 @@ double area(double d, double x, double R, double theta,int i)
                                         c1 = M_PI;
                                 }
 
-			//	if (((z/x)>0 && fabs((z/x)-1)>=lim)||((z/x)<0 && fabs((z/x)+1)>=lim)){
-                          //              c1 = acos(z/x);
-                            //    } else if ((z/x)>0 && fabs((z/x)-1)<lim){
-                              //          c1 = 0.0;
-                               // } else if ((z/x)<0 && fabs((z/x)+1)<lim){
-                                //        c1 = M_PI;
-                               // }
 				
 				ret = (x*x*c1 - s*z);
 				return ret;
@@ -429,21 +355,6 @@ double area(double d, double x, double R, double theta,int i)
                                         c2 = M_PI;
                                 }
 	
-			//	if ((u>0 && fabs(u-1)>=lim)||(u<0 && fabs(u+1)>=lim)){
-                          //              c1 = acos(u);
-                            //    } else if (u>0 && fabs(u-1)<lim){
-                              //          c1 = 0.0;
-                               // } else if (u<0 && fabs(u+1)<lim){
-                                //        c1 = M_PI;
-                               // }
-
-				//if ((v>0 && fabs(v-1)>=lim)||(v<0 && fabs(v+1)>=lim)){
-                                 //       c2 = acos(v);
-                               // } else if (v>0 && fabs(v-1)<lim){
-                                 //       c2 = 0.0;
-                               // } else if (v<0 && fabs(v+1)<lim){
-                                 //       c2 = M_PI;
-                               // }
 				
 				ret = x*x*c1+R*R*c2-0.5*sqrt(fabs(w))- M_PI*R*R/2;
 				
@@ -559,46 +470,30 @@ double find_theta(double phi, double d, double b, double mini, int i)
 	double theta = 0.0;
 	if ((b>=0)||(fabs(b)<lim)){	
 		if (i <= mini){             //finding theta for specific values of d, b and phi.
-        		if ((phi>=0||fabs(phi)<lim) && (phi<=acos(b/d)||fabs(phi-acos(b/d))<lim)) {
-                		theta = -(phi + asin(b/d));
-			} else if ((phi>acos(b/d)&&(fabs(phi-acos(b/d))>=lim)) && (phi<= M_PI/2||fabs(phi-M_PI/2)<lim)) {
+			if ((phi>=acos(b/d)||(fabs(phi-acos(b/d))<lim)) && (phi<= M_PI/2||fabs(phi-M_PI/2)<lim)) {
                         	theta = -(M_PI - asin(b/d) - phi);
-                	} else if ((phi<0 && phi<=-lim) && (phi>=-asin(b/d)||fabs(phi+asin(b/d))<lim)) {
-                        	theta = -(asin(b/d) + phi);
-                	} else if ((phi<-asin(b/d) && fabs(phi+asin(b/d))>=lim && (phi>=-M_PI/2||fabs(phi+M_PI/2)<lim))) {
+                	} else if ((phi<acos(b/d) && fabs(phi-acos(b/d))>=lim && (phi>=-M_PI/2||fabs(phi+M_PI/2)<lim))) {
                         	theta = -phi -asin(b/d);
                 	}
                 
 		} else {
 			if ((phi >= -M_PI/2||fabs(phi+M_PI/2)<lim) && (phi <= -acos(b/d)||fabs(phi+acos(b/d))<lim)) {
                 		theta = -(M_PI+phi - asin(b/d));
-			} else if ((phi<=M_PI/2||fabs(phi-M_PI/2)<lim) && (phi > asin(b/d) && fabs(phi-asin(b/d))>=lim)) {
-                        	theta = - asin(b/d) + phi;
-                	} else if ((phi>0 && phi>=lim) && (phi<=asin(b/d)||fabs(phi-asin(b/d))<lim)) {
-                        	theta = -(asin(b/d) - phi);
-                	} else if ((phi<=0||fabs(phi)<lim) && (phi>=-acos(b/d)|| fabs(phi+acos(b/d))<lim)) {
+                	} else if ((phi<=M_PI/2||fabs(phi-M_PI/2)<lim) && (phi>-acos(b/d)&& fabs(phi+acos(b/d))>=lim)) {
                         	theta = -(-phi +asin(b/d));
                 	}
 		}
 	} else {
 		if (i <= mini){ 
-			if ((phi>=0||fabs(phi)<lim) && (phi<=asin(fabs(b)/d)||fabs(phi-asin(fabs(b)/d))<lim)){  //(1)
-				theta = asin(fabs(b)/d)-phi;
-			} else if ((phi<=M_PI/2||fabs(phi-M_PI/2)<lim) && (phi>asin(fabs(b)/d)&&fabs(phi-asin(fabs(b)/d))>=lim)){ //(2)
+			if ((phi<=M_PI/2||fabs(phi-M_PI/2)<lim) && (phi>-acos(fabs(b)/d)&&fabs(phi+acos(fabs(b)/d))>=lim)){ //(2)
 				theta = -(phi - asin(fabs(b)/d));
-			} else if ((phi<0&&fabs(phi)>=lim) && (phi>=-acos(fabs(b)/d)||fabs(phi+acos(fabs(b)/d))<lim)){  //(3)
-				theta = asin(fabs(b)/d) - phi;
-			} else if ((phi<-acos(fabs(b)/d)&&fabs(phi+acos(fabs(b)/d))>=lim) && (phi>=-M_PI/2||fabs(phi+M_PI/2)<lim)){ //(4)
+			} else if ((phi<=-acos(fabs(b)/d)||fabs(phi+acos(fabs(b)/d))<lim) && (phi>=-M_PI/2||fabs(phi+M_PI/2)<lim)){ //(4)
 				theta = M_PI - asin(fabs(b)/d) + phi;
 			}
 		} else {
-			if ((phi<=0||fabs(phi)<lim) && (phi>=-asin(fabs(b)/d)||fabs(phi+asin(fabs(b)/d))<lim)){ //(1)
-				theta = asin(fabs(b)/d) + phi;
-			} else if ((phi>=-M_PI/2||fabs(phi+M_PI/2)<lim) && (phi<-asin(fabs(b)/d)&&fabs(phi+asin(fabs(b)/d))>=lim)){ //(2)
+			if ((phi>=-M_PI/2||fabs(phi+M_PI/2)<lim) && (phi<acos(fabs(b)/d)&&fabs(phi-acos(fabs(b)/d))>=lim)){ //(2)
 				theta = -(-phi - asin(fabs(b)/d));
-			} else if ((phi>0&&fabs(phi)>=lim) && (phi<=acos(fabs(b)/d)||fabs(phi-acos(fabs(b)/d))<lim)){ // (3)
-				theta = asin(fabs(b)/d) +phi;
-			} else if ((phi>acos(fabs(b)/d)&&fabs(phi-acos(fabs(b)/d))>=lim) && (phi<=M_PI/2||fabs(phi-M_PI/2)<lim)){ //(4)
+			} else if ((phi>=acos(fabs(b)/d)||fabs(phi-acos(fabs(b)/d))<lim) && (phi<=M_PI/2||fabs(phi-M_PI/2)<lim)){ //(4)
 				theta = M_PI - asin(fabs(b)/d) - phi;
 			}
 		}
@@ -606,7 +501,7 @@ double find_theta(double phi, double d, double b, double mini, int i)
 	return theta;
 }
 
-void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args, double* phi, double* b, double mini, double rp2, bool twoc)
+void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, double fac, int nthreads, double* intensity_args, double* phi_array, double* b_array, double mini, double rp2, bool twoc)
 {
 	/*
 		This function takes an array of sky distances (d_array) of length N, computes stellar intensity by calling intensity with
@@ -653,9 +548,9 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 
 			while(x < x_out)
 			{
-				double A_f = area(d, x, rprs, theta,i);				//calculates area of overlapping circles
+				double A_f = area(d, x, rprs, theta);				//calculates area of overlapping circles
 				if (twoc){
-					double A_f2 = area(d, x, rp2, theta2,i);
+					double A_f2 = area(d, x, rp2, theta2);
 					A_f = A_f + A_f2;
 					
 				}
@@ -668,9 +563,9 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 
 			dx = x_out - x + dx;  					//calculating change in radius for last step  FIXME
 			x = x_out;						//final radius for integration
-			double A_f = area(d, x, rprs, theta,i);					//area for last integration step
+			double A_f = area(d, x, rprs, theta);					//area for last integration step
 			if (twoc){
-				double A_f2 = area(d, x, rp2, theta2,i);
+				double A_f2 = area(d, x, rp2, theta2);
 				A_f = A_f + A_f2;
 			}
 			

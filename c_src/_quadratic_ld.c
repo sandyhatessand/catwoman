@@ -51,7 +51,7 @@ inline double intensity(double x, double* args)
 
         //if(x > 0.99995) x = 0.99995;  //ask Nestor if this should be kept in**
 	double mu = sqrt(1.-x*x);
-        return (1. - c1*(1. - mu) - c2*(1. - mu)*(1. - mu))/(1. - c1/3 - c2/6)/M_PI;
+        return (1. - c1*(1. - mu) - c2*(1. - mu)*(1. - mu))/((1. - c1/3 - c2/6)*M_PI);
 }
 
 
@@ -77,12 +77,10 @@ static PyObject *_quadratic_ld(PyObject *self, PyObject *args)
     npy_intp dims[1];
     bool twoc;
     double fac = 0.0001;
-    //double phi = 1.;
-    //double b = 0.1;
     double mini = 1;
     double rp2;
 
-    if(!PyArg_ParseTuple(args,"Oddddiddddb", &ds, &p, &c1, &c2, &fac, &nthreads, &phi, &b, &mini, &rp2, &twoc)) return NULL;
+    if(!PyArg_ParseTuple(args,"OddddiOOddb", &ds, &p, &c1, &c2, &fac, &nthreads, &phi, &b, &mini, &rp2, &twoc)) return NULL;
 
     dims[0] = PyArray_DIMS(ds)[0];
     flux = (PyArrayObject *) PyArray_SimpleNew(1, dims, PyArray_TYPE(ds));    //creates numpy array to store return flux values
@@ -103,13 +101,12 @@ static PyObject *_quadratic_ld(PyObject *self, PyObject *args)
     where ds is a numpy array object.
     Laura Kreidberg 07/2015
     */
-    if (twoc){
 
 	double intensity_args[] = {c1, c2}; //added this
     	#pragma acc data copyin(intensity_args)
     	calc_limb_darkening(f_array, d_array, dims[0], p, fac, nthreads, intensity_args, phi_array, b_array, mini, rp2, twoc);
     
-    }else{	
+/*    }else{	
     	const double omega = 1.0 - c1/3.0 - c2/6.0;
     	// double precision equality tolerance for corner case issues
     	const double tol = 1.0e-14;
@@ -267,7 +264,7 @@ static PyObject *_quadratic_ld(PyObject *self, PyObject *args)
         	}
         	f_array[i] = 1.0 - ((1.0 - c1 - 2.0*c2)*lambdae + (c1 + 2.0*c2)*lambdad + c2*etad)/omega;
     	}
-    }
+    }*/
     return PyArray_Return((PyArrayObject *)flux);
 }
 
