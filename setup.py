@@ -71,16 +71,16 @@ _uniform_ld   = Extension('catwoman._uniform_ld', ['c_src/_uniform_ld.c'], extra
 _logarithmic_ld   = Extension('catwoman._logarithmic_ld', ['c_src/_logarithmic_ld.c'], extra_compile_args = parallel_args, libraries = parallel_libraries) 
 _exponential_ld   = Extension('catwoman._exponential_ld', ['c_src/_exponential_ld.c'], extra_compile_args = parallel_args, libraries = parallel_libraries) 
 _custom_ld   = Extension('catwoman._custom_ld', ['c_src/_custom_ld.c'], extra_compile_args = parallel_args, libraries = parallel_libraries) 
-_power2_ld   = Extension('catwomoman._power2_ld', ['c_src/_power2_ld.c'], extra_compile_args = parallel_args, libraries = parallel_libraries) 
+_power2_ld   = Extension('catwoman._power2_ld', ['c_src/_power2_ld.c'], extra_compile_args = parallel_args, libraries = parallel_libraries) 
 _rsky = Extension('catwoman._rsky', ['c_src/_rsky.c'], extra_compile_args = parallel_args, libraries = parallel_libraries)
-_eclipse = Extension('catwman._eclipse', ['c_src/_eclipse.c'], extra_compile_args = parallel_args, libraries = parallel_libraries)
+_eclipse = Extension('catwoman._eclipse', ['c_src/_eclipse.c'], extra_compile_args = parallel_args, libraries = parallel_libraries)
 
 setup(	name='catwoman', 
-	version="2.4.6",
-	author='Laura Kreidberg',
-	author_email = 'laura.kreidberg@gmail.com',
-	url = 'https://github.com/lkreidberg/batman',
-	packages =['batman'],
+	version="1.0.0",
+	author='Kathryn Jones',
+	author_email = 'kathryndjones@hotmail.co.uk',
+	url = 'https://github.com/KathrynJones1/catwoman',
+	packages =['catwoman'],
 	license = ['GNU GPLv3'],
 	description ='Fast transit light curve modeling',
 	classifiers = [
