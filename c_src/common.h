@@ -255,7 +255,7 @@ double area(double d, double x, double R, double theta)
                         
 			}break;}
                 
-		case 4 :{     //(b) need to swap sign of theta
+		case 4 :{     //(b) 
                         double f_a1 = ((a1+d*cos(theta))/(x*x))*sqrt(fabs(x*x-(a1+d*cos(theta))*(a1+d*cos(theta))))+asin((a1+d*cos(theta))/x);
                         double f_a2 = ((a2+d*cos(theta))/(x*x))*sqrt(fabs(x*x-(a2+d*cos(theta))*(a2+d*cos(theta))))+asin((a2+d*cos(theta))/x);
                         double delta_f = f_a1 - f_a2;
@@ -469,7 +469,7 @@ double find_theta(double phi, double d, double b, double mini, int i)
 	double lim = pow(10,-8);
 	double theta = 0.0;
 	if ((b>=0)||(fabs(b)<lim)){	
-		if (i <= mini){             //finding theta for specific values of d, b and phi.
+		if (i <= mini){            
 			if ((phi>=acos(b/d)||(fabs(phi-acos(b/d))<lim)) && (phi<= M_PI/2||fabs(phi-M_PI/2)<lim)) {
                         	theta = -(M_PI - asin(b/d) - phi);
                 	} else if ((phi<acos(b/d) && fabs(phi-acos(b/d))>=lim && (phi>=-M_PI/2||fabs(phi+M_PI/2)<lim))) {

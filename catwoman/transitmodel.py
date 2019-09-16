@@ -107,9 +107,9 @@ class TransitModel(object):
 		self.supersample_factor = supersample_factor
 		self.exp_time = exp_time
 		self.inverse = False
-		self.twocircles = False        #added this
+		self.twocircles = False        
 		self.phi = params.phi*pi/180          #convert phi from degrees to radians
-		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180)))            	       #added this		
+		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180)))            	      		
 		
 		self.phi2=np.zeros(len(self.t))
 		self.Y=np.zeros(len(self.t))
@@ -158,6 +158,7 @@ class TransitModel(object):
 			self.transittype = 2
 			params.t0 = self.get_t_conjunction(params)		
 		
+		#Setting a fac if uniform limb darkening or if already specified, if not calculate it
 		if fac != None: self.fac = fac
 		elif self.limb_dark != "uniform": self.fac = self._get_fac()
 		else: self.fac = 0.5
@@ -175,7 +176,8 @@ class TransitModel(object):
 		self.Y=self.big_vector[int(len(self.big_vector)/4):int(len(self.big_vector)*2/4)]
 		self.psi=self.big_vector[int(len(self.big_vector)*2/4):int(len(self.big_vector)*3/4)]
 		self.X=self.big_vector[int(len(self.big_vector)*3/4):int(len(self.big_vector))]		
-
+		
+		#Adjusting phi for orbital motion of planet
 		for i in range(0,len(self.Y)):
 			if (self.Y[i]<=0 and i<=self.mini) or (self.Y[i]>0 and i>self.mini):
 				self.phi2[i]=self.phi-self.psi[i]
