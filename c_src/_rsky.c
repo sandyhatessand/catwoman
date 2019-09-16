@@ -137,7 +137,6 @@ static PyObject *_rsky_or_f(PyObject *self, PyObject *args, int f_only)
 			else if (transittype == 2 && sin(f + omega)*sin(inc) >= 0.) d = BIGD; //z > 0, so d is set to large value in order not to model secondary eclipse during primary transit
 			else d = a*(1.0 - ecc*ecc)/(1.0 + ecc*cos(f))*sqrt(1.0 - sin(omega + f)*sin(omega + f)*sin(inc)*sin(inc));	//calculates separation of centers
 			output_array[i] = d;
-			printf("d = %.20f , Y = %.20f , psi = %.20f \n",output_array[i],output_array[i+(dims[0]/3)],output_array[i+(2*dims[0]/3)]);
 		}
 
 	}
