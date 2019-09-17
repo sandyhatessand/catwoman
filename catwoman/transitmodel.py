@@ -1,5 +1,8 @@
-# The batman package: fast computation of exoplanet transit light curves
-# Copyright (C) 2015 Laura Kreidberg	 
+# catwoman: a batman extension to generate morning/evening terminator transit lightcurves
+# Copyright (C) 2019 Kathryn Jones & Néstor Espinoza
+#
+# This program incorporates a modified version of the batman package: fast computation of exoplanet transit light curves
+# Copyright (C) 2015 Laura Kreidberg
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +20,6 @@
 import numpy as np
 from . import _nonlinear_ld
 from . import _quadratic_ld
-from . import _uniform_ld
 from . import _logarithmic_ld
 from . import _exponential_ld
 from . import _power2_ld

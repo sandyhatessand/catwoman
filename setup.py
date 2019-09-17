@@ -67,7 +67,6 @@ parallel_libraries = ['gomp'] if needs_gomp else []
 
 _nonlinear_ld = Extension('catwoman._nonlinear_ld', ['c_src/_nonlinear_ld.c'], extra_compile_args = parallel_args, libraries = parallel_libraries) 
 _quadratic_ld = Extension('catwoman._quadratic_ld', ['c_src/_quadratic_ld.c'], extra_compile_args = parallel_args, libraries = parallel_libraries) 
-_uniform_ld   = Extension('catwoman._uniform_ld', ['c_src/_uniform_ld.c'], extra_compile_args = parallel_args, libraries = parallel_libraries) 
 _logarithmic_ld   = Extension('catwoman._logarithmic_ld', ['c_src/_logarithmic_ld.c'], extra_compile_args = parallel_args, libraries = parallel_libraries) 
 _exponential_ld   = Extension('catwoman._exponential_ld', ['c_src/_exponential_ld.c'], extra_compile_args = parallel_args, libraries = parallel_libraries) 
 _custom_ld   = Extension('catwoman._custom_ld', ['c_src/_custom_ld.c'], extra_compile_args = parallel_args, libraries = parallel_libraries) 
@@ -82,7 +81,7 @@ setup(	name='catwoman',
 	url = 'https://github.com/KathrynJones1/catwoman',
 	packages =['catwoman'],
 	license = ['GNU GPLv3'],
-	description ='Fast transit light curve modeling',
+	description ='Semi-analytical transit light curve modelling',
 	classifiers = [
 		'Development Status :: 5 - Production/Stable',
 		'Intended Audience :: Science/Research',
@@ -94,5 +93,5 @@ setup(	name='catwoman',
 	extras_requires= {
 	    'matplotlib': ['matplotlib'],
 	},
-	ext_modules=[_nonlinear_ld, _quadratic_ld, _uniform_ld, _logarithmic_ld, _exponential_ld, _power2_ld, _custom_ld, _rsky, _eclipse]
+	ext_modules=[_nonlinear_ld, _quadratic_ld, _logarithmic_ld, _exponential_ld, _power2_ld, _custom_ld, _rsky, _eclipse]
 )
