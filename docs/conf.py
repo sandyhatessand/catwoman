@@ -96,6 +96,8 @@ html_static_path = ['_static']
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
+import sphinx_catalystcloud_theme
+html_theme_path = [sphinx_catalystcloud_theme.get_html_theme_path()]
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
