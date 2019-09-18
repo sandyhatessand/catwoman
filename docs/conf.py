@@ -24,7 +24,7 @@ copyright = '2019, Kathryn Jones & Nestor Espinoza'
 author = 'Kathryn Jones'
 
 # The short X.Y version
-version = '1.0.0'
+version = '1.0'
 # The full version, including alpha/beta/rc tags
 release = '1.0.0'
 
@@ -39,6 +39,8 @@ release = '1.0.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+	'sphinx.ext.todo',
+	'sphinx.ext.githubpages',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
