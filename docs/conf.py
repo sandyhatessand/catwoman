@@ -77,7 +77,7 @@ pygments_style = None
 # a list of builtin themes.
 #
 #html_theme_path = ["../../../Applications/anaconda3/lib/python3.7/site-packages/"]
-html_theme = 'sphinx_catalystcloud_theme'
+html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -99,6 +99,10 @@ html_static_path = ['_static']
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
+
+#import "../../../Applications/anaconda3/lib/python3.7/site-packages/sphinx/sphinx_catalystcloud_theme"
+
+#html_theme_path = [sphinx_catalystcloud_theme.get_html_theme_path()]
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
