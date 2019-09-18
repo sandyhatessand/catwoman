@@ -52,13 +52,13 @@ To view the light curve:
 	plt.show()
 
 
-.. image:: ../../../Simplesymmetric.png
+.. image:: Simplesymmetric.png
 
 To model an asymmetric planet, simply change ``params.rp`` and/or ``params.rp2`` and ``params.phi`` to change the orientation of the system.
 
 Note that ``params.phi`` is the angle of rotation ot the top semi-circle defined from -90° to 90° like so:
 
-.. image:: ../../../phidiagram.png
+.. image:: phidiagram.png
 
 Let's try this by re-initialising the parameters we want to change so that one of the semi-circles is 0.5% larger than the other and they are orientated with φ = 90°. There is no need to initialise the full model again here, whenever the light_curve function is run, it updates the parameters:
 
@@ -83,7 +83,7 @@ To view this new light curve:
 	plt.ylabel("Relative flux")
 	plt.show()
 
-.. image:: ../../../Asymmetric.png
+.. image:: Asymmetric.png
 
 To clearly see the difference between this and the symmetric planet, we can plot the residuals as so:
 
@@ -95,6 +95,6 @@ To clearly see the difference between this and the symmetric planet, we can plot
 	plt.ylabel("Difference in relative flux/ppm")
 	plt.show()
 
-.. image:: ../../../Asymmetric_diff.png
+.. image:: Asymmetric_diff.png
 
 

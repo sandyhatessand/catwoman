@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. image:: ../../../cw.png
+.. image:: cw.png
 
 Welcome to catwoman's documentation!
 ====================================
