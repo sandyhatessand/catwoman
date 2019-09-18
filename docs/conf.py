@@ -77,7 +77,7 @@ pygments_style = None
 # a list of builtin themes.
 #
 #html_theme_path = ["../../../Applications/anaconda3/lib/python3.7/site-packages/"]
-html_theme = 'alabaster'
+html_theme = 'agogo'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
