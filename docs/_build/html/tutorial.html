@@ -97,22 +97,29 @@
 <span class="n">params</span><span class="o">.</span><span class="n">limb_dark</span> <span class="o">=</span> <span class="s2">&quot;quadratic&quot;</span>          <span class="c1">#limb darkening model</span>
 <span class="n">params</span><span class="o">.</span><span class="n">phi</span> <span class="o">=</span> <span class="mf">0.</span>                         <span class="c1">#angle of rotation of top semi-circle</span>
 
-<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>        <span class="c1">#array of times to calculate the light curves for</span>
-<span class="n">mod</span> <span class="o">=</span> <span class="n">catwoman</span><span class="o">.</span><span class="n">TransitModel</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">max_err</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>   <span class="c1">#initialises the model</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>   <span class="c1">#array of times to calculate the light curves for</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">catwoman</span><span class="o">.</span><span class="n">TransitModel</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">max_err</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span> <span class="c1">#initialises the model</span>
 </pre></div>
 </div>
 <p>As in <code class="docutils literal notranslate"><span class="pre">batman</span></code>, the initialisation step automatically calculates the array of separation of centres between the star and the planet and also pre-runs the light_curve function numerous times in order to find the approriate integration step size for a given <code class="docutils literal notranslate"><span class="pre">max_err</span></code>.</p>
-<p><code class="docutils literal notranslate"><span class="pre">catwoman</span></code> does this for all the supported limb darkenig laws (“quadratic”, “logarithmic”, “exponential”, “nonlinear”, “linear”, “power2”, “uniform” and “custom”).</p>
-<p>Note: The default for <code class="docutils literal notranslate"><span class="pre">max_err</span></code> is 1ppm and describes the allowed error (in ppm) between the smallest integration step size and the selected integration step size. The lower the specified <code class="docutils literal notranslate"><span class="pre">max_err</span></code>, the smaller the step size and the longer this initialisation step will take to run.</p>
+<p><code class="docutils literal notranslate"><span class="pre">catwoman</span></code> does this for all the supported limb darkening laws (“quadratic”, “logarithmic”, “exponential”, “nonlinear”, “linear”, “power2”, “uniform” and “custom”).</p>
+<p><em>Note</em>: The default for <code class="docutils literal notranslate"><span class="pre">max_err</span></code> is 1ppm and describes the allowed error (in ppm) between the smallest integration step size and the selected integration step size. The lower the specified <code class="docutils literal notranslate"><span class="pre">max_err</span></code>, the smaller the step size and the longer this initialisation step will take to run.</p>
 </div>
 <div class="section" id="calculating-light-curves">
 <h2>Calculating light curves<a class="headerlink" href="#calculating-light-curves" title="Permalink to this headline">¶</a></h2>
 <p>To calculate a light curve we run the <code class="docutils literal notranslate"><span class="pre">light_curve</span></code> function like so:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flux</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">light_curve</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>          <span class="c1">#calculates light curve</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flux</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">light_curve</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>                <span class="c1">#calculates light curve</span>
 </pre></div>
 </div>
-<p>This flux can now be plotted.
-Alternatively, if you wanted to change a parameter, you can do this by simply redefining the parameter of interest, say it is the <code class="docutils literal notranslate"><span class="pre">params.rp</span></code>:</p>
+<p>This flux can now be plotted:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">flux</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time from central transit/days&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Relative flux&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/tutorialbasic.png" src="_images/tutorialbasic.png" />
+<p>Alternatively, if you wanted to change a parameter, you can do this by simply redefining the parameter of interest, say it is the <code class="docutils literal notranslate"><span class="pre">params.rp</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">params</span><span class="o">.</span><span class="n">rp</span> <span class="o">=</span> <span class="mf">0.09</span>                        <span class="c1">#top semi-circle radius (in units of stellar radii)</span>
 </pre></div>
 </div>
@@ -120,17 +127,31 @@ Alternatively, if you wanted to change a parameter, you can do this by simply re
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flux2</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">light_curve</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>         <span class="c1">#calculates light curve</span>
 </pre></div>
 </div>
-<p>This can be repeated for any <code class="docutils literal notranslate"><span class="pre">params</span></code> change. However if you want to change the <code class="docutils literal notranslate"><span class="pre">time</span></code> or <code class="docutils literal notranslate"><span class="pre">max_err</span></code>, the model will need to be reinitialised as a new integration step size will need to be calculated.</p>
-<p>This can make it easy to loop over certain parameter inputs and plot many light curves quickly. For example, we can make the light curves for a range of <code class="docutils literal notranslate"><span class="pre">phi</span></code> values like so:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">params</span><span class="o">.</span><span class="n">rp</span> <span class="o">=</span> <span class="mf">0.1</span>
-<span class="n">params</span><span class="o">.</span><span class="n">rp2</span> <span class="o">=</span> <span class="mf">0.15</span>
-
-<span class="n">phi_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">90.</span><span class="p">,</span><span class="mf">90.</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">phi_range</span><span class="p">:</span>
-        <span class="n">params</span><span class="o">.</span><span class="n">phi</span> <span class="o">=</span> <span class="n">i</span>                  <span class="c1">#updates angle of rotation</span>
-        <span class="n">flux</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">light</span>
+<p>To plot the two fluxes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">flux</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">flux2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time from central transit/days&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Relative flux&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+<img alt="_images/tutorial_newparam.png" src="_images/tutorial_newparam.png" />
+<p>This can be repeated for any <code class="docutils literal notranslate"><span class="pre">params</span></code> change. However if you want to change the <code class="docutils literal notranslate"><span class="pre">time</span></code> or <code class="docutils literal notranslate"><span class="pre">max_err</span></code>, the model will need to be reinitialised as a new integration step size will need to be calculated.</p>
+<p>This can make it easy to loop over certain parameter inputs and plot many light curves quickly. For example, we can make the light curves for a range of <code class="docutils literal notranslate"><span class="pre">phi</span></code> values like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">))</span>
+<span class="n">params</span><span class="o">.</span><span class="n">rp</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">params</span><span class="o">.</span><span class="n">rp2</span> <span class="o">=</span> <span class="mf">0.15</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">):</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">phi</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">30</span>                   <span class="c1">#updates angle of rotation</span>
+        <span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">light_curve</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>     <span class="c1">#calculates light curve</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">((</span><span class="n">i</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; degrees&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time from central transit/days&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Relative flux&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/tutorial_changephi.png" src="_images/tutorial_changephi.png" />
 </div>
 </div>
 
