@@ -15,7 +15,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -23,6 +24,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">catwoman 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
@@ -40,6 +44,9 @@
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="quickstart.html"
+                        title="previous chapter">Quickstart</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -94,12 +101,36 @@
 <span class="n">mod</span> <span class="o">=</span> <span class="n">catwoman</span><span class="o">.</span><span class="n">TransitModel</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">max_err</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>   <span class="c1">#initialises the model</span>
 </pre></div>
 </div>
-<p>As in <code class="docutils literal notranslate"><span class="pre">batman</span></code>, the initialisation step automatically calculates the array of separation of centres between the star and the planet and also pre-runs the light_curve function numerous times in order to find the approriate integration step size for a given <code class="docutils literal notranslate"><span class="pre">max_err</span></code>.
-<code class="docutils literal notranslate"><span class="pre">catwoman</span></code> does this for all the available limb darkenig laws (“quadratic”, “logarithmic”, “exponential”, “nonlinear”, “linear”, “power2”, “uniform” and “custom”).
-Note: The default for <code class="docutils literal notranslate"><span class="pre">max_err</span></code> is 1ppm and describes the allowed error (in ppm) between the smallest integration step size and the selected integration step size. The lower the specified <code class="docutils literal notranslate"><span class="pre">max_err</span></code>, the smaller the step size and the longer this initialisation step will take to run.</p>
+<p>As in <code class="docutils literal notranslate"><span class="pre">batman</span></code>, the initialisation step automatically calculates the array of separation of centres between the star and the planet and also pre-runs the light_curve function numerous times in order to find the approriate integration step size for a given <code class="docutils literal notranslate"><span class="pre">max_err</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">catwoman</span></code> does this for all the supported limb darkenig laws (“quadratic”, “logarithmic”, “exponential”, “nonlinear”, “linear”, “power2”, “uniform” and “custom”).</p>
+<p>Note: The default for <code class="docutils literal notranslate"><span class="pre">max_err</span></code> is 1ppm and describes the allowed error (in ppm) between the smallest integration step size and the selected integration step size. The lower the specified <code class="docutils literal notranslate"><span class="pre">max_err</span></code>, the smaller the step size and the longer this initialisation step will take to run.</p>
 </div>
 <div class="section" id="calculating-light-curves">
 <h2>Calculating light curves<a class="headerlink" href="#calculating-light-curves" title="Permalink to this headline">¶</a></h2>
+<p>To calculate a light curve we run the <code class="docutils literal notranslate"><span class="pre">light_curve</span></code> function like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flux</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">light_curve</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>          <span class="c1">#calculates light curve</span>
+</pre></div>
+</div>
+<p>This flux can now be plotted.
+Alternatively, if you wanted to change a parameter, you can do this by simply redefining the parameter of interest, say it is the <code class="docutils literal notranslate"><span class="pre">params.rp</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">params</span><span class="o">.</span><span class="n">rp</span> <span class="o">=</span> <span class="mf">0.09</span>                        <span class="c1">#top semi-circle radius (in units of stellar radii)</span>
+</pre></div>
+</div>
+<p>Now the new flux can be quickly calculated without having to re-initialise the model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flux2</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">light_curve</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>         <span class="c1">#calculates light curve</span>
+</pre></div>
+</div>
+<p>This can be repeated for any <code class="docutils literal notranslate"><span class="pre">params</span></code> change. However if you want to change the <code class="docutils literal notranslate"><span class="pre">time</span></code> or <code class="docutils literal notranslate"><span class="pre">max_err</span></code>, the model will need to be reinitialised as a new integration step size will need to be calculated.</p>
+<p>This can make it easy to loop over certain parameter inputs and plot many light curves quickly. For example, we can make the light curves for a range of <code class="docutils literal notranslate"><span class="pre">phi</span></code> values like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">params</span><span class="o">.</span><span class="n">rp</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">params</span><span class="o">.</span><span class="n">rp2</span> <span class="o">=</span> <span class="mf">0.15</span>
+
+<span class="n">phi_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">90.</span><span class="p">,</span><span class="mf">90.</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">phi_range</span><span class="p">:</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">phi</span> <span class="o">=</span> <span class="n">i</span>                  <span class="c1">#updates angle of rotation</span>
+        <span class="n">flux</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">light</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -115,6 +146,9 @@ Note: The default for <code class="docutils literal notranslate"><span class="pr
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">catwoman 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
