@@ -2,7 +2,7 @@
 
 Quickstart
 ============
-This explains how to quickly and easily plot a catwoman transit using the quadratic limb darkening law. For a more detailed explanation of the parameters, inputs and possible outputs, see the `tutorial` tab.
+This explains how to quickly and easily plot a catwoman transit using the quadratic limb darkening law. For a more detailed explanation of the parameters, inputs and possible outputs, see the :ref:`tutorial` tab.
 
 The first step is to import ``catwoman`` and the packages needed for it to run and to plot the results:
 

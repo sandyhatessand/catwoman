@@ -1,0 +1,126 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tutorial &#8212; catwoman 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">catwoman 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cw.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tutorial</a><ul>
+<li><a class="reference internal" href="#initialising-the-model">Initialising the model</a></li>
+<li><a class="reference internal" href="#calculating-light-curves">Calculating light curves</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorial.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorial">
+<span id="id1"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial explains in detail the different features of <code class="docutils literal notranslate"><span class="pre">catwoman</span></code>.</p>
+<div class="section" id="initialising-the-model">
+<h2>Initialising the model<a class="headerlink" href="#initialising-the-model" title="Permalink to this headline">¶</a></h2>
+<p>As shown in the <a class="reference internal" href="quickstart.html#quickstart"><span class="std std-ref">Quickstart</span></a>, to start setting up the model, one has to initialise a variety of parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">catwoman</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">catwoman</span><span class="o">.</span><span class="n">TransitParams</span><span class="p">()</span>       <span class="c1">#object to store transit parameters</span>
+<span class="n">params</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="mf">0.</span>                          <span class="c1">#time of inferior conjuction (in days)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">per</span> <span class="o">=</span> <span class="mf">1.</span>                         <span class="c1">#orbital period (in days)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">rp</span> <span class="o">=</span> <span class="mf">0.1</span>                         <span class="c1">#top semi-circle radius (in units of stellar radii)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">rp2</span> <span class="o">=</span> <span class="mf">0.1005</span>                     <span class="c1">#bottom semi-circle radius (in units of stellar radii)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mf">15.</span>                          <span class="c1">#semi-major axis (in units of stellar radii)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">inc</span> <span class="o">=</span> <span class="mf">90.</span>                        <span class="c1">#orbital inclination (in degrees)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">ecc</span> <span class="o">=</span> <span class="mf">0.</span>                         <span class="c1">#eccentricity</span>
+<span class="n">params</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mf">90.</span>                          <span class="c1">#longitude of periastron (in degrees)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]</span>                   <span class="c1">#limb darkening coefficients [u1, u2]</span>
+<span class="n">params</span><span class="o">.</span><span class="n">limb_dark</span> <span class="o">=</span> <span class="s2">&quot;quadratic&quot;</span>          <span class="c1">#limb darkening model</span>
+<span class="n">params</span><span class="o">.</span><span class="n">phi</span> <span class="o">=</span> <span class="mf">0.</span>                         <span class="c1">#angle of rotation of top semi-circle</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>        <span class="c1">#array of times to calculate the light curves for</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">catwoman</span><span class="o">.</span><span class="n">TransitModel</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">max_err</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>   <span class="c1">#initialises the model</span>
+</pre></div>
+</div>
+<p>As in <code class="docutils literal notranslate"><span class="pre">batman</span></code>, the initialisation step automatically calculates the array of separation of centres between the star and the planet and also pre-runs the light_curve function numerous times in order to find the approriate integration step size for a given <code class="docutils literal notranslate"><span class="pre">max_err</span></code>.
+<code class="docutils literal notranslate"><span class="pre">catwoman</span></code> does this for all the available limb darkenig laws (“quadratic”, “logarithmic”, “exponential”, “nonlinear”, “linear”, “power2”, “uniform” and “custom”).
+Note: The default for <code class="docutils literal notranslate"><span class="pre">max_err</span></code> is 1ppm and describes the allowed error (in ppm) between the smallest integration step size and the selected integration step size. The lower the specified <code class="docutils literal notranslate"><span class="pre">max_err</span></code>, the smaller the step size and the longer this initialisation step will take to run.</p>
+</div>
+<div class="section" id="calculating-light-curves">
+<h2>Calculating light curves<a class="headerlink" href="#calculating-light-curves" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">catwoman 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Kathryn Jones &amp; Nestor Espinoza.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+    </div>
+  </body>
+</html>

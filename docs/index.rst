@@ -18,7 +18,7 @@ Please cite the paper <> if you use catwoman in your research.
 	
    installation
    quickstart
-
+   tutorial
 
 Indices and tables
 ==================
