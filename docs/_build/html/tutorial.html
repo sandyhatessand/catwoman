@@ -14,6 +14,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Quickstart" href="quickstart.html" /> 
@@ -40,6 +41,8 @@
 <li><a class="reference internal" href="#">Tutorial</a><ul>
 <li><a class="reference internal" href="#initialising-the-model">Initialising the model</a></li>
 <li><a class="reference internal" href="#calculating-light-curves">Calculating light curves</a></li>
+<li><a class="reference internal" href="#limb-darkening-functions">Limb darkening functions</a></li>
+<li><a class="reference internal" href="#error-tolerance">Error tolerance</a></li>
 </ul>
 </li>
 </ul>
@@ -152,6 +155,27 @@
 </pre></div>
 </div>
 <img alt="_images/tutorial_changephi.png" src="_images/tutorial_changephi.png" />
+<p>The residuals can also be easily plotted:</p>
+<img alt="_images/tutorial_phires.png" src="_images/tutorial_phires.png" />
+</div>
+<div class="section" id="limb-darkening-functions">
+<h2>Limb darkening functions<a class="headerlink" href="#limb-darkening-functions" title="Permalink to this headline">¶</a></h2>
+<p>As for <code class="docutils literal notranslate"><span class="pre">batman</span></code>, <code class="docutils literal notranslate"><span class="pre">catwoman</span></code> allows you to choose one of the following limb darkening functions for the star:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+  I(\mu) &amp;= I_0                                                                         &amp; &amp;\text{(uniform)}             \\
+  I(\mu) &amp;= I_0[1 - c_1(1-\mu)]                                                         &amp; &amp;\text{(linear)}              \\
+  I(\mu) &amp;= I_0[1 - c_1(1 - \mu) - c_2(1-\mu)^2]                                        &amp; &amp;\text{(quadratic)}           \\
+  I(\mu) &amp;= I_0[1 - c_1(1 - \mu) - c_2(1-\sqrt{\mu})]                                   &amp; &amp;\text{(square-root)}         \\
+  I(\mu) &amp;= I_0[1 - c_1(1 - \mu) - c_2\mu\ln{\mu}]                                      &amp; &amp;\text{(logarithmic)}         \\
+  I(\mu) &amp;= I_0\left[1 - c_1(1 - \mu) - c_2/(1-\exp{\mu})\right]                        &amp; &amp;\text{(exponential)}         \\
+  I(\mu) &amp;= I_0\left[1 - c_1(1 - \mu^c_2)\right]                        &amp; &amp;\text{(power2)}         \\
+  I(\mu) &amp;= I_0[1 - c_1(1-\mu^{1/2}) - c_2(1- \mu) - c_3(1-\mu^{3/2}) - c_4(1-\mu^2)]   &amp; &amp;\text{(nonlinear)}
+\end{align}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu = \sqrt{1-x^2}\)</span> where x is the normalised stellar radial coordinate defined between <span class="math notranslate nohighlight">\(0 \leq x \leq 1\)</span> and <span class="math notranslate nohighlight">\(I_O\)</span> is the normalisation constant for these laws so that integrated over the whole star, the total intensity is unity.</p>
+</div>
+<div class="section" id="error-tolerance">
+<h2>Error tolerance<a class="headerlink" href="#error-tolerance" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

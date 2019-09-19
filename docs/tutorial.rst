@@ -95,6 +95,34 @@ This can make it easy to loop over certain parameter inputs and plot many light 
 
 .. image:: tutorial_changephi.png
 
+The residuals can also be easily plotted:
+
+.. image:: tutorial_phires.png
+
+
+Limb darkening functions
+------------------------- 
+
+As for ``batman``, ``catwoman`` allows you to choose one of the following limb darkening functions for the star:
+
+.. math::
+
+	\begin{align}
+	  I(\mu) &= I_0                            						& &\text{(uniform)} 		\\
+	  I(\mu) &= I_0[1 - c_1(1-\mu)]								& &\text{(linear)}		\\
+	  I(\mu) &= I_0[1 - c_1(1 - \mu) - c_2(1-\mu)^2]	 				& &\text{(quadratic)}		\\
+  	  I(\mu) &= I_0[1 - c_1(1 - \mu) - c_2(1-\sqrt{\mu})]                                   & &\text{(square-root)}         \\
+  	  I(\mu) &= I_0[1 - c_1(1 - \mu) - c_2\mu\ln{\mu}]                                      & &\text{(logarithmic)}         \\
+  	  I(\mu) &= I_0\left[1 - c_1(1 - \mu) - c_2/(1-\exp{\mu})\right]                  	& &\text{(exponential)}         \\
+  	  I(\mu) &= I_0\left[1 - c_1(1 - \mu^c_2)\right]                  	& &\text{(power2)}         \\
+	  I(\mu) &= I_0[1 - c_1(1-\mu^{1/2}) - c_2(1- \mu) - c_3(1-\mu^{3/2}) - c_4(1-\mu^2)]  	& &\text{(nonlinear)}				
+	\end{align}
+
+where :math:`\mu = \sqrt{1-x^2}` where x is the normalised stellar radial coordinate defined between :math:`0 \leq x \leq 1` and :math:`I_O` is the normalisation constant for these laws so that integrated over the whole star, the total intensity is unity.
+
+
+Error tolerance
+----------------
 
 
 
