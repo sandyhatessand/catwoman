@@ -88,14 +88,24 @@ This can make it easy to loop over certain parameter inputs and plot many light 
 	for i in range(0,7):
 		params.phi = (i-3)*30			#updates angle of rotation
 		flux[i] = model.light_curve(params)	#calculates light curve
-		plt.plot(time,flux[i],label=str((i-3)*30)+' degrees')
+		plt.plot(time,flux[i],label=str((i-3)*30)+'°')
 	plt.xlabel("Time from central transit/days")
 	plt.ylabel("Relative flux")
+	plt.xlim(-0.015, 0.015)
 	plt.show()
 
 .. image:: tutorial_changephi.png
 
 The residuals can also be easily plotted:
+::
+
+	for i in range(1,7):
+        	plt.plot(t,flux[i]-flux[0],label=str((i-3)*30)+'° - 0°')
+		plt.xlabel("Time from central transit/days")
+	plt.ylabel("Relative flux")
+	plt.legend()
+	plt.show()
+
 
 .. image:: tutorial_phires.png
 
