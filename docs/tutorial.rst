@@ -140,7 +140,7 @@ The width of these strips determines the accuracy of this semi-analytical approa
 If this is not equal to the ``max_err`` then the ``fac`` that gets the error within 1% of the ``max_err`` is found using a geometric search between the smallest and largest ``fac`` values.
 As the light curves are being repeatedly calculated during this step, this is the most time-intensive part of the package. However once the model has been initialised, as previously explained, one doesn't need to repeat this if some of the parameters are changed.
 
-.. image:: catwoman.pdf     
+.. image:: strips.png     
 
 
 
