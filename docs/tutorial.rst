@@ -135,10 +135,14 @@ Error tolerance
 ----------------
 As mentioned in :ref:Initialising the model, the model contains a parameter called ``max_err``. If this is not specified, it will be set to the default ``max_err = 0.5``.
 
-Whenever the model calculates a light curve from the parameters given it essentially splits up the planet into a series of very small strips in order to calculate the intensity of light that is blocked by the planet moving in front of the star at a particular time (see figure...). 
-The width of these strips determines the accuracy of this semi-analytical approach and this is set by a scaling factor (``fac``). Once the model is initialised, internally, the program will calculate the light curve using an extremely small ``fac`` (5e-4) and an extremely large ``fac`` (1) and then find the error (or the largest difference) between their values.
-If this is not equal to the ``max_err`` then the ``fac`` that gets the error within 1% of the ``max_err`` is found using a geometric search between the smallest and largest ``fac`` values.
-As the light curves are being repeatedly calculated during this step, this is the most time-intensive part of the package. However once the model has been initialised, as previously explained, one doesn't need to repeat this if some of the parameters are changed.
+Whenever the model calculates a light curve from the parameters given it essentially splits up the planet into a series of very small strips of area in order to calculate the intensity of light that is blocked by the planet moving in front of the star at a particular time (see figure below). 
+
+The width of these strips determines the accuracy of the light curve model and this is set by a scaling factor (``fac``). 
+
+Once the model is initialised, internally, the program will calculate the light curve using an extremely small ``fac = 5e-4`` and an extremely large ``fac = 1`` and then find the error (or the largest difference) between their values.
+If this is not equal to the ``max_err`` then the ``fac`` that produces an error within 1% of the ``max_err`` is found using a geometric search between the smallest and largest ``fac`` values.
+
+As multiple light curves are being calculated during this step, this is the most time-intensive part of the package. However once the model has been initialised (and the appropriate ``fac`` value has been determined), as previously explained, this doesn't need to be repeated if some of the parameters are changed.
 
 .. image:: strips.png     
 
