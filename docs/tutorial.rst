@@ -133,7 +133,7 @@ For each limb-darkening law you will need to provide the correct number of coeff
 
 Error tolerance
 ----------------
-As mentioned in "*Initialising the model*", the model contains a parameter called ``max_err``. If this is not specified, it will be set to the default ``max_err = 0.5``.
+As mentioned in *Initialising the model*, the model contains a parameter called ``max_err``. If this is not specified, it will be set to the default ``max_err = 0.5``.
 
 Whenever the model calculates a light curve from the parameters given it essentially splits up the planet into a series of very small strips of area in order to calculate the intensity of light that is blocked by the planet moving in front of the star at a particular time (see figure below). 
 
