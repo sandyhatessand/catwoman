@@ -1,5 +1,6 @@
 from __future__ import print_function
 from distutils.core import setup
+from setuptools import setup
 from distutils.extension import Extension
 import numpy as np
 from distutils.ccompiler import new_compiler
@@ -90,6 +91,7 @@ setup(	name='catwoman',
 		],
 	include_dirs = [np.get_include()],
 	install_requires = ['numpy'],
+	setup_requires=['wheel'],
 	extras_requires= {
 	    'matplotlib': ['matplotlib'],
 	},
