@@ -21,6 +21,8 @@ If you find a bug or have any problems with catwoman, please `opening an issue <
    installation
    quickstart
    tutorial
+   API
+	
 
 Indices and tables
 ==================
