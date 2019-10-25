@@ -280,7 +280,6 @@ class TransitModel(object):
 				else: f = _custom_ld._custom_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], self.u[4], self.u[5], fac, nthreads, phifac, bfac, 0 ,self.rp2,self.twocircles)
 
 				err = np.max(np.abs(f-f0))*1.0e6
-	
 				if err > self.max_err: fac_hi = fac	
 				else: fac_lo = fac
 				n += 1

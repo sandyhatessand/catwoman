@@ -43,15 +43,6 @@
 /* Must be defined in the C file that includes this header. */
 inline double intensity(double x, double* args);
 
-double* MakeVector(int nelements){
-double* Vector;
-int j;
-Vector = (double*) malloc(nelements*sizeof(double));
-for(j=0;j<nelements;j++){
-    Vector[j]=0.0;
-}
-return Vector;
-}
 
 double area(double d, double x, double R, double theta);
 
@@ -75,8 +66,8 @@ double area(double d, double x, double R, double theta)
 	a2 = b2*tan(theta)+A/cos(theta);      //theta should be left raw here (no fabs)
         a3 = (-1)*d*cos(theta) + x;
         b3 = d*sin(theta);   //theta should be left raw here (no fabs)
-	double lim = pow(10,-8);
-	
+	double lim = pow(10,-9);
+
 	if ((fabs(d * sin(theta)) < x)&&(fabs(fabs(d*sin(theta))-x)>=lim)) {   //circle intersects with y=0 line    
                	if ((fabs(x_minpos)<=R||(fabs(fabs(x_minpos)-R)<lim)) && fabs(x_minneg)>R && fabs(fabs(x_minneg)-R)>=lim) {  //if there is only one intersection on base semi-circle
                         if (theta>=0||(fabs(theta)<lim)){                                                                   //if theta is >=0
@@ -469,7 +460,7 @@ double find_theta(double phi, double d, double b, double mini, int i)
 {
 	/* This function finds theta for a given phi, d and b */
 	
-	double lim = pow(10,-8);
+	double lim = pow(10,-9);
 	double theta = 0.0;
 	if ((b>=0)||(fabs(b)<lim)){	
 		if (i <= mini){            
@@ -533,7 +524,7 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 		double x_in = MAX(MIN(d - rp2, d - rprs), 0.);	//double check this works		//lower bound for integration
 		double x_out = MIN(MAX(d + rp2, d + rprs), 1.0);					//upper bound for integration
 		if(x_in >= 1.) f_array[i] = 1.0;					//flux = 1. if the planet is not transiting
-		else if(x_out - x_in < 1.e-7) f_array[i] = 1.0;				//pathological case	
+		else if(x_out - x_in < 1.e-9) f_array[i] = 1.0;				//pathological case	
 		else
 		{
 			double delta = 0.;						//variable to store the integrated intensity, \int I dA
@@ -576,7 +567,5 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 			delta += (A_f - A_i)*I;					//increase in transit depth for this integration step
 			f_array[i] = 1.0 - delta;	//flux equals 1 - \int I dA
 		}
-		
-		
 	}
 }
