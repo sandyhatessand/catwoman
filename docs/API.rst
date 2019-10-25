@@ -1,10 +1,14 @@
-.. _API:
+.. _api:
   
 API
 ============
+catwoman has two main classes: `TransitModel` and `TransitParams`.
+
 .. module:: catwoman
 
-catwoman has two main classes: `TransitModel` and `TransitParams`.
+
+.. autoclass:: catwoman.TransitModel
+   :inherited-members:
 
 .. autoclass:: catwoman.TransitModel
    :inherited-members:
