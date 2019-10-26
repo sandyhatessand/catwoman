@@ -40,6 +40,7 @@ release = '1.0.2'
 # ones.
 extensions = [
 	'sphinx.ext.todo',
+	'sphinx.ext.autodoc',
 	'sphinx.ext.githubpages',
 ]
 
