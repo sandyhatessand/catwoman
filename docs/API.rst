@@ -4,13 +4,15 @@ API
 ============
 catwoman has two main classes: `TransitModel` and `TransitParams`.
 
-.. module:: catwoman
-   
+..automodule:: catwoman
+	:members:
 
 The TransitParams model
 -------------------------
-.. autoclass:: catwoman.TransitParams
-   :members:
+.. module:: catwoman
 
-.. autoclass:: catwoman.TransitModel
-   :members:
+.. autoclass:: TransitParams
+   :members: param t0, param t_secondary
+
+.. automodule:: catwoman.TransitModel
+	:members:
