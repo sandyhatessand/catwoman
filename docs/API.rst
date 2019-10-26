@@ -9,10 +9,8 @@ catwoman has two main classes: `TransitModel` and `TransitParams`.
 
 The TransitParams model
 -------------------------
-.. module:: catwoman
+.. module:: catwoman.transitmodel
 
 .. autoclass:: TransitParams
    :members: param t0, param t_secondary
 
-.. automodule:: catwoman.TransitModel
-	:members:
