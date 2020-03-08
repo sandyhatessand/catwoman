@@ -43,6 +43,7 @@ The lightcurves are modelled as follows. The decrease in flux, delta, as a plane
 $$\delta = \sum_{i=1}^{N} I\left(x_m\right)\Delta A(x_m,R_{p,1},R_{p,2},\varphi,d)$$,
 
 splitting the semi-circles up into iso-intensity bands centred on the star and for each intersectional segment (like the one shaded in Figure 1) you multiply its area, $\Delta A$, by the intensity of the star and then sum these strips to generate the full delta for a specific distance between the centre of the star and planet, d. The code then increments d by a small pre-determined amount (based on the time array given by the user) and recalculates delta.
+![Figure 1](strips.png)
 
 The width of the iso-intensity bands determines the truncation error of the model. The model is first initialised with parameters including a maximum truncation error either set by the user or taken as the pre-set value as 1ppm. As in ``batman``, ``catwoman`` first calculates many models, with varying widths and geometrically searches for a width that produces an error less than 1% away (and always less than) the specified level. The model then uses this width value to calculate the desired lightcurves. A lower specified error, and therefore thinner iso-intensity bands, produces more accurate lightcurves, however more steps are needed to calculate delta which takes more time.  
 
