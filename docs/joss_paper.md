@@ -51,6 +51,7 @@ The width of the iso-intensity bands determines the truncation error of the mode
 
 ``catwoman`` was designed to be used by astronomical researchers. It is used in Espinoza & Jones (in prep.). 
 
+Test:  @Kreidberg:2015
 
 # Mathematics
 
@@ -81,7 +82,5 @@ Figures can be included like this: ![Example figure.](figure.png)
 
 # Acknowledgements
 
-We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
-Oh, and support from Kathryn Johnston during the genesis of this project.
 
 # References
