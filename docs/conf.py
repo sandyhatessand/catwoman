@@ -12,6 +12,11 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+
+MOCK_MODULES = ['numpy', '_nonlinear_ld']
+for mod_name in MOCK_MODULES:
+sys.modules[mod_name] = mock.Mock()
+
 import os
 import sys
 
@@ -46,7 +51,7 @@ extensions = [
 	'sphinx.ext.githubpages',
 ]
 
-autodoc_mock_imports = ["numpy", "_nonlinear_ld"]
+#autodoc_mock_imports = ["numpy", "_nonlinear_ld"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
