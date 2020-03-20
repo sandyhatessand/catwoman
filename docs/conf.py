@@ -14,13 +14,12 @@
 #
 
 import mock
+import sys
+import os
 
 MOCK_MODULES = ['numpy', '_nonlinear_ld']
 for mod_name in MOCK_MODULES:
 	sys.modules[mod_name] = mock.Mock()
-
-import os
-import sys
 
 #sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../'))
