@@ -17,7 +17,8 @@ import sys
 
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../'))
-sys.path.insert(0, os.path.abspath('../../../../Applications/anaconda3/lib/python3.7/site-packages/'))
+sys.path.insert(0, os.path.abspath('../../../../../../Applications/anaconda3/lib/python3.7/site-packages'))
+
 
 # -- Project information -----------------------------------------------------
 
