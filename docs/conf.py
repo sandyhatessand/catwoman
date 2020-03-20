@@ -15,7 +15,7 @@
 
 MOCK_MODULES = ['numpy', '_nonlinear_ld']
 for mod_name in MOCK_MODULES:
-sys.modules[mod_name] = mock.Mock()
+	sys.modules[mod_name] = mock.Mock()
 
 import os
 import sys
