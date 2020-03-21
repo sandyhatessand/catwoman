@@ -17,7 +17,7 @@ import mock
 import sys
 import os
 
-MOCK_MODULES = ['numpy', 'catwoman._nonlinear_ld']
+MOCK_MODULES = ['numpy', 'catwoman._nonlinear_ld','catwoman._quadratic_ld','catwoman._logarithmic_ld','catwoman._exponential_ld','catwoman._power2_ld','catwoman._custom_ld','catwoman._rsky','catwoman._eclipse',math.pi]
 for mod_name in MOCK_MODULES:
 	sys.modules[mod_name] = mock.Mock()
 
