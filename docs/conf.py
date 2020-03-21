@@ -17,12 +17,13 @@ import mock
 import sys
 import os
 
-MOCK_MODULES = ['numpy', 'transitmodel._nonlinear_ld']
+MOCK_MODULES = ['numpy', 'catwoman._nonlinear_ld']
 for mod_name in MOCK_MODULES:
 	sys.modules[mod_name] = mock.Mock()
 
 #sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../'))
+
 
 import catwoman
 
