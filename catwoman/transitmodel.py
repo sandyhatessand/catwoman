@@ -67,7 +67,7 @@ class TransitModel(object):
 
 	:Example:
 	
-	>>> model = catwoman.TransitModel(params, max_err = 0.5)
+	>>> model = catwoman.TransitModel(params, t, max_err = 0.5)
 	"""
 
 	def __init__(self, params, t, max_err=1.0, nthreads = 1, fac = None, transittype = "primary", supersample_factor = 1, exp_time = 0.):
@@ -422,7 +422,7 @@ class TransitParams(object):
 	Object to store the physical parameters of the transit.
 
 	:param t0: Time of inferior conjunction. 
-	:type t0: float, optional 
+	:type t0: float 
 
 	:param t_secondary: Time of secondary eclipse center.
 	:type t_secondary: float, optional 
@@ -433,7 +433,7 @@ class TransitParams(object):
 	:param rp: Planet radius 1 [in stellar radii].
 	:type rp: float
 
-	:param rp2: Planet radius 2 [in stellar radii]     #added this
+	:param rp2: Planet radius 2 [in stellar radii] 
 	:type rp2: float                               
 
 	:param a: Semi-major axis [in stellar radii].
@@ -457,7 +457,7 @@ class TransitParams(object):
 	:param fp: Planet-to-star flux ratio (for secondary eclipse models).
 	:type fp: float, optional
 
-	:param phi: Angle between base of semi-circles and the line y=0 [in degrees]
+	:param phi: Rotation angle of planet, relative to horizontal [in degrees]
 	:type phi: float
 
 	.. note::  
@@ -466,23 +466,25 @@ class TransitParams(object):
 
 	:Example:
 	
-	>>> import batman
-	>>> params = batman.TransitParams()
+	>>> import catwoman
+	>>> params = catwoman.TransitParams()
 	>>> params.t0 = 0. 				#time of inferior conjunction
 	>>> params.per = 1.				#orbital period	
-	>>> params.rp = 0.1				#planet radius (in units of stellar radii)
+	>>> params.rp = 0.1				#planet radius 1 (in units of stellar radii)
+	>>> params.rp2 = 0.1005				#planet radius 2 (in units of stellar radii)
 	>>> params.a = 15.				#semi-major axis (in units of stellar radii)
 	>>> params.inc = 87.				#orbital inclination (in degrees)	
 	>>> params.ecc = 0.				#eccentricity	
 	>>> params.w = 90.				#longitude of periastron (in degrees) 
 	>>> params.u = [0.1, 0.3] 	      	        #limb darkening coefficients
 	>>> params.limb_dark = "quadratic"          	#limb darkening model
+	>>> params.phi = 90.				#rotation angle of planet
 	"""
 	def __init__(self):
 		self.t0 = None
 		self.per = None
 		self.rp = None  
-		self.rp2 = None  #added this
+		self.rp2 = None 
 		self.a = None
 		self.inc = None
 		self.ecc = None
