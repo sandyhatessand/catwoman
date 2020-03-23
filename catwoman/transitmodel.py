@@ -39,7 +39,7 @@ def wrapper(func, *args, **kwargs):
 
 class TransitModel(object):
 	"""
-	Class for generating model transit light curves.	
+	Class for generating model asymmetric transit light curves.	
 
 	:param params: A :attr:`TransitParams` object containing the physical parameters of the transit
 	:type params: a `TransitParams` instance
@@ -47,23 +47,23 @@ class TransitModel(object):
 	:param t: Array of times at which to calculate the model.
 	:type t: ndarray 
 
-	:param max_err: Error tolerance (in parts per million) for the model.
+	:param max_err: Error tolerance/truncation error (in parts per million) for the model.
 	:type max_err: float, optional
 
-	:param nthreads: Number of threads to use for parallelization. 
-	:type nthreads: int, optional
-
+	#:param nthreads: Number of threads to use for parallelization. 
+	#:type nthreads: int, optional
+	#
 	:param fac: Scale factor for integration step size
 	:type fac: float, optional
 
-	:param transittype: Type of transit ("primary" or "secondary")
-	:type transittype: string, optional
+	#:param transittype: Type of transit ("primary" or "secondary")
+	#:type transittype: string, optional
+	#
+	#:param supersample_factor:	Number of points subdividing exposure
+	#:type supersample_factor: integer, optional
 
-	:param supersample_factor:	Number of points subdividing exposure
-	:type supersample_factor: integer, optional
-
-	:param exp_time: Exposure time (in same units as `t`)
-	:type exp_time: double, optional
+	#:param exp_time: Exposure time (in same units as `t`)
+	#:type exp_time: double, optional
 
 	:Example:
 	
