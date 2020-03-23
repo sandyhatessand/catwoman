@@ -430,22 +430,22 @@ class TransitParams(object):
 	:param per: Orbital period.
 	:type per: float
 
-	:param rp: Planet radius 1 [in stellar radii].
+	:param rp: Planet radius 1 (in stellar radii).
 	:type rp: float
 
-	:param rp2: Planet radius 2 [in stellar radii] 
+	:param rp2: Planet radius 2 (in stellar radii) 
 	:type rp2: float                               
 
-	:param a: Semi-major axis [in stellar radii].
+	:param a: Semi-major axis (in stellar radii).
 	:type a: float
 
-	:param inc: Orbital inclination [in degrees].
+	:param inc: Orbital inclination (in degrees).
 	:type inc: float
 
 	:param ecc: Orbital eccentricity.
 	:type ecc: float
 
-	:param w: Argument of periapse [in degrees]
+	:param w: Argument of periapse (in degrees)
 	:type w: float
 
 	:param u: List of limb darkening coefficients.
@@ -457,7 +457,7 @@ class TransitParams(object):
 	:param fp: Planet-to-star flux ratio (for secondary eclipse models).
 	:type fp: float, optional
 
-	:param phi: Rotation angle of planet, relative to horizontal [in degrees]
+	:param phi: Rotation angle of planet, relative to horizontal (in degrees)
 	:type phi: float
 
 	.. note::  
