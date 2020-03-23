@@ -50,24 +50,24 @@ class TransitModel(object):
 	:param max_err: Error tolerance/truncation error (in parts per million) for the model.
 	:type max_err: float, optional
 
-	#:param nthreads: Number of threads to use for parallelization. 
-	#:type nthreads: int, optional
-	#
+	:param nthreads: Number of threads to use for parallelization. 
+	:type nthreads: int, optional
+	
 	:param fac: Scale factor for integration step size
 	:type fac: float, optional
 
-	#:param transittype: Type of transit ("primary" or "secondary")
-	#:type transittype: string, optional
-	#
-	#:param supersample_factor:	Number of points subdividing exposure
-	#:type supersample_factor: integer, optional
+	:param transittype: Type of transit ("primary" or "secondary")
+	:type transittype: string, optional
+	
+	:param supersample_factor:	Number of points subdividing exposure
+	:type supersample_factor: integer, optional
 
-	#:param exp_time: Exposure time (in same units as `t`)
-	#:type exp_time: double, optional
+	:param exp_time: Exposure time (in same units as `t`)
+	:type exp_time: double, optional
 
 	:Example:
 	
-	>>> m = batman.TransitModel(params, max_err = 0.5, nthreads=4)
+	>>> model = catwoman.TransitModel(params, max_err = 0.5)
 	"""
 
 	def __init__(self, params, t, max_err=1.0, nthreads = 1, fac = None, transittype = "primary", supersample_factor = 1, exp_time = 0.):
@@ -190,12 +190,12 @@ class TransitModel(object):
 	def calc_err(self, plot = False):
 		"""
 
-		Calculate maximum error for transit light curve calculation.
+		Calculate maximum error for a specific transit light curve calculation.
 			
-		:param plot: If ``True``, plots the error in the light curve model as a function of separation of centers.
+		:param plot: If ``True``, plots the error in the light curve model against the separation of centres, d.
 		:type plot: bool
 
-		:return: Truncation error (parts per million)
+		:return: Truncation error (in parts per million)
 		:rtype: float
 
 		"""
@@ -290,7 +290,7 @@ class TransitModel(object):
 	
 	def light_curve(self, params):
 		"""
-		Calculate a model light curve.
+		Calculates and returns a model asymmetric light curve.
 
 		:param params: Transit parameters
 		:type params: A `TransitParams` instance
@@ -300,7 +300,7 @@ class TransitModel(object):
 
 		:Example:
 
-		>>> flux = m.light_curve(params)
+		>>> flux = model.light_curve(params)
 		"""
 		#recalculates rsky and fac if necessary
 		new_rsky=0

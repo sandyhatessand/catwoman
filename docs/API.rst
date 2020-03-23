@@ -12,5 +12,5 @@ catwoman has two main classes: `TransitModel` and `TransitParams`.
    :inherited-members:
 
 .. autoclass:: catwoman.TransitModel
-   :inherited-members:
+   :members: __init__ , calc_err, light_curve
 
