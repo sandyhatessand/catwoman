@@ -53,7 +53,7 @@ class TransitModel(object):
 	:param fac: Scale factor for integration step size
 	:type fac: float, optional
 
-	:param supersample_factor:	Number of points subdividing exposure
+	:param supersample_factor: Number of points subdividing exposure
 	:type supersample_factor: integer, optional
 
 	:param exp_time: Exposure time (in same units as `t`)
@@ -462,7 +462,6 @@ class TransitParams(object):
 
 	.. note::  
 		- Units for the orbital period and ephemeris can be anything as long as they are consistent (e.g. both in days). 
-		- The orbital path is calculated based on `t0` for primary transits and `t_secondary` for secondary eclipses.
 
 	:Example:
 	
@@ -479,7 +478,9 @@ class TransitParams(object):
 	>>> params.u = [0.1, 0.3] 	      	        #limb darkening coefficients
 	>>> params.limb_dark = "quadratic"          	#limb darkening model
 	>>> params.phi = 90.				#rotation angle of planet
-	"""
+	"""	
+	# - The orbital path is calculated based on `t0` for primary transits and `t_secondary` for secondary eclipses.
+
 	def __init__(self):
 		self.t0 = None
 		self.per = None

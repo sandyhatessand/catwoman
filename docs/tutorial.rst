@@ -148,7 +148,7 @@ As multiple light curves are being calculated during this step, this is the most
 
 Supersampling
 ---------------
-As in ``batman``, for long exposure times there is the option of calculating the average value of the light curve model over the time of exposure of the samples. Set up the model including the additional parameters ``supersample_factor`` and ``exp_time``(in days) like so:
+As in ``batman``, for long exposure times there is the option of calculating the average value of the light curve model over the time of exposure of the samples. Set up the model including the additional parameters ``supersample_factor`` and `exp_time` (in days) like so:
 ::
 	model = catwoman.TransitModel(params, time, supersample_factor = 5, exp_time = 0.001)
 
