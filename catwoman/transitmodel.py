@@ -50,15 +50,9 @@ class TransitModel(object):
 	:param max_err: Error tolerance/truncation error (in parts per million) for the model.
 	:type max_err: float, optional
 
-	:param nthreads: Number of threads to use for parallelization. 
-	:type nthreads: int, optional
-	
 	:param fac: Scale factor for integration step size
 	:type fac: float, optional
 
-	:param transittype: Type of transit ("primary" or "secondary")
-	:type transittype: string, optional
-	
 	:param supersample_factor:	Number of points subdividing exposure
 	:type supersample_factor: integer, optional
 
@@ -69,6 +63,11 @@ class TransitModel(object):
 	
 	>>> model = catwoman.TransitModel(params, t, max_err = 0.5)
 	"""
+	#:param nthreads: Number of threads to use for parallelization.
+        #:type nthreads: int, optional
+
+        #:param transittype: Type of transit ("primary" or "secondary")
+        #:type transittype: string, optional
 
 	def __init__(self, params, t, max_err=1.0, nthreads = 1, fac = None, transittype = "primary", supersample_factor = 1, exp_time = 0.):
 		#checking for invalid input
@@ -112,6 +111,12 @@ class TransitModel(object):
 		self.twocircles = False        
 		self.phi = params.phi*pi/180          #convert phi from degrees to radians
 		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180)))            	      		
+
+		if self.supersample_factor > 1:  # IJMC: now do it quicker, with no loops:
+			t_offsets = np.linspace(-self.exp_time/2., self.exp_time/2., self.supersample_factor)
+			self.t_supersample = (t_offsets + self.t.reshape(self.t.size, 1)).flatten()
+			self.t = self.t_supersample
+		else: self.t_supersample = self.t
 		
 		self.phi2=np.zeros(len(self.t))
 		self.Y=np.zeros(len(self.t))
@@ -128,7 +133,7 @@ class TransitModel(object):
 		else:
 			self.twocircles=True
 		
-	
+		
 		#Finding the index i at which the planet is at inferior conjuction
 		self.mini = 0.0
 		stop = False
@@ -150,11 +155,6 @@ class TransitModel(object):
 			params.rp = -1.*params.rp
 			self.inverse = True
 
-		if self.supersample_factor > 1:  # IJMC: now do it quicker, with no loops:
-			t_offsets = np.linspace(-self.exp_time/2., self.exp_time/2., self.supersample_factor)
-			self.t_supersample = (t_offsets + self.t.reshape(self.t.size, 1)).flatten()
-		else: self.t_supersample = self.t
-		
 		if transittype == "primary": self.transittype = 1
 		else: 
 			self.transittype = 2

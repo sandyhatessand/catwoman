@@ -29,7 +29,7 @@ As shown in the :ref:`quickstart`, to start setting up the model, one has to ini
 	params.phi = 0.				#angle of rotation of top semi-circle
 
 	time = np.linspace(-0.04, 0.04, 1000)	#array of times to calculate the light curves for
-	model = catwoman.TransitModel(params, t, max_err = 0.1)	#initialises the model
+	model = catwoman.TransitModel(params, time, max_err = 0.1)	#initialises the model
 
 As in ``batman``, the initialisation step automatically calculates the array of separation of centres between the star and the planet and also pre-runs the light_curve function numerous times in order to find the approriate integration step size for a given ``max_err``. 
 
@@ -146,7 +146,13 @@ As multiple light curves are being calculated during this step, this is the most
 
 .. image:: strips.png     
 
+Supersampling
+---------------
+As in ``batman``, for long exposure times there is the option of calculating the average value of the light curve model over the time of exposure of the samples. Set up the model including the additional parameters ``supersample_factor`` and ``exp_time``(in days) like so:
+::
+	model = catwoman.TransitModel(params, time, supersample_factor = 5, exp_time = 0.001)
 
+This will produce a model calculated by splitting up the samples into 5 sub-samples over the duration of the 0.001 day exposure. When a light curve is calculated, it will keep these sub-samples separate until the end where it will calculate the mean of these and reshape the light curve back to the original intended size, as specified by the ``time`` array.   
 
 
 
