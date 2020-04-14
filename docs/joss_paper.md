@@ -5,12 +5,12 @@ tags:
   - astronomy
   - exoplanets 
 authors:
-  - name: Kathryn D. Jones
+  - name: Kathryn Jones
     orcid: 
     affiliation: 1 # (Multiple affiliations must be quoted)
   - name: Néstor Espinoza
     orcid: 
-    affiliation: "1, 2"
+    affiliation: 2
 affiliations:
  - name: Max-Planck-Institut f\"ur Astronomie, K\"onigstuhl 17, 69117 Heidelberg, Germany
    index: 1
