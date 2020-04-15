@@ -27,8 +27,11 @@ aas-journal: Astrophysical Journal <- The name of the AAS journal.
 
 # Summary
 
+When exoplanets pass in front of their stars from our point of view at Earth, they imprint a transit signature on the stellar light curve which to date has been assumed to be symmetric in time, owing to the planet being modelled as a circular area occulting the stellar surface (see, e.g., [@Mandel02]; [@Kreidberg15]; [@Luger19]). However this signature might be asymmetric due to several possible effects, one of which is the different temperature/pressure and/or chemical compositions the different terminator regions a transiting planet could have (see, e.g., [@Powell19]). Being able to model these asymmetric signatures directly from transit light curves could give us an unprecedented glimpse into planetary 3-dimensional structure, helping constrain models of atmospheric evolution, structure and composition.
+
+
 An exoplanet is a planet outside of the Solar System, orbiting a star other than our Sun. Their observation and characterisation is a rapidly-evolving field of study in Astrophysics. There are several established exoplanet detection methods, however the most successful method to date is transit photometry, which has discovered over 4000 exoplanets. This method works by measuring periodic dips in light from a star caused by an orbiting planet eclipsing it.  
-Previous packages, such as ``batman`` [@Kreidberg:2015], can model these lightcurves, assuming that the exoplanet is spherically symmetric.
+Previous packages, such as ``batman`` [@Kreidberg15], can model these lightcurves, assuming that the exoplanet is spherically symmetric.
 
 Normally, the depth of a transit as observed by detectors is directly proportional to the radius of the exoplanet if it has no atmosphere.     
 If the planet does have an atmosphere then due to the specific molecules present and their abundance, an atmopshere will absorb different wavelengths of light passing through it at differing strengths. Therefore the depth of the transit is dependent on both the size of the exoplanet and the height, density and composition of its atmosphere. This technique, transit spectroscopy, is a very powerful tool to constrain the atmospheric elemental abundances in gas giant exoplanets.

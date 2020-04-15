@@ -4,7 +4,7 @@ Quickstart
 ============
 This explains how to quickly and easily plot a catwoman transit using the quadratic limb darkening law. For a more detailed explanation of the parameters, inputs and possible outputs, see the :ref:`tutorial` tab.
 
-``catwoman`` is a Python package that models asymmetric transit lightcurves where planets are modelled as two semi-circles. The key parameters involved in the asymmetry include `params.rp` and `params.rp2` which define the radius of each semi-circle and `params.phi` which is the angle of rotation of the top semi-circle defined from -90° to 90° like so: 
+``catwoman`` is a Python package that models asymmetric transit lightcurves where planets are modelled as two semi-circles. The key parameters involved in the asymmetry include ``params.rp`` and ``params.rp2`` which define the radius of each semi-circle and ``params.phi`` which is the angle of rotation of the top semi-circle defined from -90° to 90° like so: 
 
 .. image:: phidiagram.png 
 
