@@ -1,5 +1,5 @@
 ---
-title: 'Catwoman: A semi-analytical transit modelling Python package' #maybe change this - or mention batman?
+title: 'Catwoman: A transit modelling Python package for asymmetric light curves' #maybe change this - or mention batman?
 tags:
   - Python
   - astronomy

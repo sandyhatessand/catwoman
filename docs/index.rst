@@ -16,6 +16,9 @@ Please cite the paper Espinoza & Jones (in prep.) if you use catwoman in your re
 
 If you find a bug or have any problems with catwoman, please `opening an issue <https://github.com/KathrynJones1/catwoman/issues>`_ on the project's GitHub and we will try to get back to you as soon as possible.  
 
+Table of Contents
+==================
+
 .. toctree::
    :maxdepth: 2
    :caption: **Table of Contents**
@@ -30,5 +33,4 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
