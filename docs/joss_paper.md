@@ -29,9 +29,6 @@ aas-journal: Astrophysical Journal <- The name of the AAS journal.
 
 When exoplanets pass in front of their stars from our point of view on Earth, they imprint a transit signature on the stellar light curve which, to date, has been assumed to be symmetric in time, owing to the planet being modelled as a circular area occulting the stellar surface (see, e.g., [@Mandel02]; [@Kreidberg15]; [@Luger19]). However this signature might be asymmetric due to several possible effects, one of which is the different temperature/pressure and/or chemical compositions the different terminator regions a transiting planet could have (see, e.g., [@Powell19]). Being able to model these asymmetric signatures directly from transit light curves could give us an unprecedented glimpse into planetary 3-dimensional structure, helping constrain models of atmospheric evolution, structure and composition.
 
-
-If this happens, then on one boundary (or 'terminator') between the nightside and dayside, the atmosphere would have a very different composition to the terminator on the opposite side. Therefore at specific wavelengths, one side of the planet may absorb more or less light than the other side, causing an asymmetry between the two terminators. ``catwoman`` can model transits with this assymmetry.
-
 ``catwoman`` is a Python package that models these assymmetric transit light curves, calculating light curves for any radially symmetric stellar limb darkening law and where planets are modelled as two semi-circles, of different radii, using the integration algorithm developed in [@Kreidberg15] and implemented in the ``batman`` library, from which ``catwoman`` builds upon. It is fast and efficient and open source with full documentation available to view at (INSERT readthedocs?).
      
 The light curves are modelled as follows: The decrease in flux, $\delta$, as a planet transits its star can be approximated by the sum 
