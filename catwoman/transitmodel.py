@@ -89,6 +89,7 @@ class TransitModel(object):
 		if transittype not in ["primary", "secondary"]: raise Exception("Allowed transit types are \"primary\" and \"secondary\".")
 		if (supersample_factor > 1 and exp_time <= 0.): raise Exception("Please enter a valid exposure time (exp_time must be greater than 0 to calculate super-sampled light curves).")
 		if (not isinstance(t, np.ndarray)): raise Exception("Times t must be a numpy array (not a list).")
+		if (params.phi>90) or (params.phi<(-90)): raise Exception("Please enter a valid phi angle (params.phi must be between 90 and -90 degrees).")  
 
 		#initializes model parameters
 		self.t = t
