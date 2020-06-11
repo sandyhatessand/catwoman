@@ -7,17 +7,17 @@ tags:
   - transit 
 authors:
   - name: Kathryn Jones
-    orcid: 
+    orcid: 0000-0002-2316-6850 
     affiliation: 1
   - name: Néstor Espinoza
-    orcid: 
+    orcid: 0000-0001-9513-1449
     affiliation: 2
 affiliations:
  - name: Max-Planck-Institut f\"ur Astronomie, K\"onigstuhl 17, 69117 Heidelberg, Germany
    index: 1
  - name: Space Telescope Science Institute, 3700 San Martin Drive, Baltimore, MD 21218, USA
    index: 2
-date: 1 November 2019
+date: 11 June 2020
 bibliography: paper.bib
 
 ---
