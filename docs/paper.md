@@ -1,13 +1,14 @@
 ---
-title: 'Catwoman: A transit modelling Python package for asymmetric light curves' #maybe change this - or mention batman?
+title: 'Catwoman: A transit modelling Python package for asymmetric light curves'
 tags:
   - Python
   - astronomy
-  - exoplanets 
+  - exoplanets
+  - transit 
 authors:
   - name: Kathryn Jones
     orcid: 
-    affiliation: 1 # (Multiple affiliations must be quoted)
+    affiliation: 1
   - name: Néstor Espinoza
     orcid: 
     affiliation: 2
@@ -19,10 +20,6 @@ affiliations:
 date: 1 November 2019
 bibliography: paper.bib
 
-# Optional fields if submitting to a AAS journal too, see this blog post:
-# https://blog.joss.theoj.org/2018/12/a-new-collaboration-with-aas-publishing
-aas-doi: 10.3847/xxxxx <- update this with the DOI from AAS once you know it.
-aas-journal: Astrophysical Journal <- The name of the AAS journal.
 ---
 
 # Summary
@@ -44,33 +41,6 @@ The width of the iso-intensity bands determines the truncation error of the mode
 ``catwoman`` also allows for $\varphi$, the angle of rotation of the semi-circles, to vary as a free parameter, which is something no other model has tried to implement, accounting for the possibility of spin-orbit misalignments of the planet. The two semi-circle radii, $R_{p,1}$ and $R_{p,2}$, and other orbital variables are also completely free parameters.
 
 ``catwoman`` was designed to be used by astronomical researchers. For a realistic light curve with 100 in-transit data points, ``catwoman`` takes around 340 seconds to produce 1 million quadratic-limb-darkened light curves on a single 1.3 GHz Intel Core i5 processor. It is used in Espinoza & Jones (in prep.).
-
-# Mathematics
-
-Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
-
-Double dollars make self-standing equations:
-
-$$\Theta(x) = \left\{\begin{array}{l}
-0\textrm{ if } x < 0\cr
-1\textrm{ else}
-\end{array}\right.$$
-
-
-# Citations
-
-Citations to entries in paper.bib should be in
-[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-format.
-
-For a quick reference, the following citation commands can be used:
-- `@author:2001`  ->  "Author et al. (2001)"
-- `[@author:2001]` -> "(Author et al., 2001)"
-- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
-
-# Figures
-
-Figures can be included like this: ![Example figure.](figure.png)
 
 # Acknowledgements
 
