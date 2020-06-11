@@ -13,7 +13,7 @@ authors:
     orcid: 0000-0001-9513-1449
     affiliation: 2
 affiliations:
- - name: Max-Planck-Institut f\"ur Astronomie, K\"onigstuhl 17, 69117 Heidelberg, Germany
+ - name: Max-Planck-Institut fur Astronomie, Konigstuhl 17, 69117 Heidelberg, Germany
    index: 1
  - name: Space Telescope Science Institute, 3700 San Martin Drive, Baltimore, MD 21218, USA
    index: 2
@@ -30,7 +30,10 @@ When exoplanets pass in front of their stars from our point of view on Earth, th
      
 The light curves are modelled as follows: The decrease in flux, $\delta$, as a planet transits its star can be approximated by the sum 
 
-$$\delta = \sum_{i=1}^{N} I\left(x_m\right)\Delta A(x_m,R_{p,1},R_{p,2},\varphi,d)$$,
+\begin{eqnarray}
+\label{eq:theproblem}
+\delta = \sum_{i=1}^{N} I\left(x_m\right)\Delta A(x_m,R_{p,1},R_{p,2},\varphi,d),
+\end{eqnarray}
 
 splitting the semi-circles into iso-intensity bands centred on the star and for each intersectional segment (see Figure 1) you multiply its area, $\Delta A$, by the intensity of the star and then sum these strips to generate the full $\delta$ for a specific separation between the centre of the star and planet, $d$. The code then increments $d$ by a small pre-determined amount (based on the time array given by the user) and recalculates $\delta$.
 
