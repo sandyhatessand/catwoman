@@ -16,10 +16,12 @@ affiliations:
  - name: Max-Planck-Institut für Astronomie, Königstuhl 17, 69117 Heidelberg, Germany
    index: 1
  - name: Space Telescope Science Institute, 3700 San Martin Drive, Baltimore, MD 21218, USA
-   index: 2
+   index: 2 
 date: 11 June 2020
 bibliography: paper.bib
 
+aas-doi:
+aas-journal: Astronomical Journal
 ---
 
 # Summary
@@ -46,6 +48,6 @@ The width of the iso-intensity bands determines the truncation error of the mode
 ``catwoman`` was designed to be used by astronomical researchers. For a realistic light curve with 100 in-transit data points, ``catwoman`` takes around 340 seconds to produce 1 million quadratic-limb-darkened light curves on a single 1.3 GHz Intel Core i5 processor. It is used in Espinoza & Jones (in prep.).
 
 # Acknowledgements
-
+We would like to thank the Max Plank Institute of Astronomy, Heidelberg, for providing the funding for this project and hosting Kathryn Jones as a summer student at the Institute. 
 
 # References
