@@ -83,6 +83,7 @@ setup(	name='catwoman',
 	packages =['catwoman'],
 	license = ['GNU GPLv3'],
 	description ='Transit modelling package for asymmetric light curves',
+	long_description=open('README.rst').read(),
 	classifiers = [
 		'Development Status :: 5 - Production/Stable',
 		'Intended Audience :: Science/Research',
