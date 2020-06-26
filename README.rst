@@ -1,5 +1,5 @@
 catwoman: A transit modelling Python package for asymmetric light curves
-====================================================
+==========================================================================
 .. image:: docs/cw.png
 
 ``catwoman`` is a Python package that models asymmetric transit lightcurves where planets are modelled as two semi-circles with different radii in any orientation, for any radially symmetric stellar limb darkening law. 
