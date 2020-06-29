@@ -14,4 +14,5 @@ build/*
 
 dist
 MANIFEST
-batman_package.egg-info
+catwoman_package.egg-info
+*.sh
