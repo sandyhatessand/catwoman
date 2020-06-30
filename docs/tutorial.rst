@@ -156,7 +156,7 @@ This will produce a model calculated by splitting up the samples into 5 sub-samp
 
 Parallelisation
 ----------------
-As ``catwoman`` is built upon ``batman``, the library also inherits its support for OpenMP and OpenACC for CPU parallelisation and GPU acceleration, respectively. The former is active by default, but the latter is usually not. We refer users to the batman documentation to understand how to enable OpenACC on, e.g., NVIDIA GPUs.
+As ``catwoman`` is built upon ``batman``, the library also inherits its support for OpenMP and OpenACC for CPU parallelisation and GPU acceleration, respectively. The former is active by default, but the latter is usually not. We refer users to the ``batman`` documentation to understand how to enable OpenACC on, e.g., NVIDIA GPUs.
 
  
 
