@@ -154,7 +154,9 @@ As in ``batman``, for long exposure times there is the option of calculating the
 
 This will produce a model calculated by splitting up the samples into 5 sub-samples over the duration of the 0.001 day exposure. When a light curve is calculated, it will keep these sub-samples separate until the end where it will calculate the mean of these and reshape the light curve back to the original intended size, as specified by the ``time`` array.   
 
-
+Parallelisation
+----------------
+As ``catwoman`` is built upon ``batman``, the library also inherits its support for OpenMP and OpenACC for CPU parallelisation and GPU acceleration, respectively. The former is active by default, but the latter is usually not. We refer users to the batman documentation to understand how to enable OpenACC on, e.g., NVIDIA GPUs.
 
  
 
