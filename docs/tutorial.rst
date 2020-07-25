@@ -13,7 +13,7 @@ As shown in the :ref:`quickstart`, to start setting up the model, one has to ini
 
 	import catwoman
 	import numpy as np
-	import matplotlib as plt
+	import matplotlib.pyplot as plt
 	
 	params = catwoman.TransitParams() 	#object to store transit parameters
 	params.t0 = 0.				#time of inferior conjuction (in days)
@@ -63,7 +63,7 @@ Alternatively, if you wanted to change a parameter, you can do this by simply re
 Now the new flux can be quickly calculated without having to re-initialise the model:
 ::
 
-	flux2 = mod.light_curve(params) 	#calculates light curve
+	flux2 = model.light_curve(params) 	#calculates light curve
 
 To plot the two fluxes:
 ::
@@ -81,7 +81,7 @@ This can be repeated for any ``params`` change. However if you want to change th
 This can make it easy to loop over certain parameter inputs and plot many light curves quickly. For example, we can make the light curves for a range of ``phi`` values like so:
 ::
 
-	flux = np.zeros(7,len(time))
+	flux = np.zeros((7,len(time)))
 	params.rp = 0.1
 	params.rp2 = 0.15
 	
@@ -100,7 +100,7 @@ The residuals can also be easily plotted:
 ::
 
 	for i in range(1,7):
-        	plt.plot(t,flux[i]-flux[0],label=str((i-3)*30)+'° - 0°')
+        	plt.plot(time,flux[i]-flux[0],label=str((i-3)*30)+'° - 0°')
 		plt.xlabel("Time from central transit/days")
 	plt.ylabel("Relative flux")
 	plt.legend()
