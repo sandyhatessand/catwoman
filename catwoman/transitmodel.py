@@ -61,7 +61,7 @@ class TransitModel(object):
 
 	:Example:
 	
-	>>> model = catwoman.TransitModel(params, t, max_err = 0.5)
+	>>> model = catwoman.TransitModel(params, t, max_err = 1.0)
 	"""
 	#:param nthreads: Number of threads to use for parallelization.
         #:type nthreads: int, optional
