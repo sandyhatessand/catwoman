@@ -124,7 +124,7 @@ As for ``batman``, ``catwoman`` allows you to choose one of the following limb d
   	  I(\mu) &= I_0[1 - c_1(1 - \mu) - c_2(1-\sqrt{\mu})]                                   & &\text{(square-root)}         \\
   	  I(\mu) &= I_0[1 - c_1(1 - \mu) - c_2\mu\ln{\mu}]                                      & &\text{(logarithmic)}         \\
   	  I(\mu) &= I_0\left[1 - c_1(1 - \mu) - c_2/(1-\exp{\mu})\right]                  	& &\text{(exponential)}         \\
-  	  I(\mu) &= I_0\left[1 - c_1(1 - \mu^c_2)\right]                  	& &\text{(power2)}         \\
+  	  I(\mu) &= I_0\left[1 - c_1(1 - \mu^{c_2})\right]                  	& &\text{(power2)}         \\
 	  I(\mu) &= I_0[1 - c_1(1-\mu^{1/2}) - c_2(1- \mu) - c_3(1-\mu^{3/2}) - c_4(1-\mu^2)]  	& &\text{(nonlinear)}				
 	\end{align}
 
