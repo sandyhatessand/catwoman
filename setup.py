@@ -91,8 +91,8 @@ setup(	name='catwoman',
 		'Programming Language :: Python'
 		],
 	include_dirs = [np.get_include()],
-	install_requires = ['numpy'],
-	setup_requires=['wheel','numpy'],
+	install_requires = ['numpy>=1.16.2'],
+	setup_requires=['wheel','numpy>=1.16.2'],
 	extras_requires= {
 	    'matplotlib': ['matplotlib'],
 	},
