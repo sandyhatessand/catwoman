@@ -107,7 +107,7 @@ The residuals can also be easily plotted:
 	plt.legend()
 	plt.show()
 
-.. image:: tutorial_phires.png
+.. image:: tutorial_phires2.png
 
 
 Limb darkening functions
