@@ -1,4 +1,8 @@
 .. :changelog:
+1.0.9 (10-08-20)
+~~~~~~~~~~~~~~~~~
+-actually removed unused files (see below)
+
 1.0.8 (10-08-20)
 ~~~~~~~~~~~~~~~~~
 -removed unused files from directory so they aren't include in installation
