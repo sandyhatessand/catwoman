@@ -92,6 +92,7 @@ This can make it easy to loop over certain parameter inputs and plot many light 
 	plt.xlabel("Time from central transit/days")
 	plt.ylabel("Relative flux")
 	plt.xlim(-0.015, 0.015)
+	plt.legend()
 	plt.show()
 
 .. image:: tutorial_changephi.png
@@ -100,7 +101,7 @@ The residuals can also be easily plotted:
 ::
 
 	for i in range(1,7):
-        	plt.plot(time,flux[i]-flux[0],label=str((i-3)*30)+'° - 0°')
+        	plt.plot(time,flux[i]-flux[0],label='flux('+(str((i-3)*30)+'°) - flux(-90°)'))
 		plt.xlabel("Time from central transit/days")
 	plt.ylabel("Relative flux")
 	plt.legend()
