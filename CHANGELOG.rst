@@ -1,4 +1,8 @@
 .. :changelog:
+1.0.10 + 1.0.11 (12-08-20)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-made sure numpy>=1.16.2 is installed when installing catwoman
+
 1.0.9 (10-08-20)
 ~~~~~~~~~~~~~~~~~
 -actually removed unused files (see below)
