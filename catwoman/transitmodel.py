@@ -187,7 +187,6 @@ class TransitModel(object):
 			elif (self.Y[i]<=0 and i>self.mini) or (self.Y[i]>0 and i<=self.mini):
 				self.phi2[i]=self.phi+self.psi[i]
 
-
 	def calc_err(self, plot = False):
 		"""
 
@@ -332,7 +331,7 @@ class TransitModel(object):
 		self.t_secondary = params.t_secondary
 		self.inverse = False
 		self.twocircles = False
-		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np        .sin(params.w*pi/180)))
+		self.b = params.a*np.cos(params.inc*pi/180)*((1-params.ecc*params.ecc)/(1-params.ecc*np.sin(params.w*pi/180)))
 		
 		#updating self.phi2 if self.phi or self.psi has changed
 		if ((params.phi*pi/180)!=self.phi or (new_rsky==1)):
@@ -356,6 +355,7 @@ class TransitModel(object):
 			self.rp = -1.*self.rp
 			params.rp = -1.*params.rp
 			self.inverse = True
+		
 		
 		if self.transittype == 1:
 			if params.limb_dark != self.limb_dark: raise Exception("Need to reinitialize model in order to change limb darkening option")
