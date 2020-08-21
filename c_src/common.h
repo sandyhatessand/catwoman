@@ -30,7 +30,7 @@
 #endif
 
 #ifndef M_PI
-    #define M_PI 3.14159265358979323846
+    #define M_PI 3.1415926535897932384626433832795028841971
 #endif
 
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
@@ -535,6 +535,22 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 		
 			double theta=0.0, theta2=0.0;	
 			
+			//Checking and correcting for case where orbital motion changes phi to >90 degrees or <-90 degrees to keep it consistent with how system is defined
+			//if true then the r's are swapped and phi is flipped by 180 degrees
+			if (phi>M_PI/2){
+				double temp = 0;
+				temp = rprs;
+				rprs = rp2;
+				rp2 = temp;
+				phi = phi - M_PI;
+			} else if (phi<-M_PI/2){
+				double temp = 0;
+				temp = rprs;
+                                rprs = rp2;
+                                rp2 = temp;
+                                phi = phi + M_PI;
+			}
+							
 			theta = find_theta(phi, d, b, mini, i);
 			if (twoc){
 				theta2 = find_theta((-phi), d, -b, mini, i);

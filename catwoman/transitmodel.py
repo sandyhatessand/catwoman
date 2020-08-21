@@ -180,12 +180,8 @@ class TransitModel(object):
 		self.psi=self.big_vector[int(len(self.big_vector)*2/4):int(len(self.big_vector)*3/4)]
 		self.X=self.big_vector[int(len(self.big_vector)*3/4):int(len(self.big_vector))]		
 		
-		#Adjusting phi for orbital motion of planet
-		for i in range(0,len(self.Y)):
-			if (self.Y[i]<=0 and i<=self.mini) or (self.Y[i]>0 and i>self.mini):
-				self.phi2[i]=self.phi-self.psi[i]
-			elif (self.Y[i]<=0 and i>self.mini) or (self.Y[i]>0 and i<=self.mini):
-				self.phi2[i]=self.phi+self.psi[i]
+		#Correcting phi angle to orbital motion
+		self.phi2 = self.phi + self.psi
 
 	def calc_err(self, plot = False):
 		"""
@@ -337,13 +333,9 @@ class TransitModel(object):
 		if ((params.phi*pi/180)!=self.phi or (new_rsky==1)):
 			self.phi = params.phi*pi/180
               
-			for i in range(0,len(self.Y)):
-				if (self.Y[i]<=0 and i<=self.mini) or (self.Y[i]>0 and i>self.mini):
-					self.phi2[i]=self.phi-self.psi[i]
-				elif (self.Y[i]<=0 and i>self.mini) or (self.Y[i]>0 and i<=self.mini):
-					self.phi2[i]=self.phi+self.psi[i]
-		
-
+			#Correcting phi angle to orbital motion                	
+			self.phi2 = self.phi + self.psi
+				
 		#checking again if there has been a value of rp2 supplied
 		if self.rp2 == None: 
 			self.twocircles = False
