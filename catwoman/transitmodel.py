@@ -123,8 +123,6 @@ class TransitModel(object):
 		self.Y=np.zeros(len(self.t))
 		self.X=np.zeros(len(self.t))
 		self.psi=np.zeros(len(self.t))				
-		#self.bfac=np.asarray([self.b for i in range(0,len(self.t))])
-		#self.phifac=np.asarray([self.phi for i in range(0,len(self.t))])	
 		self.big_vector = np.zeros(4*len(self.t))
 	
 		#Checking if there are two semi-circles	
@@ -199,7 +197,8 @@ class TransitModel(object):
 			
 			ds = np.linspace(0., 1.1, 500)
 			fac_lo = 5.0e-4 #changed from 4 to 5
-			bfac=np.asarray([self.b for i in range(0,500)])
+			#bfac=np.asarray([self.b for i in range(0,500)])
+			bfac = np.zeros(500)
 			phifac=np.asarray([self.phi for i in range(0,500)])
 
 			if self.limb_dark == "nonlinear":
@@ -244,9 +243,9 @@ class TransitModel(object):
 	def _get_fac(self):
 		if (self.limb_dark in ["logarithmic", "exponential", "nonlinear", "squareroot", "power2", "custom", "quadratic", "linear", "uniform"]):
 			nthreads = 1
-			fac_lo, fac_hi = 5.0e-4, 1. #changed from -4 to -5
+			fac_lo, fac_hi = 5.0e-4, 1.
 			ds = np.linspace(0., np.maximum(1.+self.rp,1.+self.rp2), 1000)
-			bfac=np.asarray([self.b for i in range(0,1000)])
+			bfac=np.zeros(1000)
 			phifac=np.asarray([self.phi for i in range(0,1000)])
 
 			if self.limb_dark == "nonlinear": f0 = _nonlinear_ld._nonlinear_ld(ds, self.rp, self.u[0], self.u[1], self.u[2], self.u[3], fac_lo, nthreads, phifac, bfac, 0, self.rp2,self.twocircles)
