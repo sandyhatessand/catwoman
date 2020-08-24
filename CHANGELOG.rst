@@ -1,4 +1,9 @@
 .. :changelog:
+1.0.12 (24-08-20)
+~~~~~~~~~~~~~~~~~~~
+-fixed a bug with the phi angle being corrected for orbital motion
+-fixed a bug when, due to orbital motion, phi increases above 90 degrees or below -90 degrees
+
 1.0.10 + 1.0.11 (12-08-20)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -made sure numpy>=1.16.2 is installed when installing catwoman
