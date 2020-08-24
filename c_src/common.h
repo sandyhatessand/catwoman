@@ -29,9 +29,9 @@
 #  include <omp.h>
 #endif
 
-#ifndef M_PI
-    #define M_PI 3.14159265358979323846
-#endif
+//#ifndef M_PI
+#define M_PI 3.14159265358979323846264338327950288
+//#endif
 
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
@@ -461,37 +461,39 @@ double find_theta(double phi, double d, double b, double mini, int i)
 	/* This function finds theta for a given phi, d and b */
 	
 	double lim = pow(10,-9);
-	double theta = 0.0;
+	double theta = 10000.0;
 	if ((b>=0)||(fabs(b)<lim)){	
 		if (i <= mini){            
-			if ((phi>=acos(b/d)||(fabs(phi-acos(b/d))<lim)) && (phi<= M_PI/2||fabs(phi-M_PI/2)<lim)) {
+			if ((phi>=acos(b/d)||(fabs(phi-acos(b/d))<lim))) {
                         	theta = -(M_PI - asin(b/d) - phi);
-                	} else if ((phi<acos(b/d) && fabs(phi-acos(b/d))>=lim && (phi>=-M_PI/2||fabs(phi+M_PI/2)<lim))) {
+                	} else if ((phi<acos(b/d) && fabs(phi-acos(b/d))>=lim)) {
                         	theta = -phi -asin(b/d);
                 	}
                 
 		} else {
-			if ((phi >= -M_PI/2||fabs(phi+M_PI/2)<lim) && (phi <= -acos(b/d)||fabs(phi+acos(b/d))<lim)) {
+			if ((phi <= -acos(b/d)||fabs(phi+acos(b/d))<lim)) {
                 		theta = -(M_PI+phi - asin(b/d));
-                	} else if ((phi<=M_PI/2||fabs(phi-M_PI/2)<lim) && (phi>-acos(b/d)&& fabs(phi+acos(b/d))>=lim)) {
+                	} else if (phi>-acos(b/d)&& fabs(phi+acos(b/d))>=lim) {
                         	theta = -(-phi +asin(b/d));
                 	}
 		}
 	} else {
 		if (i <= mini){ 
-			if ((phi<=M_PI/2||fabs(phi-M_PI/2)<lim) && (phi>-acos(fabs(b)/d)&&fabs(phi+acos(fabs(b)/d))>=lim)){ //(2)
+			if (phi > -acos(fabs(b)/d) + lim) { //(2)
 				theta = -(phi - asin(fabs(b)/d));
-			} else if ((phi<=-acos(fabs(b)/d)||fabs(phi+acos(fabs(b)/d))<lim) && (phi>=-M_PI/2||fabs(phi+M_PI/2)<lim)){ //(4)
+			} else if (phi <= -acos(fabs(b)/d) + lim) { //(4)
 				theta = M_PI - asin(fabs(b)/d) + phi;
 			}
 		} else {
-			if ((phi>=-M_PI/2||fabs(phi+M_PI/2)<lim) && (phi<acos(fabs(b)/d)&&fabs(phi-acos(fabs(b)/d))>=lim)){ //(2)
+			if (phi < acos(fabs(b)/d) - lim) { //(2)
 				theta = -(-phi - asin(fabs(b)/d));
-			} else if ((phi>=acos(fabs(b)/d)||fabs(phi-acos(fabs(b)/d))<lim) && (phi<=M_PI/2||fabs(phi-M_PI/2)<lim)){ //(4)
+			} else if (phi >= acos(fabs(b)/d) - lim) { //(4)
 				theta = M_PI - asin(fabs(b)/d) - phi;
-			}
+                        }
+
 		}
 	}
+	if (theta>990) printf("problem phi = %.15f\n",phi);
 	return theta;
 }
 
@@ -533,29 +535,39 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 			x += dx;						//first step
 			double A_i = 0.;						//initial area
 		
-			double theta=0.0, theta2=0.0;	
+			double theta=0.0, theta2=0.0, lim=pow(10,-9);	
 			
 			//Checking and correcting for case where orbital motion changes phi to >90 degrees or <-90 degrees to keep it consistent with how system is defined
 			//if true then the r's are swapped and phi is flipped by 180 degrees
-			if (phi>M_PI/2){
-				double temp = 0;
-				temp = rprs;
-				rprs = rp2;
-				rp2 = temp;
-				phi = phi - M_PI;
-			} else if (phi<-M_PI/2){
-				double temp = 0;
-				temp = rprs;
-                                rprs = rp2;
-                                rp2 = temp;
-                                phi = phi + M_PI;
-			}
+			//if (phi>=(PI/2 + lim)){
+			//	double temp = 0;
+			//	temp = rprs;
+			//	rprs = rp2;
+			//	rp2 = temp;
+			//	phi += -PI;
+			//} else if (phi<=(-PI/2 - lim)){
+			//	double temp = 0;
+			//	temp = rprs;
+			//	rprs = rp2;
+			//	rp2 = temp;
+			//	phi += PI;
+			//}
 							
 			theta = find_theta(phi, d, b, mini, i);
-			if (twoc){
-				theta2 = find_theta((-phi), d, -b, mini, i);
-			}
+			//if (twoc){
+			//	theta2 = find_theta((-phi), d, -b, mini, i);
+			//}
+			
+			//testing theory that theta2 = -theta
 
+			if (theta>=(M_PI/2+lim)){
+				theta = M_PI - theta;
+			} else if (theta<=(-M_PI/2-lim)){
+				theta = -(M_PI + theta);
+			}
+			
+			theta2 = -theta;
+//			printf("theta = %.15f\n theta2 = %.15f\n",theta,theta2);
 			while(x < x_out)
 			{
 				double A_f = area(d, x, rprs, theta);				//calculates area of overlapping circles
