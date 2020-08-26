@@ -522,7 +522,7 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 
 		double d = d_array[i];
 		double x = 0.1;
-		double x_in = MAX(MIN(d - rp2, d - rprs), 0.);	//double check this works		//lower bound for integration
+		double x_in = MAX(MIN(d - rp2, d - rprs), 0.);						//lower bound for integration
 		double x_out = MIN(MAX(d + rp2, d + rprs), 1.0);					//upper bound for integration
 		if(x_in >= 1.) f_array[i] = 1.0;					//flux = 1. if the planet is not transiting
 		else if(x_out - x_in < 1.e-9) f_array[i] = 1.0;				//pathological case	

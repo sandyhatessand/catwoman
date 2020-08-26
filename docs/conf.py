@@ -36,7 +36,7 @@ author = 'Kathryn Jones'
 # The short X.Y version
 version = '1.0'
 # The full version, including alpha/beta/rc tags
-release = '1.0.12'
+release = '1.0.13'
 
 
 # -- General configuration ---------------------------------------------------
