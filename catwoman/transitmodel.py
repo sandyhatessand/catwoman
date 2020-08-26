@@ -90,7 +90,7 @@ class TransitModel(object):
 		if (supersample_factor > 1 and exp_time <= 0.): raise Exception("Please enter a valid exposure time (exp_time must be greater than 0 to calculate super-sampled light curves).")
 		if (not isinstance(t, np.ndarray)): raise Exception("Times t must be a numpy array (not a list).")
 		if (params.phi>90) or (params.phi<(-90)): raise Exception("Please enter a valid phi angle (params.phi must be between 90 and -90 degrees).")  
-
+		
 		#initializes model parameters
 		self.t = t
 		self.t0 = params.t0
@@ -196,8 +196,7 @@ class TransitModel(object):
 		if (self.limb_dark in ["logarithmic", "exponential", "nonlinear", "squareroot", "power2", "custom", "quadratic", "linear", "uniform"]):
 			
 			ds = np.linspace(0., 1.1, 500)
-			fac_lo = 5.0e-4 #changed from 4 to 5
-			#bfac=np.asarray([self.b for i in range(0,500)])
+			fac_lo = 5.0e-4
 			bfac = np.zeros(500)
 			phifac=np.asarray([self.phi for i in range(0,500)])
 
@@ -315,7 +314,7 @@ class TransitModel(object):
 		self.t0 = params.t0
 		self.per = params.per
 		self.rp = params.rp
-		self.rp2 = params.rp2 #added this
+		self.rp2 = params.rp2
 		self.a = params.a
 		self.inc = params.inc
 		self.ecc = params.ecc
