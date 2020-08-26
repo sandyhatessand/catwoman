@@ -16,18 +16,5 @@
             "name": "Néstor Espinoza",
 	    "orcid": "0000-0001-9513-1449"
         }, 
-    ], 
-    "access_right": "open", 
-    "related_identifiers": [
-        {
-            "scheme": "url", 
-            "identifier": "https://github.com/KathrynJones1/catwoman/tree/v1.0.12", 
-            "relation": "isSupplementTo"
-        }, 
-        {
-            "scheme": "doi", 
-            "identifier": "10.5281/zenodo.3999512", 
-            "relation": "isVersionOf"
-        }
-    ]
+    ] 
 }
