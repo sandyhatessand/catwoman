@@ -538,14 +538,14 @@ void calc_limb_darkening(double* f_array, double* d_array, int N, double rprs, d
 			
 			theta = find_theta(phi, d, b, mini, i);
 			
-			//adjusting theta to within the definition of the system so the area() eqns work
+										//adjusting theta to within the definition of the system so the area() eqns work
 			if (theta>=(M_PI/2+lim)){
 				theta = M_PI - theta;
 			} else if (theta<=(-M_PI/2-lim)){
 				theta = -(M_PI + theta);
 			}
 			
-			//Finds theta for the second semi-circle
+										//Finds theta for the second semi-circle
 			theta2 = -theta;
 
 			while(x < x_out)
