@@ -13,7 +13,7 @@ authors:
     orcid: 0000-0001-9513-1449
     affiliation: 2
 affiliations:
- - name: Max-Planck-Institut für Astronomie, Königstuhl 17, 69117 Heidelberg, Germany
+ - name: University of Bern, Center for Space and Habitability, Gesellschaftsstrasse 6, CH-3012, Bern, Switzerland
    index: 1
  - name: Space Telescope Science Institute, 3700 San Martin Drive, Baltimore, MD 21218, USA
    index: 2 
