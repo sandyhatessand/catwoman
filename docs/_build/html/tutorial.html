@@ -1,22 +1,21 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Tutorial &#8212; catwoman 1.0.0 documentation</title>
-    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutorial &#8212; catwoman 1.0.13 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="API.html" />
     <link rel="prev" title="Quickstart" href="quickstart.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -26,51 +25,18 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="API.html" title="API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
           <a href="quickstart.html" title="Quickstart"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">catwoman 1.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">catwoman 1.0.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Tutorial</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="index.html">
-              <img class="logo" src="_static/cw.png" alt="Logo"/>
-            </a></p>
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Tutorial</a><ul>
-<li><a class="reference internal" href="#initialising-the-model">Initialising the model</a></li>
-<li><a class="reference internal" href="#calculating-light-curves">Calculating light curves</a></li>
-<li><a class="reference internal" href="#limb-darkening-functions">Limb darkening functions</a></li>
-<li><a class="reference internal" href="#error-tolerance">Error tolerance</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="quickstart.html"
-                        title="previous chapter">Quickstart</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/tutorial.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -85,7 +51,7 @@
 <p>As shown in the <a class="reference internal" href="quickstart.html#quickstart"><span class="std std-ref">Quickstart</span></a>, to start setting up the model, one has to initialise a variety of parameters:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">catwoman</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="n">params</span> <span class="o">=</span> <span class="n">catwoman</span><span class="o">.</span><span class="n">TransitParams</span><span class="p">()</span>       <span class="c1">#object to store transit parameters</span>
 <span class="n">params</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="mf">0.</span>                          <span class="c1">#time of inferior conjuction (in days)</span>
@@ -101,7 +67,7 @@
 <span class="n">params</span><span class="o">.</span><span class="n">phi</span> <span class="o">=</span> <span class="mf">0.</span>                         <span class="c1">#angle of rotation of top semi-circle</span>
 
 <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>   <span class="c1">#array of times to calculate the light curves for</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">catwoman</span><span class="o">.</span><span class="n">TransitModel</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">max_err</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span> <span class="c1">#initialises the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">catwoman</span><span class="o">.</span><span class="n">TransitModel</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">max_err</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>      <span class="c1">#initialises the model</span>
 </pre></div>
 </div>
 <p>As in <code class="docutils literal notranslate"><span class="pre">batman</span></code>, the initialisation step automatically calculates the array of separation of centres between the star and the planet and also pre-runs the light_curve function numerous times in order to find the approriate integration step size for a given <code class="docutils literal notranslate"><span class="pre">max_err</span></code>.</p>
@@ -127,7 +93,7 @@
 </pre></div>
 </div>
 <p>Now the new flux can be quickly calculated without having to re-initialise the model:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flux2</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">light_curve</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>         <span class="c1">#calculates light curve</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flux2</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">light_curve</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>       <span class="c1">#calculates light curve</span>
 </pre></div>
 </div>
 <p>To plot the two fluxes:</p>
@@ -141,7 +107,7 @@
 <img alt="_images/tutorial_newparam.png" src="_images/tutorial_newparam.png" />
 <p>This can be repeated for any <code class="docutils literal notranslate"><span class="pre">params</span></code> change. However if you want to change the <code class="docutils literal notranslate"><span class="pre">time</span></code> or <code class="docutils literal notranslate"><span class="pre">max_err</span></code>, the model will need to be reinitialised as a new integration step size will need to be calculated.</p>
 <p>This can make it easy to loop over certain parameter inputs and plot many light curves quickly. For example, we can make the light curves for a range of <code class="docutils literal notranslate"><span class="pre">phi</span></code> values like so:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)))</span>
 <span class="n">params</span><span class="o">.</span><span class="n">rp</span> <span class="o">=</span> <span class="mf">0.1</span>
 <span class="n">params</span><span class="o">.</span><span class="n">rp2</span> <span class="o">=</span> <span class="mf">0.15</span>
 
@@ -152,20 +118,21 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time from central transit/days&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Relative flux&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <img alt="_images/tutorial_changephi.png" src="_images/tutorial_changephi.png" />
 <p>The residuals can also be easily plotted:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">):</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">flux</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">((</span><span class="n">i</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;° - 0°&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">flux</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;flux(&#39;</span><span class="o">+</span><span class="p">(</span><span class="nb">str</span><span class="p">((</span><span class="n">i</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;°) - flux(-90°)&#39;</span><span class="p">))</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time from central transit/days&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Relative flux&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="_images/tutorial_phires.png" src="_images/tutorial_phires.png" />
+<img alt="_images/tutorial_phires2.png" src="_images/tutorial_phires2.png" />
 </div>
 <div class="section" id="limb-darkening-functions">
 <h2>Limb darkening functions<a class="headerlink" href="#limb-darkening-functions" title="Permalink to this headline">¶</a></h2>
@@ -178,18 +145,82 @@
   I(\mu) &amp;= I_0[1 - c_1(1 - \mu) - c_2(1-\sqrt{\mu})]                                   &amp; &amp;\text{(square-root)}         \\
   I(\mu) &amp;= I_0[1 - c_1(1 - \mu) - c_2\mu\ln{\mu}]                                      &amp; &amp;\text{(logarithmic)}         \\
   I(\mu) &amp;= I_0\left[1 - c_1(1 - \mu) - c_2/(1-\exp{\mu})\right]                        &amp; &amp;\text{(exponential)}         \\
-  I(\mu) &amp;= I_0\left[1 - c_1(1 - \mu^c_2)\right]                        &amp; &amp;\text{(power2)}         \\
+  I(\mu) &amp;= I_0\left[1 - c_1(1 - \mu^{c_2})\right]                      &amp; &amp;\text{(power2)}         \\
   I(\mu) &amp;= I_0[1 - c_1(1-\mu^{1/2}) - c_2(1- \mu) - c_3(1-\mu^{3/2}) - c_4(1-\mu^2)]   &amp; &amp;\text{(nonlinear)}
 \end{align}\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mu = \sqrt{1-x^2}\)</span> where x is the normalised stellar radial coordinate defined between <span class="math notranslate nohighlight">\(0 \leq x \leq 1\)</span> and <span class="math notranslate nohighlight">\(I_O\)</span> is the normalisation constant for these laws so that integrated over the whole star, the total intensity is unity.</p>
+<p>where <span class="math notranslate nohighlight">\(\mu = \sqrt{1-x^2}\)</span> where x is the normalised stellar radial coordinate defined between <span class="math notranslate nohighlight">\(0 \leq x \leq 1\)</span> and <span class="math notranslate nohighlight">\(I_O\)</span> is the normalisation constant for these laws so that integrated over the whole star, the total intensity is unity.
+For each limb-darkening law you will need to provide the correct number of coefficients in order for the package to run.</p>
 </div>
 <div class="section" id="error-tolerance">
 <h2>Error tolerance<a class="headerlink" href="#error-tolerance" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned in <em>Initialising the model</em>, the model contains a parameter called <code class="docutils literal notranslate"><span class="pre">max_err</span></code>. If this is not specified, it will be set to the default <code class="docutils literal notranslate"><span class="pre">max_err</span> <span class="pre">=</span> <span class="pre">1.0</span></code>.</p>
+<p>Whenever the model calculates a light curve from the parameters given it essentially splits up the planet into a series of very small strips of area in order to calculate the intensity of light that is blocked by the planet moving in front of the star at a particular time (see figure below).</p>
+<p>The width of these strips determines the accuracy of the light curve model and this is set by a scaling factor (<code class="docutils literal notranslate"><span class="pre">fac</span></code>).</p>
+<p>Once the model is initialised, internally, the program will calculate the light curve using an extremely small <code class="docutils literal notranslate"><span class="pre">fac</span> <span class="pre">=</span> <span class="pre">5e-4</span></code> and an extremely large <code class="docutils literal notranslate"><span class="pre">fac</span> <span class="pre">=</span> <span class="pre">1</span></code> and then find the error (or the largest difference) between their values.
+If this is not equal to the <code class="docutils literal notranslate"><span class="pre">max_err</span></code> then the <code class="docutils literal notranslate"><span class="pre">fac</span></code> that produces an error within 1% of the <code class="docutils literal notranslate"><span class="pre">max_err</span></code> is found using a geometric search between the smallest and largest <code class="docutils literal notranslate"><span class="pre">fac</span></code> values.</p>
+<p>As multiple light curves are being calculated during this step, this is the most time-intensive part of the package. However once the model has been initialised (and the appropriate <code class="docutils literal notranslate"><span class="pre">fac</span></code> value has been determined), as previously explained, this doesn’t need to be repeated if some of the parameters are changed.</p>
+<img alt="_images/strips.png" src="_images/strips.png" />
+</div>
+<div class="section" id="supersampling">
+<h2>Supersampling<a class="headerlink" href="#supersampling" title="Permalink to this headline">¶</a></h2>
+<p>As in <code class="docutils literal notranslate"><span class="pre">batman</span></code>, for long exposure times there is the option of calculating the average value of the light curve model over the time of exposure of the samples. Set up the model including the additional parameters <code class="docutils literal notranslate"><span class="pre">supersample_factor</span></code> and <cite>exp_time</cite> (in days) like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">catwoman</span><span class="o">.</span><span class="n">TransitModel</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">supersample_factor</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">exp_time</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will produce a model calculated by splitting up the samples into 5 sub-samples over the duration of the 0.001 day exposure. When a light curve is calculated, it will keep these sub-samples separate until the end where it will calculate the mean of these and reshape the light curve back to the original intended size, as specified by the <code class="docutils literal notranslate"><span class="pre">time</span></code> array.</p>
+</div>
+<div class="section" id="parallelisation">
+<h2>Parallelisation<a class="headerlink" href="#parallelisation" title="Permalink to this headline">¶</a></h2>
+<p>As <code class="docutils literal notranslate"><span class="pre">catwoman</span></code> is built upon <code class="docutils literal notranslate"><span class="pre">batman</span></code>, the library also inherits its support for OpenMP and OpenACC for CPU parallelisation and GPU acceleration, respectively. The former is active by default, but the latter is usually not. We refer users to the <code class="docutils literal notranslate"><span class="pre">batman</span></code> documentation to understand how to enable OpenACC on, e.g., NVIDIA GPUs.</p>
 </div>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cw.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tutorial</a><ul>
+<li><a class="reference internal" href="#initialising-the-model">Initialising the model</a></li>
+<li><a class="reference internal" href="#calculating-light-curves">Calculating light curves</a></li>
+<li><a class="reference internal" href="#limb-darkening-functions">Limb darkening functions</a></li>
+<li><a class="reference internal" href="#error-tolerance">Error tolerance</a></li>
+<li><a class="reference internal" href="#supersampling">Supersampling</a></li>
+<li><a class="reference internal" href="#parallelisation">Parallelisation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="quickstart.html"
+                        title="previous chapter">Quickstart</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="API.html"
+                        title="next chapter">API</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorial.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -201,14 +232,21 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="API.html" title="API"
+             >next</a> |</li>
+        <li class="right" >
           <a href="quickstart.html" title="Quickstart"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">catwoman 1.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">catwoman 1.0.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Tutorial</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Kathryn Jones &amp; Nestor Espinoza.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2.
     </div>
   </body>
 </html>
