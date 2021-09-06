@@ -13,6 +13,9 @@ For a detailed introduction and more information please visit https://catwoman.r
 .. image:: https://joss.theoj.org/papers/10.21105/joss.02382/status.svg
    :target: https://doi.org/10.21105/joss.02382
 
+``catwoman`` has been demonstrated and used in `Espinoza & Jones 2021 <https://ui.adsabs.harvard.edu/abs/2021arXiv210615687E/abstract>`_ .
+
+
 Installation
 =============
 You can install ``catwoman`` with pip (recommended):

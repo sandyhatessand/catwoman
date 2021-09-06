@@ -12,7 +12,7 @@ When exoplanets pass in front of their stars, they imprint a transit signature o
 
 ``catwoman`` is a Python package that allows to model these asymmetric transit lightcurves, calculating light curves for any radially symmetric stellar limb darkening law, and where planets are modelled as two semi-circles, of different radii, using the integration algorithm developed in Kreidberg (2015) and implemented in the ``batman`` library, from which ``catwoman`` builds upon.
 
-Please cite `Jones & Espinoza 2020 <https://joss.theoj.org/papers/10.21105/joss.02382>`_ if you use ``catwoman`` in your research.   
+Please cite `Jones & Espinoza 2020 <https://joss.theoj.org/papers/10.21105/joss.02382>`_ and `Espinoza & Jones 2021 <https://ui.adsabs.harvard.edu/abs/2021arXiv210615687E/abstract>`_ if you use ``catwoman`` in your research.   
 
 If you find a bug or have any problems with catwoman, please `opening an issue <https://github.com/KathrynJones1/catwoman/issues>`_ on the project's GitHub and we will try to get back to you as soon as possible.  
 
