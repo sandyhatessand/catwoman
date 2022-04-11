@@ -20,8 +20,8 @@ affiliations:
 date: 11 June 2020
 bibliography: paper.bib
 
-aas-doi:
-aas-journal: Astronomical Journal
+aas-doi: 10.3847/1538-3881/ac134d 
+aas-journal: The Astronomical Journal
 ---
 
 # Summary
