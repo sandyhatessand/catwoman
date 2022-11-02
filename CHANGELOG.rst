@@ -1,4 +1,8 @@
 .. :changelog:
+1.0.13 (28-10-22)
+~~~~~~~~~~~~~~~~~~~
+-fixed installation bug (issue #15).
+
 1.0.12 (24-08-20)
 ~~~~~~~~~~~~~~~~~~~
 -fixed a bug with the phi angle being corrected for orbital motion
