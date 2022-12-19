@@ -1,4 +1,8 @@
 .. :changelog:
+1.0.14 (19-12-22)
+~~~~~~~~~~~~~~~~~~~
+-updated version number to match pypi distributions.
+
 1.0.13 (28-10-22)
 ~~~~~~~~~~~~~~~~~~~
 -fixed installation bug (issue #15).
